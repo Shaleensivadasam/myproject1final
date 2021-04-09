@@ -2,32 +2,32 @@
 {% block body %}
  <h2 align="center">VIEW INSTALLATION</h2>
 <form id="form1" name="form1" method="post" action="/myapp/adm_view_installation_post/">
-  <table width="563" border="0" align="center">
+  <table class="table table-hover">
     <tr>
-      <th width="96"><label>AREA NAME</label>&nbsp;</th>
-      <td width="51"><select name="select" id="select">
+      <th width="90"><label>AREA NAME</label>&nbsp;</th>
+      <td width="140"><select name="select" id="select" class="form-control">
             {% for i in res1 %}
               <option value="{{ i.pk }}">{{ i.area_name }}</option>
           {% endfor %}
       </select></td>
-      <td width="80"><input type="submit" name="button" id="button" value="SEARCH" /></td>
-      <th width="97"><label>FROM DATE</label>&nbsp;</th>
-      <th width="58"><td width="58"><input type="date" name="fdate"/>
+      <td width="80"><input type="submit" name="button" id="button" value="SEARCH" class="btn btn-primary" /></td>
+      <th width="90"><label>FROM DATE</label>&nbsp;</th>
+      <th width="58"><td width="58"><input type="date" name="fdate" class="form-control"/>
       </td></th>
       <th width="29"><label>TO</label>&nbsp;</th>
-      <td width="50"><td width="58"><input type="date" name="tdate"/>
+      <td width="50"><td width="58"><input type="date" name="tdate" class="form-control"/>
       </td></td>
-      <th width="33"><input type="submit" name="button" id="button2" value="GO" /></th>
+      <th width="33"><input type="submit" name="button" id="button2" value="GO" class="btn btn-primary"/></th>
     </tr>
   </table>
-  <table  border="1" align="center">
+  <table  class="table table-bordered" style="width: 1000px" align="center">
     <tr>
-      <td>SNO</td>
-      <td>AREA NAME</td>
-      <td>DATE </td>
-      <td>CODE</td>
-      <td>NARRATION</td>
-      <td>PLACENAME</td>
+      <th>SNO</th>
+      <th>AREA NAME</th>
+      <th>DATE </th>
+      <th>CODE</th>
+      <th>NARRATION</th>
+      <th>PLACENAME</th>
       </tr>
       {% for i in res %}
     <tr>

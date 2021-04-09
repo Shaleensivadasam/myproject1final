@@ -1,18 +1,19 @@
 {% extends "admin/blank.html" %}
 {% block body %}
+    <h2 align="center">EDIT SERVICE AREA</h2>
 <form id="form1" name="form1" method="post" action="/myapp/adm_edit_service_area_post/">
- <table  border="0" align="center">
+ <table  class="table table-hover" style="width: 400px;" align="center">
     <tr>
       <td>AREA NAME</td>
-      <td><input type="text" name="textfield" id="textfield"  value="{{ res.area_name }}"/></td>
+      <td><input type="text" name="textfield" id="textfield"  value="{{ res.area_name }}" class="form-control"/></td>
     </tr>
     <tr>
       <td>LOCALITY</td>
-      <td><input type="text" name="textfield2" id="textfield2" value="{{ res.area_locality }}" /></td>
+      <td><input type="text" name="textfield2" id="textfield2" value="{{ res.area_locality }}" class="form-control" /></td>
     </tr>
     <tr>
       <td>DISTRICT</td>
-      <td><select name="select" id="select">
+      <td><select name="select" id="select" class="form-control">
            <option value="Kozhokide">Kozhokide</option>
           <option value="Eranakulam">Eranakulam</option>
           <option value="Kollam">Kollam</option>
@@ -20,7 +21,7 @@
     </tr>
     <tr>
       <td>&nbsp;</td>
-      <td><input type="submit" name="button" id="button" value="EDIT" /></td>
+      <td><input type="submit" name="button" id="button" value="UPDATE" class="btn btn-primary" style="background-color: #5cb85c"/></td>
     </tr>
   </table>
 </form>

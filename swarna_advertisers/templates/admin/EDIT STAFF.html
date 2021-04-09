@@ -1,16 +1,16 @@
 {% extends "admin/blank.html" %}
 {% block body %}
-<h2 align="center">EDIT STAFF</h2>
+{# <h2 align="center">EDIT STAFF</h2> #}
 <form id="form1" name="form1" method="post" enctype="multipart/form-data" action="/myapp/adm_edit_staff_post/">
-  <table  border="0" align="center">
+  <table  class="table table-hover" style="width: 400px;" align="center">
     <tr>
       <td>NAME</td>
-      <td><input type="text" name="textfield" id="textfield" value="{{ res.name }}" /></td>
+      <td><input type="text" name="textfield" id="textfield" value="{{ res.name }}" class="form-control" /></td>
     </tr>
     <tr>
       <td>GENDER</td>
         {% if res.gender == "Male" %}
-      <td><input type="radio" name="radio" id="radio" value="Male" checked/>Male
+      <td><input  type="radio" name="radio" id="radio" value="Male" checked/>Male
       <input type="radio" name="radio" id="radio2" value="Female" />Female</td>
         {% elif res.gender == "Female" %}
         <td><input type="radio" name="radio" id="radio" value="Male"/>Male
@@ -19,16 +19,16 @@
     </tr>
     <tr>
       <td>DOB</td>
-      <td><input type="date" name="date" value="{{ res.dob }}">
+      <td><input type="date" name="date" value="{{ res.dob }}" class="form-control">
       </td>
     </tr>
     <tr>
       <td>HOUSE NUMBER/NAME</td>
-      <td><input type="text" name="textfield2" id="textfield2" value="{{ res.houseno_name }}"/></td>
+      <td><input type="text" name="textfield2" id="textfield2" value="{{ res.houseno_name }}" class="form-control"/></td>
     </tr>
     <tr>
       <td>DISTRICT</td>
-      <td><select name="select2" id="select2">
+      <td><select name="select2" id="select2" class="form-control">
           <option value="Kozhokide">Kozhokide</option>
           <option value="Eranakulam">Eranakulam</option>
           <option value="Kollam">Kollam</option>
@@ -36,23 +36,23 @@
     </tr>
     <tr>
       <td>PINCODE </td>
-      <td><input type="text" name="textfield3" id="textfield3" value="{{ res.pincode }}"/></td>
+      <td><input type="text" name="textfield3" id="textfield3" value="{{ res.pincode }}" class="form-control"/></td>
     </tr>
     <tr>
       <td>EMAILID</td>
-      <td><input type="text" name="textfield4" id="textfield4" value="{{ res.email }}"/></td>
+      <td><input type="text" name="textfield4" id="textfield4" value="{{ res.email }}" class="form-control"/></td>
     </tr>
     <tr>
       <td>PHONE NUMBER</td>
-      <td><input type="text" name="textfield5" id="textfield5"  value="{{ res.phno }}"/></td>
+      <td><input type="text" name="textfield5" id="textfield5"  value="{{ res.phno }}" class="form-control"/></td>
     </tr>
     <tr>
       <td>IMAGE</td>
-      <td>&nbsp;<input type="file" name="fileField" id="fileField"/></td>
+      <td>&nbsp;<input type="file" name="fileField" id="fileField" class="form-control"/></td>
     </tr>
       <tr>
       <td>STAFF TYPE</td>
-      <td><select name="select3" id="select3">
+      <td><select name="select3" id="select3" class="form-control">
           <option value="{{ res.LOGIN.utype }}">{{ res.LOGIN.utype }}</option>
           <option value="Designer">Designer</option>
           <option value="Service employee">Service employee</option>
@@ -61,7 +61,7 @@
     </tr>
     <tr>
       <td>&nbsp;</td>
-      <td><input type="submit" name="button" id="button" value="EDIT" /></td>
+      <td><input type="submit" name="button" id="button" value="UPDATE" class="btn btn-primary" style="background-color: #5cb85c"/></td>
     </tr>
   </table>
 </form>

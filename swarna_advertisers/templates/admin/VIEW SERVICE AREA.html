@@ -2,16 +2,16 @@
 {% block body %}
 <h2 align="center">VIEW SERVICE AREA</h2>
 <form id="form1" name="form1" method="post" action="/myapp/adm_view_service_area_post/">
-  <table  border="0" align="center">
+  <table class="table table-hover">
     <tr>
       <th>AREA NAME</th>
-      <td><input type="text" name="textfield" id="textfield" /></td>
-      <td><input type="submit" name="button" id="button" value="SEARCH" /></td>
+      <td><input type="text" name="textfield" id="textfield" class="form-control"/></td>
+      <td><input type="submit" name="button" id="button" value="SEARCH" class="btn btn-primary"/></td>
     </tr>
   </table>
   <p>&nbsp;</p>
-  <table  border="1" align="center">
-    <tr>
+  <table  class="table table-bordered" style="width: 1000px" align="center">
+    <tr class="text-nowrap">
       <th>SNO</th>
       <th>AREA NAME</th>
       <th>LOCALITY</th>
@@ -25,8 +25,8 @@
       <td>{{i.area_name}}</td>
       <td>{{i.area_locality}}</td>
       <td>{{i.area_district}}</td>
-      <td><a href="/myapp/adm_edit_service_area/{{ i.pk }}">EDIT</a></td>
-      <td><a href="/myapp/adm_view_service_area_del/{{ i.pk }}">DELETE</a></td>
+      <td><a href="/myapp/adm_edit_service_area/{{ i.pk }}"  class="btn btn-danger" style="background-color: #d58512">EDIT</a></td>
+      <td><a href="/myapp/adm_view_service_area_del/{{ i.pk }}" class="btn btn-danger" >DELETE</a></td>
     </tr>
       {% endfor %}
   </table>

@@ -2,18 +2,18 @@
 {% block body %}
  <h2 align="center">EDIT EMPLOYEE AREA</h2>
 <form id="form1" name="form1" method="post" action="/myapp/adm_edit_employee_area_post/">
-  <table width="200" border="0" align="center">
+  <table class="table table-hover" style="width: 400px;" align="center">
     <tr>
-      <td>AREA NAME</td>
-      <td><select name="select" id="select">
+      <th>AREA NAME</th>
+      <td><select name="select" id="select" class="form-control">
           {% for i in area_name %}
               <option value="{{ i.pk }}" {% if res.SERVICEAREA.id == i.pk %} selected {% endif %}>{{ i.area_name }}</option>
           {% endfor %}
       </select></td>
     </tr>
     <tr>
-      <td>STAFF NAME</td>
-      <td><select name="select2" id="select2">
+      <th>STAFF NAME</th>
+      <td><select name="select2" id="select2" class="form-control">
           {% for i in STAFF %}
               <option value="{{ i.pk }}" {% if res.STAFF.id == i.pk %} selected {% endif %}>{{ i.name}}</option>
           {% endfor %}
@@ -21,7 +21,7 @@
     </tr>
     <tr>
       <td>&nbsp;</td>
-      <td><input type="submit" name="button" id="button" value="UPDATE" /></td>
+      <td><input type="submit" name="button" id="button" value="UPDATE" class="btn btn-primary" style="background-color: #5cb85c"/></td>
     </tr>
   </table>
   

@@ -70,6 +70,7 @@ urlpatterns = [
     path('adm_blank/',views.adm_blank),
 
 
+    path('dsgnr_blank/',views.dsgnr_blank),
     path('dsgnr_homepage/',views.dsgnr_homepage),
     path('dsgnr_edit_media/',views.dsgnr_edit_create_media),
     path('dsgnr_edit_media_post/',views.dsgnr_edit_create_media_post),
@@ -86,6 +87,7 @@ urlpatterns = [
     path('pub_view_media_provider/',views.public_view_media_provider),
     path('pub_view_media_types/',views.public_view_media_types),
 
+    path('semp_blank/',views.semp_blank),
     path('semp_homepage/',views.semp_homepage),
     path('semp_view_maintance/',views.semp_view_maintance),
     path('semp_edit_profile/',views.semp_edit_profile),

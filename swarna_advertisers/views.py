@@ -453,6 +453,9 @@ def adm_view_rejected_request(request):
 def adm_homepage(request):
     return render(request, "admin/adm_homepage.html")
 
+def dsgnr_blank(request):
+    return render(request, "designer/blank.html")
+
 def dsgnr_homepage(request):
     return render(request, "designer/dsg_homepage.html")
 
@@ -510,6 +513,9 @@ def public_view_media_provider(request):
 def public_view_media_types(request):
     return render(request, "public/PUBLIC VIEW MEDIA TYPES.html")
 
+
+def semp_blank(request):
+    return render(request,"service employee/blank.html")
 
 def semp_homepage(request):
     return render(request,"service employee/semp_homepage.html")
