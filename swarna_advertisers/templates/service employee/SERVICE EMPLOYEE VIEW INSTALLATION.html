@@ -6,41 +6,46 @@
 </head>
 
 <body>
-<form id="form1" name="form1" method="post" action="">
-  <table width="563" border="1">
+<h2 align="center">VIEW INSTALLATION ENTRY</h2>
+<form id="form1" name="form1" method="post" action="\myapp\semp_view_installation_post\">
+  <table width="563" border="0" align="center">
     <tr>
-      <td width="96"><label>AREA NAME</label>&nbsp;</td>
+      <th width="300"><label>AREA NAME</label>&nbsp;</th>
       <td width="51"><select name="select" id="select">
+           {% for i in res %}
+              <option value="{{ i.SERVICEAREA.pk }}">{{ i.SERVICEAREA.area_name }}</option>
+          {% endfor %}
       </select></td>
       <td width="80"><input type="submit" name="button" id="button" value="SEARCH" /></td>
-      <td width="97"><label>FROM DATE</label>&nbsp;</td>
-      <td width="58"><select name="select2" id="select2">
-      </select></td>
-      <td width="29"><label>TO</label>&nbsp;</td>
-      <td width="50"><select name="select3" id="select3">
-      </select></td>
-      <td width="33"><input type="submit" name="button2" id="button2" value="GO" /></td>
+      <th width="300"><label>FROM DATE</label>&nbsp;</th>
+      <td width="58"><input type="date" name="fdate"/>
+      </td>
+      <th width="50"><label>TO</label>&nbsp;</th>
+      <td width="50"><input type="date" name="tdate"/></td>
+      <td width="33"><input type="submit" name="button" id="button2" value="GO" /></td>
     </tr>
   </table>
-  <table  border="1">
+  <table  border="1" align="center">
     <tr>
-      <td>SNO</td>
-      <td>AREA NAME</td>
-      <td>DATE </td>
-      <td>CODE</td>
-      <td>NARRATION</td>
-      <td>PLACENAME</td>
+      <th>SNO</th>
+      <th>AREA NAME</th>
+      <th>DATE </th>
+      <th>CODE</th>
+      <th>NARRATION</th>
+      <th>PLACENAME</th>
       <td>&nbsp;</td>
     </tr>
+      {% for i in res %}
     <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-       <td><a href="#">DELETE</a></td>
+      <td>{{forloop.counter }}</td>
+      <td>{{ i.SERVICEAREA.area_name }}</td>
+      <td>{{ i.date }}</td>
+      <td>{{ i.code }}</td>
+      <td>&nbsp;{{ i.narration }}</td>
+      <td>{{ i.placename }}</td>
+       <td><a href="\myapp\semp_view_installation_del\{{ i.pk }}">DELETE</a></td>
     </tr>
+      {% endfor %}
   </table>
   <p>&nbsp;</p>
   

@@ -1,37 +1,35 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
-</head>
-
-<body>
-<form id="form1" name="form1" method="post" action="">
-  <table  border="1">
+{% extends "admin/blank.html" %}
+{% block body %}
+<h2 align="center">VIEW EMPLOYEE AREA</h2>
+<form id="form1" name="form1" method="post" action="/myapp/adm_view_employee_area_post/">
+  <table  border="0" align="center">
   <tr>
-    <td>AREA NAME</td>
+    <th>AREA NAME</th>
     <td><input type="text" name="textfield" id="textfield" /></td>
     <td><input type="submit" name="button" id="button" value="SEARCH" /></td>
   </tr>
+      &nbsp
+      &nbsp
 </table>
-  <table border="1">
+  <table  width="700" border="1" align="center">
     <tr>
-      <td>SNO</td>
-      <td>AREA NAME</td>
-      <td>STAFF NAME</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <th>SNO</th>
+      <th>AREA NAME</th>
+      <th>STAFF NAME</th>
+      <td>&nbsp;&nbsp;</td>
+      <td>&nbsp;&nbsp;</td>
     </tr>
+      {% for i in res %}
     <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td><a href="/myapp/adm_edit_employee_area/">EDIT</a></td>
-      <td><a href="#">DELETE</a></td>
+      <td>&nbsp;{{ forloop.counter }}</td>
+      <td>{{ i.SERVICEAREA.area_name}}</td>
+      <td>&nbsp;{{ i.STAFF.name }}</td>
+      <td><a href="/myapp/adm_edit_employee_area/{{ i.pk }}">EDIT</a></td>
+      <td><a href="/myapp/adm_view_employee_area_del/{{ i.pk }}">DELETE</a></td>
     </tr>
+      {% endfor %}
   </table>
   <p>&nbsp;</p>
 </form>
 <p>&nbsp;</p>
-</body>
-</html>
+{% endblock %}

@@ -1,52 +1,51 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
-</head>
-
-<body>
-<form id="form1" name="form1" method="post" action="">
-  <table border="1">
+{% extends "admin/blank.html" %}
+{% block body %}
+<h2 align="center">VIEW STAFF</h2>
+<form id="form1" name="form1" method="post" action="/myapp/adm_view_staff_post/">
+  <table class="table table-hover">
     <tr>
-      <td>STAFF TYPE</td>
-      <td><select name="select" id="select">
-      </select></td>
+      <th>STAFF TYPE</th>
+      <th><select name="select" id="select" class="form-control">
+          <option value="Designer">Designer</option>
+          <option value="Service Employee">Service Employee</option>
+      </select></th>
       <td><input type="submit" name="button" id="button" value="SEARCH" /></td>
-      <td><input type="text" name="textfield" id="textfield" placeholder="SEARCH BY NAME"/></td>
-      <td><input type="submit" name="button2" id="button2" value="GO" /></td>
+      <th><input type="text" name="textfield" id="textfield" placeholder="SEARCH BY NAME" class="form-control"/></th>
+      <td><input type="submit" name="button" id="button2" value="GO" /></td>
     </tr>
   </table>
   <p>&nbsp;</p>
-  <table  border="1">
+  <table  class="table table-hover">
     <tr>
-      <td>SNO</td>
-      <td>IMAGE</td>
-      <td>NAME</td>
-      <td>GENDER</td>
-      <td>DOD</td>
-      <td>ADDRESS</td>
-      <td>EMAILID</td>
-      <td>PHONE NUMBER</td>
-      <td>STAFF TYPE</td>
+      <th>SNO</th>
+      <th>IMAGE</th>
+      <th>NAME</th>
+      <th>GENDER</th>
+      <th>DOD</th>
+      <th>ADDRESS</th>
+      <th>EMAILID</th>
+      <th>PHONE NUMBER</th>
+      <th>STAFF TYPE</th>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
     </tr>
+      {% for i in res1 %}
+      
     <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td><a href="/myapp/adm_edit_staff/">EDIT</a></td>
-      <td><a href="#">DELETE</a></td>
+      <td>&nbsp;{{ forloop.counter }}</td>
+      <td><img src="{{ i.image }}" alt="img" height="100" width="100"/>&nbsp;</td>
+      <td>&nbsp;{{ i.name }}</td>
+      <td>{{ i.gender }}</td>
+      <td>&nbsp;{{ i.dob }}</td>
+      <td>&nbsp;{{ i.houseno_name }}<br>{{ i.district }}<br/><br>{{ i.pincode }}<br/></td>
+        <td>&nbsp;{{ i.email }}</td>
+      <td>{{ i.phno }}</td>
+      <td>&nbsp;{{ i.LOGIN.utype}}</td>
+      <td><a href="/myapp/adm_edit_staff/{{ i.pk }}">EDIT</a></td>
+      <td><a href="/myapp/adm_view_staff_del/{{ i.pk }}">DELETE</a></td>
     </tr>
+      {% endfor %}
   </table>
   <p>&nbsp;</p>
 </form>
-</body>
-</html>
+{% endblock %}

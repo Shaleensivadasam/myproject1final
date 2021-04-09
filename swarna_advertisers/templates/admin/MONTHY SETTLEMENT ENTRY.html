@@ -1,16 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
-</head>
-
-<body>
-<form id="form1" name="form1" method="post" action="adm_monthly_settlement_post/">
-  <table  border="1">
+{% extends "admin/blank.html" %}
+{% block body %}
+<h2 align="center">ADD MONTHLY SETTLEMENT ENTRY</h2>
+<form id="form1" name="form1" method="post" action="/myapp/adm_monthly_settlement_post/">
+  <table  border="0" align="center">
     <tr>
       <td>PROVIDER NAME</td>
       <td><select name="select" id="select">
+          {% for i in data1 %}
+              <option value="{{ i.pk }}">{{ i.provider_name}}</option>
+          {% endfor %}
       </select></td>
     </tr>
     <tr>
@@ -19,8 +17,7 @@
     </tr>
     <tr>
       <td>MONTH</td>
-      <td><select name="select2" id="select2">
-      </select></td>
+      <td><input type="text" name="textfield3" id="textfield3"/></td>
     </tr>
     <tr>
       <td>AMOUNT</td>
@@ -32,5 +29,4 @@
     </tr>
   </table>
 </form>
-</body>
-</html>
+{% endblock %}

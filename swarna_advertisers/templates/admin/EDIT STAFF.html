@@ -1,51 +1,63 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
-</head>
-
-<body>
-<form id="form1" name="form1" method="post" action="adm_edit_staff_post/">
-  <table  border="1">
+{% extends "admin/blank.html" %}
+{% block body %}
+<h2 align="center">EDIT STAFF</h2>
+<form id="form1" name="form1" method="post" enctype="multipart/form-data" action="/myapp/adm_edit_staff_post/">
+  <table  border="0" align="center">
     <tr>
       <td>NAME</td>
-      <td><input type="text" name="textfield" id="textfield" /></td>
+      <td><input type="text" name="textfield" id="textfield" value="{{ res.name }}" /></td>
     </tr>
     <tr>
       <td>GENDER</td>
-      <td><input type="radio" name="radio" id="radio" value="Male" />Male
-      <input type="radio" name="radio2" id="radio2" value="Female" />Female</td>
+        {% if res.gender == "Male" %}
+      <td><input type="radio" name="radio" id="radio" value="Male" checked/>Male
+      <input type="radio" name="radio" id="radio2" value="Female" />Female</td>
+        {% elif res.gender == "Female" %}
+        <td><input type="radio" name="radio" id="radio" value="Male"/>Male
+      <input type="radio" name="radio" id="radio2" value="Female" checked/>Female</td>
+        {% endif %}
     </tr>
     <tr>
       <td>DOB</td>
-      <td><select name="select" id="select">
-      </select></td>
+      <td><input type="date" name="date" value="{{ res.dob }}">
+      </td>
     </tr>
     <tr>
       <td>HOUSE NUMBER/NAME</td>
-      <td><input type="text" name="textfield2" id="textfield2" /></td>
+      <td><input type="text" name="textfield2" id="textfield2" value="{{ res.houseno_name }}"/></td>
     </tr>
     <tr>
       <td>DISTRICT</td>
       <td><select name="select2" id="select2">
+          <option value="Kozhokide">Kozhokide</option>
+          <option value="Eranakulam">Eranakulam</option>
+          <option value="Kollam">Kollam</option>
       </select></td>
     </tr>
     <tr>
       <td>PINCODE </td>
-      <td><input type="text" name="textfield3" id="textfield3" /></td>
+      <td><input type="text" name="textfield3" id="textfield3" value="{{ res.pincode }}"/></td>
     </tr>
     <tr>
       <td>EMAILID</td>
-      <td><input type="text" name="textfield4" id="textfield4" /></td>
+      <td><input type="text" name="textfield4" id="textfield4" value="{{ res.email }}"/></td>
     </tr>
     <tr>
       <td>PHONE NUMBER</td>
-      <td><input type="text" name="textfield5" id="textfield5" /></td>
+      <td><input type="text" name="textfield5" id="textfield5"  value="{{ res.phno }}"/></td>
     </tr>
     <tr>
       <td>IMAGE</td>
-      <td>&nbsp;</td>
+      <td>&nbsp;<input type="file" name="fileField" id="fileField"/></td>
+    </tr>
+      <tr>
+      <td>STAFF TYPE</td>
+      <td><select name="select3" id="select3">
+          <option value="{{ res.LOGIN.utype }}">{{ res.LOGIN.utype }}</option>
+          <option value="Designer">Designer</option>
+          <option value="Service employee">Service employee</option>
+
+      </select></td>
     </tr>
     <tr>
       <td>&nbsp;</td>
@@ -53,5 +65,4 @@
     </tr>
   </table>
 </form>
-</body>
-</html>
+{% endblock %}

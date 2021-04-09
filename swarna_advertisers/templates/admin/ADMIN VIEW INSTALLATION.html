@@ -1,28 +1,26 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
-</head>
-
-<body>
-<form id="form1" name="form1" method="post" action="">
-  <table width="563" border="1">
+{% extends "admin/blank.html" %}
+{% block body %}
+ <h2 align="center">VIEW INSTALLATION</h2>
+<form id="form1" name="form1" method="post" action="/myapp/adm_view_installation_post/">
+  <table width="563" border="0" align="center">
     <tr>
-      <td width="96"><label>AREA NAME</label>&nbsp;</td>
+      <th width="96"><label>AREA NAME</label>&nbsp;</th>
       <td width="51"><select name="select" id="select">
+            {% for i in res1 %}
+              <option value="{{ i.pk }}">{{ i.area_name }}</option>
+          {% endfor %}
       </select></td>
       <td width="80"><input type="submit" name="button" id="button" value="SEARCH" /></td>
-      <td width="97"><label>FROM DATE</label>&nbsp;</td>
-      <td width="58"><select name="select2" id="select2">
-      </select></td>
-      <td width="29"><label>TO</label>&nbsp;</td>
-      <td width="50"><select name="select3" id="select3">
-      </select></td>
-      <td width="33"><input type="submit" name="button2" id="button2" value="GO" /></td>
+      <th width="97"><label>FROM DATE</label>&nbsp;</th>
+      <th width="58"><td width="58"><input type="date" name="fdate"/>
+      </td></th>
+      <th width="29"><label>TO</label>&nbsp;</th>
+      <td width="50"><td width="58"><input type="date" name="tdate"/>
+      </td></td>
+      <th width="33"><input type="submit" name="button" id="button2" value="GO" /></th>
     </tr>
   </table>
-  <table  border="1">
+  <table  border="1" align="center">
     <tr>
       <td>SNO</td>
       <td>AREA NAME</td>
@@ -31,17 +29,18 @@
       <td>NARRATION</td>
       <td>PLACENAME</td>
       </tr>
+      {% for i in res %}
     <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td>{{forloop.counter }}</td>
+      <td>{{ i.SERVICEAREA.area_name }}</td>
+      <td>&nbsp;{{ i.date }}</td>
+      <td>{{ i.code }}</td>
+      <td>{{ i.narration }}</td>
+      <td>{{ i.placename }}</td>
     </tr>
+      {% endfor %}
   </table>
   <p>&nbsp;</p>
   
 </form>
-</body>
-</html>
+{% endblock %}

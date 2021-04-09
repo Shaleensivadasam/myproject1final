@@ -1,9 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
-</head>
+{% extends 'admin/blank.html' %}
+{% block body %}
 
 <body>
 <form id="form1" name="form1" method="post" action="">
@@ -22,6 +18,7 @@
  <p><a href="/myapp/adm_view_charge_profile/">View charge profile</a></p>
  <p><a href="/myapp/adm_view_advertisement_request_approve/">View advertisement enquiry request from users</a></p>
  <p><a href="/myapp/adm_view_new_request/">Assign request to designer</a></p>
+    <p><a href="/myapp/adm_view_rejected_request/">View rejected request</a></p>
  <p><a href="/myapp/adm_monthly_settlement/">Add Media provider monthly settlement entry</a></p>
  <p><a href="/myapp/adm_view_monthly_settlement/">View Media provider monthly settlement entry</a></p>
  <p><a href="/myapp/adm_request_from_public_for_media_provider/">View request from public for being a media provider</a></p>
@@ -34,4 +31,4 @@
 
 </form>
 </body>
-</html>
+{% endblock %}

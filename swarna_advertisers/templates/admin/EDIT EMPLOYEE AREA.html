@@ -1,29 +1,29 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
-</head>
-
-<body>
-<form id="form1" name="form1" method="post" action="adm_edit_employee_area_post/">
-  <table width="200" border="1">
+{% extends "admin/blank.html" %}
+{% block body %}
+ <h2 align="center">EDIT EMPLOYEE AREA</h2>
+<form id="form1" name="form1" method="post" action="/myapp/adm_edit_employee_area_post/">
+  <table width="200" border="0" align="center">
     <tr>
       <td>AREA NAME</td>
       <td><select name="select" id="select">
+          {% for i in area_name %}
+              <option value="{{ i.pk }}" {% if res.SERVICEAREA.id == i.pk %} selected {% endif %}>{{ i.area_name }}</option>
+          {% endfor %}
       </select></td>
     </tr>
     <tr>
       <td>STAFF NAME</td>
       <td><select name="select2" id="select2">
+          {% for i in STAFF %}
+              <option value="{{ i.pk }}" {% if res.STAFF.id == i.pk %} selected {% endif %}>{{ i.name}}</option>
+          {% endfor %}
       </select></td>
     </tr>
     <tr>
       <td>&nbsp;</td>
-      <td><input type="submit" name="button" id="button" value="EDIT" /></td>
+      <td><input type="submit" name="button" id="button" value="UPDATE" /></td>
     </tr>
   </table>
   
 </form>
-</body>
-</html>
+{% endblock %}

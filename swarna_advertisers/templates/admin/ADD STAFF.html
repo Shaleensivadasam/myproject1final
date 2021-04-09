@@ -1,58 +1,53 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
-</head>
-
-<body>
+{% extends "admin/blank.html" %}
+{% block body %}
+{#<h2 align="center">STAFF</h2>#}
 <form action="/myapp/adm_add_staff_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
-  <table  border="1">
+  <table  class="table table-hover">
     <tr>
-      <td>NAME</td>
-      <td><input type="text" name="textfield" id="textfield" /></td>
+      <th>NAME</th>
+      <td><input class="form-control" type="text" name="textfield" id="textfield" required pattern="[A-Za-z]{1,32}"/></td>
     </tr>
     <tr>
-      <td>GENDER</td>
+      <th>GENDER</th>
       <td><input type="radio" name="radio" id="radio" value="Male" />Male
       <input type="radio" name="radio" id="radio2" value="Female" />Female</td>
     </tr>
     <tr>
-      <td>DOB</td>
-      <td><input type="date" name="date">
-      </select></td>
+      <th>DOB</th>
+      <td><input type="date" name="date" class="form-control" required>
+     </td>
     </tr>
     <tr>
-      <td>HOUSE NUMBER/NAME</td>
-      <td><input type="text" name="textfield2" id="textfield2" /></td>
+      <th>HOUSE NUMBER/NAME</th>
+      <td><input type="text" name="textfield2" id="textfield2" required class="form-control"/></td>
     </tr>
     <tr>
-      <td>DISTRICT</td>
-      <td><select name="select2" id="select2">
+      <th>DISTRICT</th>
+      <td><select name="select2" id="select2" class="form-control">
           <option value="Kozhokide">Kozhokide</option>
           <option value="Eranakulam">Eranakulam</option>
           <option value="Kollam">Kollam</option>
       </select></td>
     </tr>
     <tr>
-      <td>PINCODE</td>
-      <td><input type="text" name="textfield3" id="textfield3" /></td>
+      <th>PINCODE</th>
+      <td><input type="text" name="textfield3" id="textfield3" class="form-control" required/></td>
     </tr>
     <tr>
-      <td>EMAIL ID</td>
-      <td><input type="text" name="textfield4" id="textfield4" /></td>
+      <th>EMAIL ID</th>
+      <td><input type="text" name="textfield4" id="textfield4" class="form-control" required/></td>
     </tr>
     <tr>
-      <td>PHONE NUMBER</td>
-      <td><input type="text" name="textfield5" id="textfield5" /></td>
+      <th>PHONE NUMBER</th>
+      <td><input type="text" name="textfield5" id="textfield5" class="form-control" required pattern="[A-Za-z]{1,32}"/></td>
     </tr>
     <tr>
-      <td>IMAGE</td>
-      <td><input type="file" name="fileField" id="fileField" /></td>
+      <th>IMAGE</th>
+      <td><input type="file" name="fileField" id="fileField" class="form-control"/></td>
     </tr>
     <tr>
-      <td>STAFF TYPE</td>
-      <td><select name="select3" id="select3">
+      <th>STAFF TYPE</th>
+      <td><select name="select3" id="select3" class="form-control">
           <option value="Designer">Designer</option>
           <option value="Service employee">Service employee</option>
       </select></td>
@@ -63,5 +58,4 @@
     </tr>
   </table>
 </form>
-</body>
-</html>
+{% endblock %}

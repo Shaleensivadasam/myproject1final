@@ -1,24 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
-</head>
-
-<body>
-<form id="form1" name="form1" method="post" action="adm_edit_service_area_post/">
- <table  border="1">
+{% extends "admin/blank.html" %}
+{% block body %}
+<form id="form1" name="form1" method="post" action="/myapp/adm_edit_service_area_post/">
+ <table  border="0" align="center">
     <tr>
       <td>AREA NAME</td>
-      <td><input type="text" name="textfield" id="textfield" /></td>
+      <td><input type="text" name="textfield" id="textfield"  value="{{ res.area_name }}"/></td>
     </tr>
     <tr>
       <td>LOCALITY</td>
-      <td><input type="text" name="textfield2" id="textfield2" /></td>
+      <td><input type="text" name="textfield2" id="textfield2" value="{{ res.area_locality }}" /></td>
     </tr>
     <tr>
       <td>DISTRICT</td>
       <td><select name="select" id="select">
+           <option value="Kozhokide">Kozhokide</option>
+          <option value="Eranakulam">Eranakulam</option>
+          <option value="Kollam">Kollam</option>
       </select></td>
     </tr>
     <tr>
@@ -27,5 +24,4 @@
     </tr>
   </table>
 </form>
-</body>
-</html>
+{% endblock %}
