@@ -1,23 +1,24 @@
-{% extends "service employee/blank.html" %}
+{% extends "service employee/semp_index.html" %}
 {% block body %}
 <h2 align="center">VIEW MAINTANCE ENTRY</h2>
-<form id="form1" name="form1" method="post" action="">
-<table width="563" border="0" align="center">
+<form id="form1" name="form1" method="post" action="\myapp\semp_view_maintance_post\">
+<table class="table table-hover">
     <tr>
-      <th width="150"><label>AREA NAME</label>&nbsp;</th>
-      <td width="51"><select name="select" id="select">
+      <th width="100"><label>AREA NAME</label>&nbsp;</th>
+      <td width="150"><select name="select" id="select" class="form-control" required>
+           {% for i in res %}
+              <option value="{{ i.SERVICEAREA.pk }}">{{ i.SERVICEAREA.area_name }}</option>
+           {% endfor %}
       </select></td>
-      <td width="80"><input type="submit" name="button" id="button" value="SEARCH" /></td>
+      <td width="80"><input type="submit" name="button" id="button" value="SEARCH" class="btn btn-primary" /></td>
       <th width="150"><label>FROM DATE</label>&nbsp;</th>
-      <td width="58"><select name="select2" id="select2">
-      </select></td>
+      <td width="58"><input type="date" name="fdate" class="form-control" required/></td>
       <th width="50"><label>TO</label>&nbsp;</th>
-      <td width="50"><select name="select3" id="select3">
-      </select></td>
-      <td width="33"><input type="submit" name="button2" id="button2" value="GO" /></td>
+      <td width="50"><input type="date" name="tdate" class="form-control" required/></td>
+      <td width="33"><input type="submit" name="button" id="button2" value="GO" class="btn btn-primary"/></td>
     </tr>
   </table>
-<table  border="1" align="center">
+<table class="table table-bordered" style="width: 1000px" align="center">
   <tr>
     <th>SNO</th>
     <th>AREA NAME</th>
@@ -27,15 +28,17 @@
     <th>AMOUNT</th>
     <td>&nbsp;</td>
   </tr>
+    {% for i in res %}
   <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td><a href="#">DELETE</a></td>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ i.SERVICEAREA.area_name }}</td>
+    <td>{{ i.INSTALLATION.placename }}</td>
+    <td>{{ i.INSTALLATION.code }}</td>
+    <td>{{ i.maintance }}</td>
+    <td>&nbsp;{{ i.amount }}</td>
+    <td><a href="\myapp/semp_view_maintance_del\{{ i.pk }}" class="btn btn-danger">DELETE</a></td>
   </tr>
+    {% endfor %}
 </table>
 <p>&nbsp;</p>
 </form>

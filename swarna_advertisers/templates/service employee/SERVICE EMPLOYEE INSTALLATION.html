@@ -1,11 +1,11 @@
-{% extends "service employee/blank.html" %}
+{% extends "service employee/semp_index.html" %}
 {% block body %}
 <h2 align="center">ADD INSTALLATION ENTRY</h2>
 <form id="form1" name="form1" method="post" action="/myapp/semp_installation_post/">
   <table class="table table-hover" style="width: 500px; height: 200px;" align="center">
     <tr>
       <th>AREA NAME</th>
-      <td><select name="select" id="select" class="form-control">
+      <td><select name="select" id="select" class="form-control" required>
           {% for i in data1 %}
               <option value="{{ i.SERVICEAREA.pk }}">{{ i.SERVICEAREA.area_name }}</option>
           {% endfor %}

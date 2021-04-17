@@ -1,6 +1,6 @@
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render,redirect,HttpResponse
-from .models import charge_profile,media_type,media_provider,staff,login,service_area,employee_area,monthly_settlement,installation,maintance
+from .models import charge_profile,media_type,media_provider,staff,login,service_area,employee_area,monthly_settlement,installation,maintance,expense
 import random
 import datetime
 # Create your views here.
@@ -79,8 +79,8 @@ def adm_media_type(request):
 def adm_media_type_post(request):
     mediatype = media_type.objects.all()
     if request.method=='POST':
-        type = request.POST['select']
-        descrip = request.POST['textfield']
+        type = request.POST['textfield']
+        descrip = request.POST['textarea']
         # mediatype = media_type.objects.get(pk=type)
         # descr = descrip.objects.get(pk=descrip)
         res = media_type(media_type_name=type, description=descrip)
@@ -141,7 +141,17 @@ def adm_view_complaint(request):
     return render(request,"admin/ADMIN VIEW COMPLAINT.html")
 
 def adm_view_expense_mngt(request):
-    return render(request,"admin/ADMIN VIEW EXPENSE MNGT.html")
+    res = expense.objects.all()
+    return render(request,"admin/ADMIN VIEW EXPENSE MNGT.html",{'res':res})
+
+def adm_view_expense_mngt_post(request):
+    date1 = request.POST['fdate']
+    date2 = request.POST['tdate']
+    # stf = staff.objects.get(LOGIN=request.session['LOGIN_id'])
+    # area_name = employee_area.objects.filter(STAFF=stf)
+    res = expense.objects.filter(date__range=(date1, date2))
+    print(res)
+    return render(request,"admin/ADMIN VIEW EXPENSE MNGT.html",{'res':res})
 
 def adm_view_installation(request):
     res=installation.objects.all()
@@ -172,7 +182,33 @@ def adm_view_installation_post(request):
     return render(request, "admin/ADMIN VIEW INSTALLATION.html",{'res':res,'res1':area_name})
 
 def adm_view_maintance(request):
-    return render(request,"admin/ADMIN VIEW MAINTANCE.html")
+    res = maintance.objects.all()
+    res1 = service_area.objects.all()
+    print(res1)
+    return render(request,"admin/ADMIN VIEW MAINTANCE.html",{'res':res})
+
+def adm_view_maintance_post(request):
+    btn = request.POST['button']
+    if btn == "SEARCH":
+        stf = staff.objects.get(LOGIN=request.session['LOGIN_id'])
+        area_name = employee_area.objects.filter(STAFF=stf)
+        area = request.POST['select']
+        aname = service_area.objects.get(pk=area)
+        print(aname)
+        res = maintance.objects.filter(SERVICEAREA_id=aname)
+        return render(request, "admin/ADMIN VIEW MAINTANCE.html",{'res': res, 'res1': area_name})
+
+    if btn == "GO":
+        date1 = request.POST['fdate']
+        date2 = request.POST['tdate']
+        stf = staff.objects.get(LOGIN=request.session['LOGIN_id'])
+        area_name = employee_area.objects.filter(STAFF=stf)
+        placename = installation.objects.filter(STAFF=stf)
+        code = installation.objects.filter(STAFF=stf)
+        res = maintance.objects.filter(date__range=(date1, date2))
+        print(res)
+        return render(request,"admin/ADMIN VIEW MAINTANCE.html",{'res': res, 'res1': area_name, 'res1': placename, 'res1': code})
+    return render(request,"admin/ADMIN VIEW INSTALLATION.html")
 
 def adm_view_new_request_more(request):
     return render(request,"admin/ADMIN VIEW NEW REQUEST MORE.html")
@@ -205,13 +241,21 @@ def adm_edit_charge_profile_post(request):
 def adm_edit_charge_profile_post(request):
     return render(request,"admin/EDIT CHARGE PROFILE.html")
 
-def adm_edit_media_type(request):
-    return render(request,"admin/EDIT MEDIA TYPE.html"),
+def adm_edit_media_type(request,pk):
+    request.session['id'] = pk
+    res = media_type.objects.get(id=pk)
+    return render(request,"admin/EDIT MEDIA TYPE.html",{'res':res})
 
 def adm_edit_media_type_post(request):
-    media_type = request.POST['select']
-    description = request.POST['textfield']
-    return render(request,"admin/EDIT MEDIA TYPE.html"),
+    id = request.session['id']
+    mediatype = request.POST['textfield']
+    description = request.POST['textarea']
+    if request.method=='POST':
+        res = media_type.objects.get(id=id)
+        res.media_type_name=mediatype
+        res.description=description
+        res.save()
+    return adm_view_media_type(request)
 
 def adm_edit_employee_area(request,pk):
     area_name = service_area.objects.all()
@@ -231,8 +275,10 @@ def adm_edit_employee_area_post(request):
         res.save()
     return adm_view_employee_area(request)
 
-def adm_edit_media_provider(request):
-    return render(request,"admin/EDIT MEDIA PROVIDER.html")
+def adm_edit_media_provider(request,pk):
+    request.session['id'] = pk
+    res = media_provider.objects.get(id=pk)
+    return render(request,"admin/EDIT MEDIA PROVIDER.html",{'res':res})
 
 def adm_edit_media_provider_post(request):
     provider_name = request.POST['textfield']
@@ -244,7 +290,20 @@ def adm_edit_media_provider_post(request):
     phno = request.POST['textfield6']
     img = request.POST['fileField']
     media_type = request.POST['select2']
-    return render(request,"admin/EDIT MEDIA PROVIDER.html")
+
+    if request.method=='POST':
+        res = media_provider.objects.get(id=id)
+        res.provider_name=provider_name
+        res.place=place
+        res.city=city
+        res.district=district
+        res.pincode=pincode
+        res.email=emailid
+        res.phno=phno
+        res.image=img
+        res.MEDIATYPE_id=media_type
+        res.save()
+    return adm_view_media_provider(request)
 
 def adm_edit_service_area(request,pk):
     request.session['id']=pk
@@ -326,9 +385,9 @@ def adm_login_post(request):
                 print("ppp")
                 return render(request,"service employee/semp_homepage.html")
             elif yy.utype=="admin":
-                return render(request,"admin/blank.html")
+                return redirect("/myapp/adm_homepage/")
             else:
-                return render(request,"desiner/dsgnr_homepage.html")
+                return redirect("/myapp/dsgnr_homepage/")
     return render(request,"admin/login.html")
 
 def adm_monthly_settlement_entry(request):
@@ -378,7 +437,7 @@ def adm_view_employee_area_post(request):
 def adm_view_employee_area_del(request,pk):
     res=employee_area.objects.get(id=pk)
     res.delete()
-    return render(request,"admin/adm_homepage.html")
+    return adm_view_employee_area(request)
 
 
 
@@ -386,10 +445,37 @@ def adm_view_feedback_reviews(request):
     return render(request,"admin/VIEW FEEDBACK REVIEWS.html")
 
 def adm_view_media_provider(request):
-    return render(request,"admin/VIEW MEDIA PROVIDER.html")
+    res = media_provider.objects.all()
+    return render(request,"admin/VIEW MEDIA PROVIDER.html",{'res':res})
+
+def adm_view_media_provider_del(request,pk):
+    res = media_provider.objects.get(id=pk)
+    res.delete()
+    return render(request, "admin/admin_index.html")
+
+
+def adm_view_media_provider_post(request):
+    pname = request.POST['textfield']
+    print(pname)
+    res = media_provider.objects.filter(provider_name=pname)
+    print(res)
+    return render(request,"admin/VIEW MEDIA PROVIDER.html",{'res':res})
 
 def adm_view_media_type(request):
-    return render(request,"admin/VIEW MEDIA TYPE.html")
+    res=media_type.objects.all()
+    return render(request,"admin/VIEW MEDIA TYPE.html",{'res':res})
+
+def adm_view_media_type_del(request,pk):
+    res = media_type.objects.get(id=pk)
+    res.delete()
+    return adm_view_media_type(request)
+
+def adm_view_media_type_post(request):
+    mtype = request.POST['textfield']
+    print(mtype)
+    res = media_type.objects.filter(media_type_name=mtype)
+    print(res)
+    return render(request,"admin/VIEW MEDIA TYPE.html",{'res':res})
 
 def adm_view_monthy_settlement_entry(request):
     res=monthly_settlement.objects.all()
@@ -419,7 +505,7 @@ def adm_view_service_area_post(request):
 def adm_view_service_area_del(request,pk):
     res=service_area.objects.get(id=pk)
     res.delete()
-    return render(request,"admin/adm_homepage.html")
+    return adm_view_service_area(request)
 
 def adm_view_staff(request):
     res=staff.objects.all()
@@ -431,7 +517,7 @@ def adm_view_staff_del(request,pk):
     res=staff.objects.get(id=pk)
     res.delete()
     # print(res.LOGIN.utype)
-    return render(request,"admin/adm_homepage.html")
+    return adm_view_staff(request)
 
 def adm_view_staff_post(request):
     btn=request.POST['button']
@@ -453,8 +539,8 @@ def adm_view_rejected_request(request):
 def adm_homepage(request):
     return render(request, "admin/adm_homepage.html")
 
-def dsgnr_blank(request):
-    return render(request, "designer/blank.html")
+def designer_index(request):
+    return render(request, "designer/designer_index.html")
 
 def dsgnr_homepage(request):
     return render(request, "designer/dsg_homepage.html")
@@ -511,22 +597,84 @@ def public_view_media_provider(request):
     return render(request, "public/PUBLIC VIEW MEDIA PROVIDER.html")
 
 def public_view_media_types(request):
-    return render(request, "public/PUBLIC VIEW MEDIA TYPES.html")
+    res = media_type.objects.all()
+    return render(request, "public/PUBLIC VIEW MEDIA TYPES.html",{'res':res})
 
-
-def semp_blank(request):
-    return render(request,"service employee/blank.html")
+def semp_index(request):
+    return render(request,"service employee/semp_index.html")
 
 def semp_homepage(request):
     return render(request,"service employee/semp_homepage.html")
 
 def semp_view_maintance(request):
+    res = maintance.objects.all()
+    stf = staff.objects.get(LOGIN=request.session['LOGIN_id'])
+    area_name = employee_area.objects.filter(STAFF=stf)
+    print(area_name)
+    placename=installation.objects.filter(STAFF=stf)
+    code=installation.objects.filter(STAFF=stf)
+    return render(request, "service employee/SERIVCE EMPLOYEE VIEW MAINTANCE ENTRY.html",{'res':res,'res1':area_name,'res1':placename,'res1':code})
+
+
+def semp_view_maintance_del(request,pk):
+    res = maintance.objects.get(id=pk)
+    res.delete()
+    return semp_view_maintance(request)
+
+def semp_view_maintance_post(request):
+    btn = request.POST['button']
+    if btn == "SEARCH":
+        stf = staff.objects.get(LOGIN=request.session['LOGIN_id'])
+        area_name = employee_area.objects.filter(STAFF=stf)
+        area = request.POST['select']
+        aname = service_area.objects.get(pk=area)
+        print(aname)
+        res = maintance.objects.filter(SERVICEAREA_id=aname)
+        return render(request,"service employee/SERIVCE EMPLOYEE VIEW MAINTANCE ENTRY.html",{'res':res,'res1':area_name})
+
+    if btn =="GO":
+        date1 = request.POST['fdate']
+        date2 = request.POST['tdate']
+        stf = staff.objects.get(LOGIN=request.session['LOGIN_id'])
+        area_name = employee_area.objects.filter(STAFF=stf)
+        placename= installation.objects.filter(STAFF=stf)
+        code= installation.objects.filter(STAFF=stf)
+        res = maintance.objects.filter(date__range=(date1, date2))
+        print(res)
+        return render(request, "service employee/SERIVCE EMPLOYEE VIEW MAINTANCE ENTRY.html", {'res': res, 'res1': area_name,'res1':placename,'res1':code})
     return render(request, "service employee/SERIVCE EMPLOYEE VIEW MAINTANCE ENTRY.html")
+
 
 def semp_edit_profile(request):
     return render(request, "service employee/SERVICE EMPLOYEE EDIT PROFILE.html")
 
 def semp_expense_mngt(request):
+    stf = staff.objects.get(LOGIN=request.session['LOGIN_id'])
+    area_name = employee_area.objects.filter(STAFF=stf)
+    print(request.session['LOGIN_id'])
+    print("hihi")
+    print(area_name)
+    res=expense.objects.all()
+    return render(request, "service employee/SERVICE EMPLOYEE EXPENSE MNGT.html",{'res':res,'data1':area_name})
+
+def semp_expense_mngt_post(request):
+    area=request.POST['select']
+    tle=request.POST['textfield']
+    desc=request.POST['textarea']
+    amt=request.POST['textfield2']
+    datez = datetime.date.today()
+    aname = service_area.objects.get(pk=area)
+    print(aname.pk)
+    kk = login.objects.get(id=request.session['LOGIN_id'])
+    stf = staff.objects.get(LOGIN=kk)
+    print(stf)
+    print("qqq")
+    emparea=employee_area.objects.get(SERVICEAREA=aname,STAFF=stf)
+    print("jjj")
+    print(emparea)
+    res = expense(title=tle, description=desc, amount=amt, date=datez, EMPLOYEEAREA=emparea)
+    print(res)
+    res.save()
     return render(request, "service employee/SERVICE EMPLOYEE EXPENSE MNGT.html")
 
 def semp_installation(request):
@@ -591,7 +739,21 @@ def semp_maintance_post(request):
     return redirect("myapp:semp_maintance")
 
 def semp_view_expense(request):
-    return render(request, "service employee/SERVICE EMPLOYEE VIEW EXPENSE.html")
+    res=expense.objects.all()
+    # stf = staff.objects.get(LOGIN=request.session['LOGIN_id'])
+    # area_name = employee_area.objects.filter(STAFF=stf)
+    # emparea = employee_area.objects.filter(EMPLOYEEAREA=area_name)
+    # print(emparea)
+    return render(request, "service employee/SERVICE EMPLOYEE VIEW EXPENSE.html",{'res':res})
+
+def semp_view_expense_post(request):
+    date1 = request.POST['fdate']
+    date2 = request.POST['tdate']
+    # stf = staff.objects.get(LOGIN=request.session['LOGIN_id'])
+    # area_name = employee_area.objects.filter(STAFF=stf)
+    res = expense.objects.filter(date__range=(date1, date2))
+    print(res)
+    return render(request, "service employee/SERVICE EMPLOYEE VIEW EXPENSE.html",{'res':res})
 
 def semp_view_installation(request):
     res=installation.objects.all()
@@ -603,7 +765,7 @@ def semp_view_installation(request):
 def semp_view_installation_del(request,pk):
     res = installation.objects.get(id=pk)
     res.delete()
-    return render(request, "service employee/semp_homepage.html")
+    return semp_view_installation(request)
 
 def semp_view_installation_post(request):
      btn = request.POST['button']
@@ -654,5 +816,5 @@ def semp_view_service_area_post(request):
     return render(request,"service employee/SERVICE EMPLOYEE VIEW SERVICE AREA.html",{'res': res})
 
 
-def adm_blank(request):
-    return render(request,"admin/blank.html")
+def admin_index(request):
+    return render(request,"admin/admin_index.html")

@@ -1,11 +1,11 @@
-{% extends "admin/blank.html" %}
+{% extends "admin/admin_index.html" %}
 {% block body %}
 {# <h2 align="center">EDIT STAFF</h2> #}
 <form id="form1" name="form1" method="post" enctype="multipart/form-data" action="/myapp/adm_edit_staff_post/">
   <table  class="table table-hover" style="width: 400px;" align="center">
     <tr>
       <td>NAME</td>
-      <td><input type="text" name="textfield" id="textfield" value="{{ res.name }}" class="form-control" /></td>
+      <td><input type="text" name="textfield" id="textfield" value="{{ res.name }}" class="form-control"  required pattern="[A-Za-z]{1,32}"/></td>
     </tr>
     <tr>
       <td>GENDER</td>
@@ -19,40 +19,51 @@
     </tr>
     <tr>
       <td>DOB</td>
-      <td><input type="date" name="date" value="{{ res.dob }}" class="form-control">
+      <td><input type="date" name="date" value="{{ res.dob }}" class="form-control" required pattern="/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$">
       </td>
     </tr>
     <tr>
       <td>HOUSE NUMBER/NAME</td>
-      <td><input type="text" name="textfield2" id="textfield2" value="{{ res.houseno_name }}" class="form-control"/></td>
+      <td><input type="text" name="textfield2" id="textfield2" value="{{ res.houseno_name }}" class="form-control" required/></td>
     </tr>
     <tr>
       <td>DISTRICT</td>
-      <td><select name="select2" id="select2" class="form-control">
+      <td><select name="select2" id="select2" class="form-control" required>
+           <option value="Kasarkode">Kasarkode</option>
+          <option value="Kannur">Kannur</option>
+          <option value="Vayanad">Vayanad</option>
           <option value="Kozhokide">Kozhokide</option>
+          <option value="Malapuram">Malapuram</option>
+          <option value="Palakad">Palakad</option>
+          <option value="Thrissur">Thrissur</option>
           <option value="Eranakulam">Eranakulam</option>
+          <option value="Edukki">Edukki</option>
+          <option value="Kottayam">Kottayam</option>
+          <option value="Alapuya">Alapuya</option>
+          <option value="Pathanamthitta">Pathanamthitta</option>
           <option value="Kollam">Kollam</option>
+          <option value="Thiruvanathapuram">Thiruvanathapuram</option>
       </select></td>
     </tr>
     <tr>
       <td>PINCODE </td>
-      <td><input type="text" name="textfield3" id="textfield3" value="{{ res.pincode }}" class="form-control"/></td>
+      <td><input type="text" name="textfield3" id="textfield3" value="{{ res.pincode }}" class="form-control" required pattern="[0-9]{6}" maxlength="6"/></td>
     </tr>
     <tr>
       <td>EMAILID</td>
-      <td><input type="text" name="textfield4" id="textfield4" value="{{ res.email }}" class="form-control"/></td>
+      <td><input type="text" name="textfield4" id="textfield4" value="{{ res.email }}" class="form-control" required pattern="[a-zA-Z0-9!#$%&'*+\/=?^_'{|}~.~]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*"/></td>
     </tr>
     <tr>
       <td>PHONE NUMBER</td>
-      <td><input type="text" name="textfield5" id="textfield5"  value="{{ res.phno }}" class="form-control"/></td>
+      <td><input type="text" name="textfield5" id="textfield5"  value="{{ res.phno }}" class="form-control" required pattern="[789][0-9]{9}"/></td>
     </tr>
     <tr>
       <td>IMAGE</td>
-      <td>&nbsp;<input type="file" name="fileField" id="fileField" class="form-control"/></td>
+      <td>&nbsp;<input type="file" name="fileField" id="fileField" class="form-control" required/></td>
     </tr>
       <tr>
       <td>STAFF TYPE</td>
-      <td><select name="select3" id="select3" class="form-control">
+      <td><select name="select3" id="select3" class="form-control" required>
           <option value="{{ res.LOGIN.utype }}">{{ res.LOGIN.utype }}</option>
           <option value="Designer">Designer</option>
           <option value="Service employee">Service employee</option>

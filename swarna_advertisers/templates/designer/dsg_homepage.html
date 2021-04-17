@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+{% extends "designer/designer_index.html" %}
+{% block body %}
 <body>
-<form id="form1" name="form1" method="post" action="">
-    <p><a href="/myapp/dsgnr_view_profile/">View profile</a> </p>
-    <p><a href="/myapp/dsgnr_view_request_assigned/">Create media</a> </p>
-    <p><a href="/myapp/dsgnr_view_media/">View created media</a> </p>
-</form>
+<img src="/static/admin_temp/dist/img/Times+Square.jpg" alt="img" width="1030" height="600">
+{#<form id="form1" name="form1" method="post" action="">#}
+{#    <p><a href="/myapp/dsgnr_view_profile/">View profile</a> </p>#}
+{#    <p><a href="/myapp/dsgnr_view_request_assigned/">Create media</a> </p>#}
+{#    <p><a href="/myapp/dsgnr_view_media/">View created media</a> </p>#}
+{#</form>#}
 </body>
-</html>
+{% endblock %}

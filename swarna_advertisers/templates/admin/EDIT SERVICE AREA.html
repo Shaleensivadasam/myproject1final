@@ -1,22 +1,33 @@
-{% extends "admin/blank.html" %}
+{% extends "admin/admin_index.html" %}
 {% block body %}
     <h2 align="center">EDIT SERVICE AREA</h2>
 <form id="form1" name="form1" method="post" action="/myapp/adm_edit_service_area_post/">
  <table  class="table table-hover" style="width: 400px;" align="center">
     <tr>
       <td>AREA NAME</td>
-      <td><input type="text" name="textfield" id="textfield"  value="{{ res.area_name }}" class="form-control"/></td>
+      <td><input type="text" name="textfield" id="textfield"  value="{{ res.area_name }}" class="form-control" required/></td>
     </tr>
     <tr>
       <td>LOCALITY</td>
-      <td><input type="text" name="textfield2" id="textfield2" value="{{ res.area_locality }}" class="form-control" /></td>
+      <td><input type="text" name="textfield2" id="textfield2" value="{{ res.area_locality }}" class="form-control" required/></td>
     </tr>
     <tr>
       <td>DISTRICT</td>
-      <td><select name="select" id="select" class="form-control">
-           <option value="Kozhokide">Kozhokide</option>
+      <td><select name="select" id="select" class="form-control" required>
+             <option value="Kasarkode">Kasarkode</option>
+          <option value="Kannur">Kannur</option>
+          <option value="Vayanad">Vayanad</option>
+          <option value="Kozhokide">Kozhokide</option>
+          <option value="Malapuram">Malapuram</option>
+          <option value="Palakad">Palakad</option>
+          <option value="Thrissur">Thrissur</option>
           <option value="Eranakulam">Eranakulam</option>
+          <option value="Edukki">Edukki</option>
+          <option value="Kottayam">Kottayam</option>
+          <option value="Alapuya">Alapuya</option>
+          <option value="Pathanamthitta">Pathanamthitta</option>
           <option value="Kollam">Kollam</option>
+          <option value="Thiruvanathapuram">Thiruvanathapuram</option>
       </select></td>
     </tr>
     <tr>

@@ -1,38 +1,41 @@
-{% extends "admin/blank.html" %}
+{% extends "admin/admin_index.html" %}
 {% block body %}
-<form id="form1" name="form1" method="post" action="">
-<table width="563" border="1">
+<form id="form1" name="form1" method="post" action="/myapp/adm_view_maintance_post/">
+<table class="table table-hover">
     <tr>
-      <td width="96"><label>AREA NAME</label>&nbsp;</td>
-      <td width="51"><select name="select" id="select">
+      <th width="100"><label>AREA NAME</label>&nbsp;</th>
+      <td width="150"><select name="select" id="select" class="form-control">
+          {% for i in res %}
+              <option value="{{ i.SERVICEAREA.pk }}">{{ i.SERVICEAREA.area_name }}</option>
+          {% endfor %}
       </select></td>
-      <td width="80"><input type="submit" name="button" id="button" value="SEARCH" /></td>
-      <td width="97"><label>FROM DATE</label>&nbsp;</td>
-      <td width="58"><select name="select2" id="select2">
-      </select></td>
-      <td width="29"><label>TO</label>&nbsp;</td>
-      <td width="50"><select name="select3" id="select3">
-      </select></td>
-      <td width="33"><input type="submit" name="button2" id="button2" value="GO" /></td>
+      <td width="80"><input type="submit" name="button" id="button" value="SEARCH" class="btn btn-primary" /></td>
+      <th width="97"><label>FROM DATE</label>&nbsp;</th>
+      <td width="58"><input type="date" name="fdate" class="form-control"/></td>
+      <th width="29"><label>TO</label>&nbsp;</th>
+      <td width="50"><input type="date" name="tdate" class="form-control"/></td>
+      <td width="33"><input type="submit" name="button" id="button2" value="GO"class="btn btn-primary" /></td>
     </tr>
   </table>
-<table width="789" height="89"  border="1">
+<table class="table table-bordered" style="width: 1000px" align="center">
   <tr>
-    <td width="35">SNO</td>
-    <td width="111">AREA NAME</td>
-    <td width="100">PLACE NAME</td>
-    <td width="122">INSTALLATION CODE</td>
-    <td width="92">MAINTANCE</td>
-    <td width="69">AMOUNT</td>
+    <th>SNO</th>
+    <th>AREA NAME</th>
+    <th>PLACE NAME</th>
+    <th>INSTALLATION CODE</th>
+    <th>MAINTANCE</th>
+    <th>AMOUNT</th>
   </tr>
+    {% for i in res %}
   <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
+    <td>&nbsp;{{ forloop.counter }}</td>
+    <td>&nbsp;{{ i.SERVICEAREA.area_name }}</td>
+    <td>&nbsp;{{ i.INSTALLATION.placename }}</td>
+    <td>&nbsp;{{ i.INSTALLATION.code }}</td>
+    <td>{{ i.maintance }}</td>
+    <td>&nbsp;{{ i.amount }}</td>
   </tr>
+    {% endfor %}
 </table>
 <p>&nbsp;</p>
 </form>

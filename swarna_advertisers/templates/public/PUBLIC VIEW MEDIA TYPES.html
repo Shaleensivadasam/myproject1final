@@ -7,25 +7,33 @@
 
 <body>
 <form id="form1" name="form1" method="post" action="">
-  <table  border="1">
-  <tr>
-    <td>AREA NAME</td>
-    <td><input type="text" name="textfield" id="textfield" /></td>
-    <td><input type="submit" name="button" id="button" value="SEARCH" /></td>
-  </tr>
-</table>
+{#  <table  border="1">#}
+{#  <tr>#}
+{#    <td>AREA NAME</td>#}
+{#    <td><input type="text" name="textfield" id="textfield" /></td>#}
+{#    <td><input type="submit" name="button" id="button" value="SEARCH" /></td>#}
+{#  </tr>#}
+{#</table>#}
   <p>&nbsp;</p>
-  <table width="200" border="1">
+  <table width="200" border="0">
     <tr>
-      <td>SNO</td>
+      <td colspan="2">&nbsp;<img src="" width="200" height="100" />
+      </td>
+    </tr>
+      <tr>
       <td>TYPENAME</td>
+      </tr>
+      <tr>
       <td>DESCRIPTION</td>
     </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      {% for i in res %}
+      <tr>
+      <td>{{ i.media_type_name }}</td>
     </tr>
+      <tr>
+      <td>{{ i.description }}</td>
+    </tr>
+      {% endfor %}
   </table>
   <p>&nbsp;</p>
 </form>

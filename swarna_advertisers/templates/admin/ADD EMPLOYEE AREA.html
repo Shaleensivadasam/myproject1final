@@ -1,11 +1,11 @@
-{% extends "admin/blank.html" %}
+{% extends "admin/admin_index.html" %}
 {% block body %}
 <h2 align="center">ADD EMPLOYEE AREA</h2>
 <form id="form1" name="form1" method="post" action="/myapp/adm_add_employee_area_post/">
   <table class="table table-hover" style="width: 400px; height: 200px;" align="center">
     <tr>
       <th>AREA NAME</th>
-      <td><select name="select" id="select" class="form-control">
+      <td><select name="select" id="select" class="form-control" required>
           {% for i in data1 %}
               <option value="{{ i.pk }}">{{ i.area_name }}</option>
           {% endfor %}
@@ -13,7 +13,7 @@
     </tr>&nbsp;
     <tr>&nbsp;
       <th>STAFF NAME</th>
-      <td><select name="select2" id="select2" class="form-control">
+      <td><select name="select2" id="select2" class="form-control" required>
           {% for i in data2 %}
               <option value="{{ i.pk }}">{{ i.name}}</option>
           {% endfor %}

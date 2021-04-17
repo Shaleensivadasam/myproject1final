@@ -1,32 +1,34 @@
-{% extends "admin/blank.html" %}
+{% extends "admin/admin_index.html" %}
 {% block body %}
-<form id="form1" name="form1" method="post" action="">
-  <table width="280" border="1">
+<form id="form1" name="form1" method="post" action="/myapp/adm_view_expense_post/">
+  <table class="table table-hover">
     <tr>
-      <td width="50"><label>DATE</label>&nbsp;</td>
-      <td width="42"><select name="select" id="select">
-      </select></td>
-      <td width="35"><label>TO</label>&nbsp;</td>
-      <td width="56"><select name="select2" id="select2">
-      </select></td>
-      <td width="63"><input type="submit" name="button" id="button" value="SEARCH" /></td>
+      <th><label>DATE</label>&nbsp;</th>
+      <td><input type="date" name="fdate" class="form-control" required/></td>
+      <th><label>TO</label>&nbsp;</th>
+      <td><input type="date" name="tdate" class="form-control" required/></td>
+      <td><input type="submit" name="button" id="button" value="SEARCH" class="btn btn-primary"/></td>
     </tr>
   </table>
-  <table width="200" border="1">
+  <table class="table table-bordered" style="width: 1000px" align="center">
     <tr>
-      <td>SNO</td>
-      <td>TITLE</td>
-      <td>DESCRIPTION</td>
-      <td>AMOUNT</td>
-      <td>DATE</td>
+      <th>SNO</th>
+      <th>AREA NAME</th>
+      <th>TITLE</th>
+      <th>DESCRIPTION</th>
+      <th>AMOUNT</th>
+      <th>DATE</th>
     </tr>
+      {% for i in res %}
     <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td>&nbsp;{{ forloop.counter }}</td>
+      <td>{{i.EMPLOYEEAREA.SERVICEAREA.area_name}}</td>
+      <td>{{ i.title }}</td>
+      <td>&nbsp;{{ i.description }}</td>
+      <td>&nbsp;{{ i.amount }}</td>
+      <td>&nbsp;{{ i.date }}</td>
     </tr>
+      {% endfor %}
   </table>
   <p>&nbsp;</p>
   <p>&nbsp;</p>

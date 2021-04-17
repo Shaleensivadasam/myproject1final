@@ -1,48 +1,65 @@
-{% extends "admin/blank.html" %}
+{% extends "admin/admin_index.html" %}
 {% block body %}
-<form action="adm_edit_media_provider_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
-  <table border="1">
+<form action="/myapp/adm_edit_media_provider_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
+  <table class="table table-hover" style="width: 400px;" align="center">
     <tr>
       <td>PROVIDER NAME</td>
-      <td><input type="text" name="textfield" id="textfield" /></td>
+      <td><input type="text" name="textfield" id="textfield" value="{{ res.provider_name }}"  class="form-control"  required/></td>
     </tr>
     <tr>
       <td>PLACE</td>
-      <td><input type="text" name="textfield2" id="textfield2" /></td>
+      <td><input type="text" name="textfield2" id="textfield2"  value="{{ res.place }}" class="form-control"  required/></td>
     </tr>
     <tr>
       <td>CITY</td>
-      <td><input type="text" name="textfield3" id="textfield3" /></td>
+      <td><input type="text" name="textfield3" id="textfield3"  value="{{ res.city }}" class="form-control"  required /></td>
     </tr>
     <tr>
       <td>DISTRICT</td>
-      <td><select name="select" id="select">
+      <td><select name="select" id="select"  class="form-control"  required>
+           <option value="Kasarkode">Kasarkode</option>
+          <option value="Kannur">Kannur</option>
+          <option value="Vayanad">Vayanad</option>
+          <option value="Kozhokide">Kozhokide</option>
+          <option value="Malapuram">Malapuram</option>
+          <option value="Palakad">Palakad</option>
+          <option value="Thrissur">Thrissur</option>
+          <option value="Eranakulam">Eranakulam</option>
+          <option value="Edukki">Edukki</option>
+          <option value="Kottayam">Kottayam</option>
+          <option value="Alapuya">Alapuya</option>
+          <option value="Pathanamthitta">Pathanamthitta</option>
+          <option value="Kollam">Kollam</option>
+          <option value="Thiruvanathapuram">Thiruvanathapuram</option>
       </select></td>
     </tr>
     <tr>
       <td>PINCODE</td>
-      <td><input type="text" name="textfield4" id="textfield4" /></td>
+      <td><input type="text" name="textfield4" id="textfield4" value="{{ res.pincode }}" class="form-control"  required  /></td>
     </tr>
     <tr>
       <td>EMAILID</td>
-      <td><input type="text" name="textfield5" id="textfield5" /></td>
+      <td><input type="text" name="textfield5" id="textfield5" value="{{ res.email }}" class="form-control"  required /></td>
     </tr>
     <tr>
       <td>PHONE NUMBER</td>
-      <td><input type="text" name="textfield6" id="textfield6" /></td>
+      <td><input type="text" name="textfield6" id="textfield6" value="{{ res.phno }}" class="form-control"  required /></td>
     </tr>
     <tr>
       <td>IMAGE</td>
-      <td><input type="file" name="fileField" id="fileField" /></td>
+      <td><input type="file" name="fileField" id="fileField" value="{{ res.image }}" class="form-control"   required /></td>
     </tr>
     <tr>
       <td>MEDIA TYPE</td>
-      <td><select name="select2" id="select2">
+      <td><select name="select2" id="select2"  class="form-control"  required >
+          {% for i in data1 %}
+              <option value="{{ i.pk }}">{{ i.MEDIATYPE.media_type_name }}</option>
+          {% endfor %}
       </select></td>
     </tr>
     <tr>
       <td>&nbsp;</td>
-      <td><input type="submit" name="button" id="button" value="EDIT" /></td>
+      <td><input type="submit" name="button" id="button" value="UPDATE" class="btn btn-primary" style="background-color: #5cb85c" /></td>
     </tr>
   </table>
 </form>

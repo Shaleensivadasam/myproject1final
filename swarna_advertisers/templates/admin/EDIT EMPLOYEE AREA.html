@@ -1,11 +1,11 @@
-{% extends "admin/blank.html" %}
+{% extends "admin/admin_index.html" %}
 {% block body %}
  <h2 align="center">EDIT EMPLOYEE AREA</h2>
 <form id="form1" name="form1" method="post" action="/myapp/adm_edit_employee_area_post/">
   <table class="table table-hover" style="width: 400px;" align="center">
     <tr>
       <th>AREA NAME</th>
-      <td><select name="select" id="select" class="form-control">
+      <td><select name="select" id="select" class="form-control" required>
           {% for i in area_name %}
               <option value="{{ i.pk }}" {% if res.SERVICEAREA.id == i.pk %} selected {% endif %}>{{ i.area_name }}</option>
           {% endfor %}
@@ -13,7 +13,7 @@
     </tr>
     <tr>
       <th>STAFF NAME</th>
-      <td><select name="select2" id="select2" class="form-control">
+      <td><select name="select2" id="select2" class="form-control" required>
           {% for i in STAFF %}
               <option value="{{ i.pk }}" {% if res.STAFF.id == i.pk %} selected {% endif %}>{{ i.name}}</option>
           {% endfor %}

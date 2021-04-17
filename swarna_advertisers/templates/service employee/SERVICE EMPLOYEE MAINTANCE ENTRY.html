@@ -1,11 +1,11 @@
-{% extends "service employee/blank.html" %}
+{% extends "service employee/semp_index.html" %}
 {% block body %}
 <h2 align="center">ADD MAINTANCE ENTRY</h2>
 <form id="form1" name="form1" method="post" action="/myapp/semp_maintance_post/">
   <table  class="table table-hover" style="width: 500px; height: 200px;" align="center">
     <tr>
       <th>AREA NAME</th>
-      <td><select name="select" id="select" class="form-control">
+      <td><select name="select" id="select" class="form-control" required>
           {% for i in data1 %}
               <option value="{{ i.SERVICEAREA.pk }}">{{ i.SERVICEAREA.area_name }}</option>
           {% endfor %}
@@ -13,7 +13,7 @@
     </tr>
     <tr>
       <th>PLACE NAME</th>
-      <td><select name="select2" id="select2" class="form-control">
+      <td><select name="select2" id="select2" class="form-control" required>
           {% for i in data2 %}
               <option value="{{ i.placename }}">{{ i.placename }}</option>
           {% endfor %}
@@ -21,7 +21,7 @@
     </tr>
     <tr>
       <th>INSTALLATION CODE</th>
-      <td><select name="select3" id="select3" class="form-control">
+      <td><select name="select3" id="select3" class="form-control" required>
           {% for i in res %}
               <option value="{{ i.code }}">{{ i.code }}</option>
           {% endfor %}

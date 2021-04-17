@@ -1,19 +1,19 @@
-{% extends "admin/blank.html" %}
+{% extends "admin/admin_index.html" %}
 {% block body %}
-<form id="form1" name="form1" method="post" action="adm_edit_media_type_post/">
-<table  border="1">
+    <h2 align="center">EDIT MEDIA TYPE</h2>
+<form id="form1" name="form1" method="post" action="/myapp/adm_edit_media_type_post/">
+<table  class="table table-hover" style="width: 500px;" align="center">
     <tr>
-      <td>MEDIA TYPE NAME</td>
-      <td><select name="select" id="select">
-      </select></td>
+      <th>MEDIA TYPE NAME</th>
+      <td><input type="text" name="textfield" id="textfield" value="{{ res.media_type_name }}" class="form-control" required/></td>
     </tr>
     <tr>
-      <td>DESCRIPTION</td>
-      <td><input type="text" name="textfield" id="textfield" /></td>
+      <th>DESCRIPTION</th>
+      <td><textarea name="textarea" id="textarea" cols="45" rows="5" class="form-control" required>{{ res.description }}</textarea></td>
     </tr>
     <tr>
       <td>&nbsp;</td>
-      <td><input type="submit" name="button" id="button" value="EDIT" /></td>
+      <td><input type="submit" name="button" id="button" value="UPDATE" class="btn btn-primary" style="background-color: #5cb85c" /></td>
     </tr>
   </table>
 </form>
