@@ -1,0 +1,123 @@
+package com.example.myapplication;
+
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+public class custom_charge_profile extends BaseAdapter {
+    private android.content.Context Context;
+    String[] proname;
+    String[] charge;
+
+
+
+
+
+    public custom_charge_profile(android.content.Context applicationContext, String[] proname, String[] charge) {
+
+        this.Context=applicationContext;
+        this.proname=proname;
+        this.charge=charge;
+
+    }
+
+    @Override
+    public int getCount() {
+
+        return proname.length;
+    }
+
+    @Override
+    public Object getItem(int arg0) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public long getItemId(int arg0) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public View getView(int position, View convertview, ViewGroup parent) {
+
+
+        LayoutInflater inflator=(LayoutInflater)Context.getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE);
+
+        View gridView;
+        if(convertview==null)
+        {
+            gridView=new View(Context);
+            gridView=inflator.inflate(R.layout.cust_charge_profile, null);
+
+
+
+        }
+        else
+        {
+            gridView=(View)convertview;
+
+        }
+
+
+
+
+
+        TextView tv1=(TextView)gridView.findViewById(R.id.textView6);
+
+        TextView tv2=(TextView)gridView.findViewById(R.id.textView8);
+
+
+
+
+
+
+
+
+
+
+        //
+
+
+        /////////////////////
+
+
+
+
+
+        tv1.setTextColor(Color.BLACK);
+        tv2.setTextColor(Color.BLACK);
+
+        //tv6.setTextColor(Color.BLACK);
+        //tv1.setText(c[position]);
+        //tv2.setText(d[position]);
+
+        tv1.setText(proname[position]);
+        tv2.setText(charge[position]);
+
+
+//        SharedPreferences sh= PreferenceManager.getDefaultSharedPreferences(Context);
+//        String ss=sh.getString("ip", "");
+//        String url = "http://" + ss + ":8000"+e[position];
+//        //Toast.makeText(Context, "tstid ass="+url, Toast.LENGTH_LONG).show();
+//
+//        Picasso.with(Context).load(url).into(im);
+////        Picasso.with(Context).load(url).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).transform(new CircleTransform()).into(im);
+
+
+        return gridView;
+    }
+
+
+}
+
+
