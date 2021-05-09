@@ -1,7 +1,7 @@
 {% extends "admin/admin_index.html" %}
 {% block body %}
     <h2 align="center">EDIT MEDIA TYPE</h2>
-<form id="form1" name="form1" method="post" action="/myapp/adm_edit_media_type_post/">
+<form id="form1" name="form1" method="post" enctype="multipart/form-data" action="/myapp/adm_edit_media_type_post/">
 <table  class="table table-hover" style="width: 500px;" align="center">
     <tr>
       <th>MEDIA TYPE NAME</th>
@@ -10,6 +10,10 @@
     <tr>
       <th>DESCRIPTION</th>
       <td><textarea name="textarea" id="textarea" cols="45" rows="5" class="form-control" required>{{ res.description }}</textarea></td>
+    </tr>
+    <tr>
+      <td>IMAGE</td>
+      <td>&nbsp;<input type="file" name="fileField" id="fileField" class="form-control"/></td>
     </tr>
     <tr>
       <td>&nbsp;</td>

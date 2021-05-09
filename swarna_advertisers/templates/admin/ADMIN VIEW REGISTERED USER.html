@@ -1,28 +1,33 @@
 {% extends "admin/admin_index.html" %}
 {% block body %}
-<form id="form1" name="form1" method="post" action="">
-  <table width="200" border="1">
+    <h2 align="center">VIEW REGISTERED USERS</h2>
+<form id="form1" name="form1" method="post" action="/myapp/adm_view_registered_user_post/">
+  <table class="table table-hover">
     <tr>
-      <td>NAME</td>
-      <td><input type="text" name="textfield" id="textfield" /></td>
-      <td><input type="submit" name="button" id="button" value="SEARCH" /></td>
+      <th>NAME</th>
+      <td><input type="text" name="textfield" id="textfield" class="form-control" required/></td>
+      <td><input type="submit" name="button" id="button" value="SEARCH"  class="btn btn-primary"/></td>
     </tr>
   </table>
-  <table  border="1">
+  <table class="table table-hover" style="width: 1000px" align="center">
     <tr>
-      <td>SNO</td>
-      <td>NAME</td>
-      <td>EMAILID</td>
-      <td>PHONE NUMBER</td>
-      <td>&nbsp;</td>
+      <th>SNO</th>
+      <th>IMAGE</th>
+      <th>USER INFO</th>
+      <th>ADDRESS</th>
+      <th>CONTACT INFO</th>
+
     </tr>
+      {% for i in res %}
     <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td><a href="/myapp/adm_view_registered_user_more">VIEW</a></td>
+      <td>{{ forloop.counter }}</td>
+      <td><img src="{{ i.image }}" alt="img" height="100" width="100"/></td>
+        <td>&nbsp;{{ i.name }}<br>{{ i.gender }}<br/><br>{{ i.dob }}<br/></td>
+        <td>{{ i.houseno_name }}<br>{{ i.district }}<br/><br>{{ i.pincode }}<br/></td>
+      <td>{{ i.email }}<br>{{ i.phno }}<br/></td>
+{#      <td><a href="/myapp/adm_view_registered_user_more">VIEW</a></td>#}
     </tr>
+      {% endfor %}
   </table>
  
 </form>

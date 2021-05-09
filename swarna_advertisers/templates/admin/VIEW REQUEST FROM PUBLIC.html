@@ -1,41 +1,42 @@
 {% extends "admin/admin_index.html" %}
 {% block body %}
-<form id="form1" name="form1" method="post" action="">
-  <table width="200" border="1">
+    <h2 align="center">VIEW PUBLIC DETAILS</h2>
+<form id="form1" name="form1" method="post" action="/myapp/adm_view_request_from_public/">
+  <table class="table table-hover" style="width: 400px; height: 0px;" align="center">
     <tr>
-      <td colspan="2">&nbsp;<img src="" width="200" height="100" /></td>
+      <td colspan="2" align="center">&nbsp;<img src="{{ data.image }}" width="200" height="200" /></td>
     </tr>
     <tr>
-      <td>NAME:</td>
-      <td>&nbsp;</td>
+      <th>NAME</th>
+      <td>{{ data.provider_name }}</td>
     </tr>
     <tr>
-      <td>GENDER:</td>
-      <td>&nbsp;</td>
+      <th>GENDER</th>
+      <td>&nbsp;{{ data.gender }}</td>
     </tr>
     <tr>
-      <td>PLACE:</td>
-      <td>&nbsp;</td>
+      <th>PLACE</th>
+      <td>{{ data.houseno_name }}</td>
+    </tr>
+{#    <tr>#}
+{#      <td>CITY:</td>#}
+{#      <td>&nbsp;{{  }}</td>#}
+{#    </tr>#}
+    <tr>
+      <th>DISTRICT</th>
+      <td>{{ data.district }}</td>
     </tr>
     <tr>
-      <td>CITY:</td>
-      <td>&nbsp;</td>
+      <th>PINCODE</th>
+      <td>{{ data.pincode }}&nbsp;</td>
     </tr>
     <tr>
-      <td>DISTRICT:</td>
-      <td>&nbsp;</td>
+      <th>EMAILID</th>
+      <td>{{ data.emailid }}&nbsp;</td>
     </tr>
     <tr>
-      <td>PINCODE:</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>EMAILID:</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>PHONE NUMBER:</td>
-      <td>&nbsp;</td>
+      <th>PHONE NUMBER</th>
+      <td>{{ data.phno }}</td>
     </tr>
   </table>
 </form>

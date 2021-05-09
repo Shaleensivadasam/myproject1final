@@ -43,6 +43,7 @@ class employee_area(models.Model):
 class media_type(models.Model):
     media_type_name=models.CharField(max_length=50)
     description=models.CharField(max_length=200)
+    images=models.CharField(max_length=500)
 
 
 class media_provider(models.Model):

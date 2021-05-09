@@ -1,46 +1,46 @@
 {% extends "service employee/semp_index.html" %}
 {% block body %}
 <h2 align="center">VIEW PROFILE</h2>
-<form id="form1" name="form1" method="post" action="">
- <table border="0" align="center">
+<form id="form1" name="form1" method="post" action="/myapp/semp_view_profile/">
+ <table class="table table-hover" style="width: 600px; height: 0px;" align="center">
     <tr>
-      <td colspan="2">&nbsp;<img src="" width="200" height="100" /></td>
+      <td colspan="2">&nbsp;<img src="{{ data.image }}"  width="200" height="200"/></td>
     </tr>
     <tr>
-      <td>NAME:</td>
-      <td>&nbsp;</td>
+      <th>NAME</th>
+      <td>{{ data.name }}</td>
     </tr>
     <tr>
-      <td>GENDER</td>
-      <td>&nbsp;</td>
+      <th>GENDER</th>
+      <td>{{ data.gender }}</td>
     </tr>
     <tr>
-      <td>DOB</td>
-      <td>&nbsp;</td>
+      <th>DOB</th>
+      <td>&nbsp;{{ data.dob }}</td>
     </tr>
     <tr>
-      <td>HOUSE NUMBER / NAME</td>
-      <td>&nbsp;</td>
+      <th>HOUSE NUMBER / NAME</th>
+      <td>&nbsp;{{ data.houseno_name }}</td>
     </tr>
     <tr>
-      <td>DISTRICT</td>
-      <td>&nbsp;</td>
+      <th>DISTRICT</th>
+      <td>&nbsp;{{ data.district }}</td>
     </tr>
     <tr>
-      <td>PINCODE</td>
-      <td>&nbsp;</td>
+      <th>PINCODE</th>
+      <td>{{ data.pincode }}</td>
     </tr>
     <tr>
-      <td>EMAILID</td>
-      <td>&nbsp;</td>
+      <th>EMAILID</th>
+      <td>&nbsp;{{ data.email }}</td>
     </tr>
     <tr>
-      <td>PHONE NUMBER</td>
-      <td>&nbsp;</td>
+      <th>PHONE NUMBER</th>
+      <td>&nbsp;{{ data.phno }}</td>
     </tr>
     <tr>
       <td>&nbsp;</td>
-      <td><input type="submit" name="button" id="button" value="EDIT" /></td>
+      <td><input  type="submit" name="button" id="button" value="EDIT" class="btn btn-danger"/></td>
     </tr>
   </table>
 </form>

@@ -1,23 +1,24 @@
 {% extends "admin/admin_index.html" %}
 {% block body %}
+    <h2 align="center">VIEW EXPENSE</h2>
 <form id="form1" name="form1" method="post" action="/myapp/adm_view_expense_post/">
   <table class="table table-hover">
     <tr>
       <th><label>DATE</label>&nbsp;</th>
-      <td><input type="date" name="fdate" class="form-control" required/></td>
+      <td><input type="date" name="fdate" id="fromdate" value="{{ d1 }}" class="form-control" required/></td>
       <th><label>TO</label>&nbsp;</th>
-      <td><input type="date" name="tdate" class="form-control" required/></td>
+      <td><input type="date" name="tdate" id="todate" value="{{ d2 }}" class="form-control" required/></td>
       <td><input type="submit" name="button" id="button" value="SEARCH" class="btn btn-primary"/></td>
     </tr>
   </table>
-  <table class="table table-bordered" style="width: 1000px" align="center">
+  <table class="table table-hover" style="width: 1000px" align="center">
     <tr>
       <th>SNO</th>
-      <th>AREA NAME</th>
-      <th>TITLE</th>
+      <th width="150px">AREA NAME</th>
+      <th width="200px">TITLE</th>
       <th>DESCRIPTION</th>
       <th>AMOUNT</th>
-      <th>DATE</th>
+      <th width="150px">DATE</th>
     </tr>
       {% for i in res %}
     <tr>
@@ -33,4 +34,21 @@
   <p>&nbsp;</p>
   <p>&nbsp;</p>
 </form>
+    <script>
+
+        var today = new Date();
+var current_date = today.getDate();
+var current_month = today.getMonth()+1; //Month starts from 0
+var current_year = today.getFullYear();
+ if(current_date < 10){
+        current_date='0'+current_date
+    }
+    if(current_month < 10){
+        current_month='0'+current_month
+    }
+var im=current_year+"-"+current_month+"-"+current_date;
+document.getElementById("todate").setAttribute("max", im);
+document.getElementById("fromdate").setAttribute("max", im);
+</script>
 {% endblock %}
+

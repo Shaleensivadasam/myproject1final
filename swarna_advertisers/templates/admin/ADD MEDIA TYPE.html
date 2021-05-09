@@ -1,7 +1,7 @@
 {% extends "admin/admin_index.html" %}
 {% block body %}
      <h2 align="center">ADD MEDIA TYPE</h2>
-<form id="form1" name="form1" method="post" action="/myapp/adm_media_type_post/">
+<form id="form1" name="form1" method="post" enctype="multipart/form-data"  action="/myapp/adm_media_type_post/">
   <table class="table table-hover" style="width: 400px; height: 200px;" align="center">
     <tr>
       <th>MEDIA TYPE NAME</th>
@@ -11,6 +11,10 @@
       <th>DESCRIPTION</th>
       <td><textarea name="textarea" id="textarea" cols="45" rows="5" class="form-control" required></textarea></td>
     </tr>
+      <tr>
+      <th>IMAGE</th>
+      <td><input type="file" name="fileField" id="fileField" class="form-control" required/></td>
+      </tr>
     <tr>
       <td>&nbsp;</td>
       <td><input type="submit" name="button" id="button" value="ADD"  class="btn btn-primary"/></td>

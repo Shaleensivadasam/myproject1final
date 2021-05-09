@@ -1,35 +1,45 @@
 {% extends "admin/admin_index.html" %}
 {% block body %}
-<form id="form1" name="form1" method="post" action="">
-  <table width="200" border="1">
+     <h2 align="center">VIEW CHARGE PROFILE</h2>
+<form id="form1" name="form1" method="post" action="/myapp/adm_view_charge_profile_post/">
+  <table class="table table-hover">
     <tr>
-      <td><input type="text" name="textfield" id="textfield" /></td>
-      <td><input type="submit" name="button" id="button" value="SEARCH" /></td>
-      <td><select name="select" id="select">
+      <td><input type="text" name="textfield" id="textfield" placeholder="SEARCH BY PROFILENAME"  class="form-control"/></td>
+      <td><input type="submit" name="button" id="button" value="SEARCH" class="btn btn-primary"/></td>
+      <td><select name="select" id="select" class="form-control">
+           {% for i in res2 %}
+          {% if res.MEDIATYPE.media_type_name == i.media_type_name %}
+              <option value="{{ i.pk }}" selected >{{ i.media_type_name }}</option>
+              {% else %}
+                            <option value="{{ i.pk }}" >{{ i.media_type_name }}</option>
+              {% endif %}
+          {% endfor %}
       </select></td>
-      <td><input type="submit" name="button2" id="button2" value="GO" /></td>
+      <td><input type="submit" name="button" id="button2" value="GO" class="btn btn-primary"/></td>
     </tr>
   </table>
   <p>&nbsp;</p>
-  <table border="1">
+  <table class="table table-hover" style="width: 1000px" align="center">
     <tr>
-      <td>SNO</td>
-      <td>PROFILE NAME</td>
-      <td>MEDIA TYPE NAME</td>
-      <td>PROVIDER NAME</td>
-      <td>CHARGE</td>
+      <th>SNO</th>
+      <th>PROFILE NAME</th>
+      <th>MEDIA TYPE NAME</th>
+      <th>PROVIDER NAME</th>
+      <th>CHARGE</th>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
     </tr>
+      {% for i in res %}
     <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td><a href="/myapp/adm_edit_charge_profile/">EDIT</a></td>
-      <td><a href="#">DELETE</a></td>
+      <td>{{ forloop.counter }}&nbsp;</td>
+      <td>{{ i.profilename }}</td>
+      <td>&nbsp;{{ i.MEDIATYPE.media_type_name }}</td>
+      <td>&nbsp;{{ i.MEDIAPROVIDER.provider_name }}</td>
+      <td>&nbsp;{{ i.charge }}</td>
+      <td><a href="/myapp/adm_edit_charge_profile/{{ i.pk }}"  class="btn btn-danger" style="background-color: #d58512">EDIT</a></td>
+      <td><a href="/myapp/adm_view_charge_profile_del/{{ i.pk }}" class="btn btn-danger">DELETE</a></td>
     </tr>
+      {% endfor %}
   </table>
   <p>&nbsp;</p>
 </form>

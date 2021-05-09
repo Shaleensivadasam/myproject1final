@@ -5,7 +5,7 @@
   <table class="table table-hover" style="width: 400px; height: 200px;" align="center">
     <tr>
       <th>PROVIDER NAME</th>
-      <td><input type="text" name="textfield" id="textfield" class="form-control" required/></td>
+      <td><input type="text" name="textfield" id="textfield" class="form-control" required maxlength="32" pattern="[a-zA-Z\s]+"/></td>
     </tr>
     <tr>
       <th>PLACE</th>
@@ -21,7 +21,7 @@
           <option value="Kasarkode">Kasarkode</option>
           <option value="Kannur">Kannur</option>
           <option value="Vayanad">Vayanad</option>
-          <option value="Kozhokide">Kozhokide</option>
+          <option value="Kozhokide">Kozhikode</option>
           <option value="Malapuram">Malapuram</option>
           <option value="Palakad">Palakad</option>
           <option value="Thrissur">Thrissur</option>
@@ -36,15 +36,15 @@
     </tr>
     <tr>
       <th>PINCODE</th>
-      <td><input type="text" name="textfield4" id="textfield4" class="form-control" required/></td>
+      <td><input type="text" name="textfield4" id="textfield4" class="form-control" required  pattern="[0-9]{6}" maxlength="6"/></td>
     </tr>
     <tr>
       <th>EMAILID</th>
-      <td><input type="text" name="textfield5" id="textfield5" class="form-control" required/></td>
+      <td><input type="text" name="textfield5" id="textfield5" class="form-control" required pattern="[a-zA-Z0-9!#$%&'*+\/=?^_'{|}~.~]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*"/></td>
     </tr>
     <tr>
       <th>PHONE NUMBER</th>
-      <td><input type="text" name="textfield6" id="textfield6" class="form-control" required/></td>
+      <td><input type="text" name="textfield6" id="textfield6" class="form-control" required pattern="[789][0-9]{9}"/></td>
     </tr>
     <tr>
       <th>IMAGE</th>

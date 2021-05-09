@@ -10,11 +10,12 @@
     </tr>
   </table>
   <p>&nbsp;</p>
-  <table  class="table table-bordered" style="width: 1000px" align="center">
+  <table  class="table table-hover" style="width: 1000px" align="center">
     <tr>
       <th>SNO</th>
       <th>IMAGE</th>
       <th>PROVIDER NAME</th>
+      <th>MEDIA TYPE</th>
       <th>ADDRESS</th>
       <th>CONTACT INFO</th>
       <td>&nbsp;</td>
@@ -23,8 +24,9 @@
       {% for i in res %}
     <tr>
       <td>{{ forloop.counter }}</td>
-      <td><img src="{{ i.image }}" width="60" height="60" /></td>
+      <td><img src="{{ i.image }}" width="80" height="80" /></td>
       <td>&nbsp;{{ i.provider_name }}</td>
+      <td>{{ i.MEDIATYPE.media_type_name }}</td>
       <td>&nbsp;{{ i.place }}<br>{{ i.city }}<br/><br>{{ i.district }}<br/><br>{{ i.pincode }}<br/></td>
       <td>&nbsp;{{ i.email }}<br>{{ i.phno }}<br/></td>
       <td><a href="/myapp/adm_edit_media_provider/{{ i.pk }}" class="btn btn-danger" style="background-color: #d58512">EDIT</a></td>

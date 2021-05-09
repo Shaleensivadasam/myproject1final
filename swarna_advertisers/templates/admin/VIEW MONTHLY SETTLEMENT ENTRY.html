@@ -1,28 +1,28 @@
 {% extends "admin/admin_index.html" %}
 {% block body %}
 <h2 align="center">VIEW MONTHLY SETTLEMENT ENTRY</h2>
-<form id="form1" name="form1" method="post" action="">
-  <table width="533" border="0" align="center">
+<form id="form1" name="form1" method="post" action="/myapp/adm_view_monthly_settlement_post/">
+  <table class="table table-hover">
     <tr>
         <th width="134"><label>DATE FROM</label></th>
-        <td><input type="date" name="date"/></td>
+        <td><input type="date" name="fdate" id="fromdate" value="{{ d1 }}" class="form-control"/></td>
         <th width="82"><label>TO</label>&nbsp;</th>
-      <td><input type="date" name="date2"/></td>
-      <td width="63"><input type="submit" name="button" id="button" value="GO" /></td>
-      <td width="152"><input type="text" name="textfield" id="textfield" /></td>
-     <td> <input type="submit" name="button2" id="button2" value="SEARCH" /></td>
+        <td><input type="date" name="tdate" id="todate" value="{{ d2 }}" class="form-control"/></td>
+        <td width="63"><input type="submit" name="button" id="button" value="GO" class="btn btn-primary"/></td>
+        <td width="152"><input type="text" name="textfield" id="textfield" class="form-control" placeholder="Provider name"/></td>
+        <td> <input type="submit" name="button" id="button2" value="SEARCH" class="btn btn-primary"/></td>
     </tr>
   </table>
-  <table width="794" height="63" border="1" align="center">
+  <table class="table table-hover" style="width: 1000px" align="center">
     <tr>
-      <th width="34">SNO</th>
-      <th width="64">IMAGE</th>
-      <th width="142">MEDIA TYPE</th>
-      <th width="138">PROVIDER NAME</th>
-      <th width="71">YEAR</th>
-      <th width="90">MONTH</th>
-      <th width="77">DATE</th>
-      <th width="126">AMOUNT</th>
+      <th>SNO</th>
+      <th>IMAGE</th>
+      <th>MEDIA TYPE</th>
+      <th>PROVIDER NAME</th>
+      <th>YEAR</th>
+      <th>MONTH</th>
+      <th>DATE</th>
+      <th>AMOUNT</th>
     </tr>
       {% for i in res %}
     <tr>
@@ -39,4 +39,21 @@
   </table>
   <p>&nbsp;</p>
 </form>
+
+     <script>
+
+        var today = new Date();
+var current_date = today.getDate();
+var current_month = today.getMonth()+1; //Month starts from 0
+var current_year = today.getFullYear();
+ if(current_date < 10){
+        current_date='0'+current_date
+    }
+    if(current_month < 10){
+        current_month='0'+current_month
+    }
+var im=current_year+"-"+current_month+"-"+current_date;
+document.getElementById("todate").setAttribute("max", im);
+document.getElementById("fromdate").setAttribute("max", im);
+</script>
 {% endblock %}

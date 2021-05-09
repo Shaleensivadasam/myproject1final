@@ -11,9 +11,10 @@
 </table>
 
   <p>&nbsp;</p>
-  <table  class="table table-bordered" style="width: 900px" align="center">
+  <table  class="table table-hover" style="width: 900px" align="center">
     <tr>
       <th>SNO</th>
+      <th>IMAGE</th>
       <th>MEDIA TYPE NAME</th>
       <th>DESCRIPTION</th>
       <td>&nbsp;</td>
@@ -22,6 +23,7 @@
       {% for i in res %}
     <tr>
       <td>{{ forloop.counter }}</td>
+      <td><img src="{{ i.images }}" alt="img" height="80" width="80"/>&nbsp;</td>
       <td>{{ i.media_type_name }}</td>
       <td>&nbsp;{{ i.description }}</td>
       <td><a href="/myapp/adm_edit_media_type/{{ i.pk }}" class="btn btn-danger" style="background-color: #d58512">EDIT</a></td>

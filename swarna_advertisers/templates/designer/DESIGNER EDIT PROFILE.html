@@ -1,51 +1,70 @@
 {% extends "designer/designer_index.html" %}
 {% block body %}
-<body>
-<form action="dsgnr_edit_profile_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
-  <table  border="1">
-        <tr>
-      <td>NAME:</td>
-      <td><input type="text" name="textfield" id="textfield" /></td>
+    <h2 align="center">EDIT PROFILE</h2>
+<form action="/myapp/dsgnr_edit_profile_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
+   <table  class="table table-hover" style="width: 600px; height: 0px;" align="center">
+    <tr>
+      <th>NAME</th>
+      <td><input type="text" name="textfield" id="textfield" class="form-control" value="{{ data.name }}" pattern="[a-zA-Z\s]+" required/></td>
+    </tr>
+  <tr>
+       <th>GENDER</th>
+        {% if data.gender == "Male" %}
+      <td><input  type="radio" name="radio" id="radio" value="Male" checked/>Male
+      <input type="radio" name="radio" id="radio2" value="Female" />Female</td>
+        {% elif data.gender == "Female" %}
+        <td><input type="radio" name="radio" id="radio" value="Male"/>Male
+      <input type="radio" name="radio" id="radio2" value="Female" checked/>Female</td>
+        {% endif %}
+  </tr>
+    <tr>
+      <th>DOB</th>
+      <td><input type="date" name="date" value="{{ data.dob }}" class="form-control" required pattern="/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$"></td>
     </tr>
     <tr>
-      <td>GENDER</td>
-      <td><input type="radio" name="radio" id="radio" value="radio" /></td>
+      <th>HOUSE NUMBER / NAME</th>
+      <td><input type="text" name="textfield2" id="textfield2" value="{{ data.houseno_name }}" class="form-control" required/></td>
     </tr>
     <tr>
-      <td>DOB</td>
-      <td><select name="select" id="select">
+      <th>DISTRICT</th>
+      <td><select name="select2" id="select2" class="form-control" required>
+           <option value="Kasarkode">Kasarkode</option>
+          <option value="Kannur">Kannur</option>
+          <option value="Vayanad">Vayanad</option>
+          <option value="Kozhokide">Kozhikode</option>
+          <option value="Malapuram">Malapuram</option>
+          <option value="Palakad">Palakad</option>
+          <option value="Thrissur">Thrissur</option>
+          <option value="Eranakulam">Eranakulam</option>
+          <option value="Edukki">Edukki</option>
+          <option value="Kottayam">Kottayam</option>
+          <option value="Alapuya">Alapuya</option>
+          <option value="Pathanamthitta">Pathanamthitta</option>
+          <option value="Kollam">Kollam</option>
+          <option value="Thiruvanathapuram">Thiruvanathapuram</option>
       </select></td>
     </tr>
     <tr>
-      <td>HOUSE NUMBER / NAME</td>
-      <td><input type="text" name="textfield2" id="textfield2" /></td>
+      <th>PINCODE</th>
+      <td><input type="text" name="textfield3" id="textfield3" value="{{ data.pincode }}" class="form-control" required pattern="[0-9]{6}" maxlength="6" /></td>
     </tr>
     <tr>
-      <td>DISTRICT</td>
-      <td><select name="select2" id="select2">
-      </select></td>
+      <th>EMAILID</th>
+      <td><input type="text" name="textfield4" id="textfield4" disabled value="{{ data.email }}" class="form-control" required pattern="[a-zA-Z0-9!#$%&'*+\/=?^_'{|}~.~]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*"/></td>
     </tr>
     <tr>
-      <td>PINCODE</td>
-      <td><input type="text" name="textfield3" id="textfield3" /></td>
+      <th>PHONE NUMBER</th>
+      <td><input type="text" name="textfield5" id="textfield5" value="{{ data.phno }}" class="form-control" required pattern="[789][0-9]{9}" /></td>
     </tr>
     <tr>
-      <td>EMAILID</td>
-      <td><input type="text" name="textfield4" id="textfield4" /></td>
-    </tr>
-    <tr>
-      <td>PHONE NUMBER</td>
-      <td><input type="text" name="textfield5" id="textfield5" /></td>
-    </tr>
-    <tr>
-      <td>IMAGE</td>
-      <td><input type="file" name="fileField" id="fileField" /></td>
+      <th>IMAGE</th>
+      <td><input type="file" name="fileField" id="fileField" class="form-control"/></td>
     </tr>
     <tr>
       <td>&nbsp;</td>
-      <td><input type="submit" name="button" id="button" value="EDIT" /></td>
+      <td><input type="submit" name="button" id="button" value="UPDATE" class="btn btn-primary" style="background-color: #5cb85c" /></td>
     </tr>
   </table>
+  <p>&nbsp;</p>
 </form>
-</body>
 {% endblock %}

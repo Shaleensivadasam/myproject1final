@@ -1,11 +1,11 @@
 {% extends "admin/admin_index.html" %}
 {% block body %}
-{#<h2 align="center">STAFF</h2>#}
+<h2 align="center">STAFF</h2>
 <form action="/myapp/adm_add_staff_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
-  <table  class="table table-hover" style="width: 400px; height: 1px;" align="center">
+  <table  class="table table-hover" style="width: 400px; height: 0px;" align="center">
     <tr>
       <th>NAME</th>
-      <td><input class="form-control" type="text" name="textfield" id="textfield" required pattern="[A-Za-z]{1,32}"/></td>
+      <td><input class="form-control" type="text" name="textfield" id="textfield" maxlength="32" pattern="[a-zA-Z\s]+" required/></td>
     </tr>
     <tr>
       <th>GENDER</th>
@@ -27,7 +27,7 @@
           <option value="Kasarkode">Kasarkode</option>
           <option value="Kannur">Kannur</option>
           <option value="Vayanad">Vayanad</option>
-          <option value="Kozhokide">Kozhokide</option>
+          <option value="Kozhokide">Kozhikode</option>
           <option value="Malapuram">Malapuram</option>
           <option value="Palakad">Palakad</option>
           <option value="Thrissur">Thrissur</option>
@@ -54,7 +54,7 @@
     </tr>
     <tr>
       <th>IMAGE</th>
-      <td><input type="file" name="fileField" id="fileField" class="form-control" required/></td>
+      <td><input type="file" name="fileField" id="fileField" class="form-control"/></td>
     </tr>
     <tr>
       <th>STAFF TYPE</th>

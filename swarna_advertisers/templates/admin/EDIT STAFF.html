@@ -5,7 +5,7 @@
   <table  class="table table-hover" style="width: 400px;" align="center">
     <tr>
       <td>NAME</td>
-      <td><input type="text" name="textfield" id="textfield" value="{{ res.name }}" class="form-control"  required pattern="[A-Za-z]{1,32}"/></td>
+      <td><input type="text" name="textfield" id="textfield" value="{{ res.name }}" class="form-control" maxlength="32" pattern="[a-zA-Z\s]+" required/></td>
     </tr>
     <tr>
       <td>GENDER</td>
@@ -29,7 +29,7 @@
     <tr>
       <td>DISTRICT</td>
       <td><select name="select2" id="select2" class="form-control" required>
-           <option value="Kasarkode">Kasarkode</option>
+           <option value="Kasargode">Kasarkode</option>
           <option value="Kannur">Kannur</option>
           <option value="Vayanad">Vayanad</option>
           <option value="Kozhokide">Kozhokide</option>
@@ -51,7 +51,7 @@
     </tr>
     <tr>
       <td>EMAILID</td>
-      <td><input type="text" name="textfield4" id="textfield4" value="{{ res.email }}" class="form-control" required pattern="[a-zA-Z0-9!#$%&'*+\/=?^_'{|}~.~]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*"/></td>
+      <td><input type="text" name="textfield4" id="textfield4" disabled value="{{ res.email }}" class="form-control" required pattern="[a-zA-Z0-9!#$%&'*+\/=?^_'{|}~.~]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*"/></td>
     </tr>
     <tr>
       <td>PHONE NUMBER</td>
@@ -59,7 +59,7 @@
     </tr>
     <tr>
       <td>IMAGE</td>
-      <td>&nbsp;<input type="file" name="fileField" id="fileField" class="form-control" required/></td>
+      <td>&nbsp;<input type="file" name="fileField" id="fileField" class="form-control"/></td>
     </tr>
       <tr>
       <td>STAFF TYPE</td>

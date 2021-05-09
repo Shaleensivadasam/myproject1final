@@ -1,10 +1,11 @@
 {% extends "admin/admin_index.html" %}
 {% block body %}
+    <h2 align="center">EDIT MEDIA PROVIDERS</h2>
 <form action="/myapp/adm_edit_media_provider_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
   <table class="table table-hover" style="width: 400px;" align="center">
     <tr>
       <td>PROVIDER NAME</td>
-      <td><input type="text" name="textfield" id="textfield" value="{{ res.provider_name }}"  class="form-control"  required/></td>
+      <td><input type="text" name="textfield" id="textfield" value="{{ res.provider_name }}"  class="form-control"  required maxlength="32" pattern="[a-zA-Z\s]+"/></td>
     </tr>
     <tr>
       <td>PLACE</td>
@@ -35,25 +36,29 @@
     </tr>
     <tr>
       <td>PINCODE</td>
-      <td><input type="text" name="textfield4" id="textfield4" value="{{ res.pincode }}" class="form-control"  required  /></td>
+      <td><input type="text" name="textfield4" id="textfield4" value="{{ res.pincode }}" class="form-control"  required pattern="[0-9]{6}" maxlength="6"/></td>
     </tr>
     <tr>
       <td>EMAILID</td>
-      <td><input type="text" name="textfield5" id="textfield5" value="{{ res.email }}" class="form-control"  required /></td>
+      <td><input type="text" name="textfield5" id="textfield5" value="{{ res.email }}" class="form-control"  required pattern="[a-zA-Z0-9!#$%&'*+\/=?^_'{|}~.~]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*"/></td>
     </tr>
     <tr>
       <td>PHONE NUMBER</td>
-      <td><input type="text" name="textfield6" id="textfield6" value="{{ res.phno }}" class="form-control"  required /></td>
+      <td><input type="text" name="textfield6" id="textfield6" value="{{ res.phno }}" class="form-control"  required pattern="[789][0-9]{9}"/></td>
     </tr>
     <tr>
       <td>IMAGE</td>
-      <td><input type="file" name="fileField" id="fileField" value="{{ res.image }}" class="form-control"   required /></td>
+      <td><input type="file" name="fileField" id="fileField" class="form-control" /></td>
     </tr>
     <tr>
-      <td>MEDIA TYPE</td>
+      <td>MEDIA TYPE </td>
       <td><select name="select2" id="select2"  class="form-control"  required >
           {% for i in data1 %}
-              <option value="{{ i.pk }}">{{ i.MEDIATYPE.media_type_name }}</option>
+          {% if res.MEDIATYPE.media_type_name == i.media_type_name %}
+              <option value="{{ i.pk }}" selected >{{ i.media_type_name }}</option>
+              {% else %}
+                            <option value="{{ i.pk }}" >{{ i.media_type_name }}</option>
+              {% endif %}
           {% endfor %}
       </select></td>
     </tr>
