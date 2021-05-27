@@ -4,7 +4,7 @@ from email.mime.text import MIMEText
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render,redirect,HttpResponse
 from django.http import JsonResponse
-from .models import charge_profile,media_type,media_provider,staff,login,service_area,employee_area,monthly_settlement,installation,maintance,expense,user,complaint,feedback_reviews,request_public
+from .models import charge_profile,media_type,media_provider,staff,login,service_area,employee_area,monthly_settlement,installation,maintance,expense,user,complaint,feedback_reviews,request_public,advertisement_request,advertisement_assign,media
 import random
 import datetime
 import smtplib
@@ -14,6 +14,21 @@ import smtplib
 
 def homepage(request):
     return render(request,"admin/index.html")
+
+
+def get_provider_name(request,nid):
+    print("ok")
+    media_obj = media_provider.objects.filter(MEDIATYPE=nid)
+    print(media_obj)
+    print("hi")
+    res2=[]
+    for ii in media_obj:
+        ss = {'provider_name': ii.provider_name, 'id': ii.id}
+        res2.append(ss)
+
+    data = {"res2": res2}
+    print(data)
+    return JsonResponse(data)
 
 
 def adm_add_charge_profile(request):
@@ -122,6 +137,13 @@ def adm_add_staff_post(request):
     name = request.POST['textfield']
     gender = request.POST['radio']
     dob = request.POST['date']
+    # ar=[]
+    # pp = str(dob)
+    # ar=pp.split("-")
+    # print(ar)
+    # print("hlo")
+    # kk=ar[2]+"-"+ar[1]+"-"+ar[0]
+    # print(kk)
     hno_name = request.POST['textfield2']
     district = request.POST['select2']
     pincode = request.POST['textfield3']
@@ -135,7 +157,6 @@ def adm_add_staff_post(request):
     staff_type = request.POST['select3']
     psw=random.randint(0000,9999)
     print("ppp")
-
     s = smtplib.SMTP(host='smtp.gmail.com', port=587)
     s.starttls()
     s.login("swarnaadvertisersorg@gmail.com", "shaleen@97")
@@ -162,12 +183,15 @@ def adm_add_staff_post(request):
 
 def adm_sent_reply_to_complaint(request,id):
     request.session["compid"]=id
+    # res = complaint.objects.get(id=id)
     return render(request,"admin/ADMIN SENT REPLY TO COMPLAINT.html")
 
 def adm_sent_reply_to_complaint_post(request):
     compid = request.session["compid"]
+    # compl=request.POST['textarea2']
     reply = request.POST['textarea']
     complaintobj = complaint.objects.get(pk=compid)
+    # complaintobj.complaint=compl
     complaintobj.reply = reply
     complaintobj.status = "Replied"
     complaintobj.save()
@@ -176,7 +200,9 @@ def adm_sent_reply_to_complaint_post(request):
 
 
 def adm_view_complaint(request):
-    res=complaint.objects.all()
+    # res=complaint.objects.all()
+    res=complaint.objects.all().order_by('-date')
+    print(res)
     return render(request,"admin/ADMIN VIEW COMPLAINT.html",{'res':res})
 
 def adm_view_complaint_post(request):
@@ -184,10 +210,15 @@ def adm_view_complaint_post(request):
     date2 = request.POST['tdate']
     res = complaint.objects.filter(date__range=(date1, date2))
     print(res)
+    if res.exists():
+        pass
+    else:
+        text = "<script>alert('No data on such dates');window.location='/myapp/adm_view_complaint/';</script>"
+        return HttpResponse(text)
     return render(request,"admin/ADMIN VIEW COMPLAINT.html",{'res':res,'d1':date1,'d2':date2})
 
 def adm_view_expense_mngt(request):
-    res = expense.objects.all()
+    res = expense.objects.all().order_by('-date')
     return render(request,"admin/ADMIN VIEW EXPENSE MNGT.html",{'res':res})
 
 def adm_view_expense_mngt_post(request):
@@ -197,10 +228,15 @@ def adm_view_expense_mngt_post(request):
     # area_name = employee_area.objects.filter(STAFF=stf)
     res = expense.objects.filter(date__range=(date1, date2))
     print(res)
+    if res.exists():
+        pass
+    else:
+        text = "<script>alert('No data on such dates');window.location='/myapp/adm_view_expense/';</script>"
+        return HttpResponse(text)
     return render(request,"admin/ADMIN VIEW EXPENSE MNGT.html",{'res':res,'d1':date1,'d2':date2})
 
 def adm_view_installation(request):
-    res=installation.objects.all()
+    res=installation.objects.all().order_by('-date')
     res1=service_area.objects.all()
     print(res1)
     return render(request,"admin/ADMIN VIEW INSTALLATION.html",{'res':res,'res1':res1})
@@ -216,6 +252,11 @@ def adm_view_installation_post(request):
         res = installation.objects.filter(SERVICEAREA_id=aname)
         print(res)
         res1 = service_area.objects.all()
+        if res.exists():
+            pass
+        else:
+            text = "<script>alert('No data on such dates');window.location='/myapp/adm_view_installation/';</script>"
+            return HttpResponse(text)
         return render(request,"admin/ADMIN VIEW INSTALLATION.html",{'res':res,'res1':res1})
 
     if btn=="GO":
@@ -225,6 +266,11 @@ def adm_view_installation_post(request):
         # area_name = employee_area.objects.filter(STAFF=stf)
         res = installation.objects.filter(date__range=(date1, date2))
         print(res)
+        if res.exists():
+            pass
+        else:
+            text = "<script>alert('No data on such dates');window.location='/myapp/adm_view_installation/';</script>"
+            return HttpResponse(text)
     return render(request, "admin/ADMIN VIEW INSTALLATION.html",{'res':res,'d1':date1,'d2':date2})
 
 def adm_view_maintance(request):
@@ -242,6 +288,11 @@ def adm_view_maintance_post(request):
         aname = service_area.objects.get(pk=area)
         print(aname)
         res = maintance.objects.filter(SERVICEAREA_id=aname)
+        if res.exists():
+            pass
+        else:
+            text = "<script>alert('No data on such area name');window.location='/myapp/adm_view_maintance/';</script>"
+            return HttpResponse(text)
         return render(request, "admin/ADMIN VIEW MAINTANCE.html",{'res': res})
 
     if btn == "GO":
@@ -253,14 +304,207 @@ def adm_view_maintance_post(request):
         # code = installation.objects.filter(STAFF=stf)
         res = maintance.objects.filter(date__range=(date1, date2))
         print(res)
+        if res.exists():
+            pass
+        else:
+            text = "<script>alert('No data on such dates');window.location='/myapp/adm_view_maintance/';</script>"
+            return HttpResponse(text)
         return render(request,"admin/ADMIN VIEW MAINTANCE.html",{'res': res,'d1':date1,'d2':date2})
     return render(request,"admin/ADMIN VIEW INSTALLATION.html")
 
-def adm_view_new_request_more(request):
-    return render(request,"admin/ADMIN VIEW NEW REQUEST MORE.html")
+def adm_view_new_request_more(request,pk):
+    request.session['id'] = pk
+    data = advertisement_request.objects.get(id=pk)
+    data2 = advertisement_request.objects.get(id=pk)
+    name = staff.objects.filter(LOGIN_id__utype='Designer')
+    return render(request,"admin/ADMIN VIEW NEW REQUEST MORE.html",{'data':data,'data2':data2,'data3':data2.filename,'data4':name})
+
+def adm_view_new_request_more_post(request):
+
+    btn = request.POST['btn']
+    if btn == "ASSIGN":
+        id = request.session['id']
+        res = advertisement_request.objects.get(id=id)
+        res.status = "ASSIGNED"
+        res.save()
+        designer_name = request.POST['select3']
+        dname = staff.objects.get(id=designer_name)
+        date = datetime.datetime.now()
+        res = advertisement_assign(STAFF=dname, date=date,ADVERTISEMENTREQUEST=res)
+        res.save()
+        return HttpResponse('''<script>alert('Assigned Successfully');window.location='/myapp/adm_view_new_request/'</script>''')
+
+    if btn == "DOWNLOAD":
+        id = str(request.session['id'])
+        print(id)
+        print("ll")
+        aa = request.POST['hi']
+        print(aa)
+        lst = []
+        lst = str(aa).split("/")
+        print(lst)
+        print("hlo")
+        import wget
+
+        print('Beginning file download with wget module')
+
+        url = 'http://localhost:8000' + aa
+        wget.download(url, 'C:/Users/user/Downloads/' + lst[2])
+
+        return HttpResponse('''<script>alert('Downloaded Successfully');window.location='/myapp/adm_view_new_request/'</script>''')
+    return render(request,"admin/ADMIN VIEW NEW REQUEST.html")
 
 def adm_view_new_request(request):
-    return render(request,"admin/ADMIN VIEW NEW REQUEST.html")
+    res = advertisement_request.objects.filter(status="ACCEPTED").order_by('-date') \
+          # | advertisement_request.objects.filter(status="ASSIGNED").order_by('-date')
+    # res2 = advertisement_request.objects.filter(status="ASSIGNED")
+    return render(request,"admin/ADMIN VIEW NEW REQUEST.html",{'res':res})
+
+def adm_view_new_request_post(request):
+    date1 = request.POST['fdate']
+    date2 = request.POST['tdate']
+    res = advertisement_request.objects.filter(date__range=(date1, date2)).order_by('-date') & advertisement_request.objects.filter(status="ACCEPTED").order_by('-date')
+    print(res)
+    if res.exists():
+        pass
+    else:
+        text = "<script>alert('No data on such dates');window.location='/myapp/adm_view_new_request/';</script>"
+        return HttpResponse(text)
+    return render(request,"admin/ADMIN VIEW NEW REQUEST.html",{'res':res,'d1':date1,'d2':date2})
+
+def adm_view_created_media(request):
+    res = advertisement_request.objects.filter(status="ASSIGNED").order_by('-date') | advertisement_request.objects.filter(status="RECREATE").order_by('-date') | advertisement_request.objects.filter(status="OK").order_by('-date')| advertisement_request.objects.filter(status="UPLOADED").order_by('-date') | advertisement_request.objects.filter(status="REUPLOADED").order_by('-date')
+    print("begin")
+    # staffz = request.session['LOGIN_id']
+    # staffid = staff.objects.get(LOGIN=staffz)
+    # print(staffid)
+    new_obj = advertisement_assign.objects.all()
+    print(new_obj)
+    print("hlo")
+    ar = []
+    for i in new_obj:
+        print(i)
+        q1 = i.ADVERTISEMENTREQUEST.id
+        ar.append(q1)
+    print(ar)
+    ar3 = []
+
+    for j in ar:
+        print(j)
+        ob22 = advertisement_request.objects.get(id=j)
+        print(ob22)
+        try:
+            print("try block")
+            res1 = advertisement_assign.objects.get(ADVERTISEMENTREQUEST=ob22)
+            print(res1)
+            s = { 'filename':ob22.filename,'username':ob22.USER.name,'content':ob22.content,'date':ob22.date,'status':ob22.status,'designername': res1.STAFF.name, 'pk': res1.ADVERTISEMENTREQUEST_id, 'mid': j}
+            print(s)
+            ar3.append(s)
+        except:
+            print("error")
+    # res2 = advertisement_request.objects.filter(status="ASSIGNED")
+    return render(request,"admin/ADMIN VIEW CREATED MEDIA.html",{'res1':ar3})
+
+def adm_view_created_media_post(request):
+    date1 = request.POST['fdate']
+    date2 = request.POST['tdate']
+    # res = advertisement_request.objects.filter(date__range=(date1, date2)).order_by('-date')
+
+          # | advertisement_request.objects.filter(status="ASSIGNED").order_by('-date') | advertisement_request.objects.filter(status="RECREATE").order_by('-date') | advertisement_request.objects.filter(status="OK").order_by('-date')
+    res = advertisement_request.objects.filter(date__range=(date1, date2),status="ASSIGNED").order_by('-date')|advertisement_request.objects.filter(date__range=(date1, date2),status="RECREATE").order_by('-date') | advertisement_request.objects.filter(date__range=(date1, date2),status="OK").order_by('-date')| advertisement_request.objects.filter(date__range=(date1, date2),status="UPLOADED").order_by('-date')| advertisement_request.objects.filter(date__range=(date1, date2),status="REUPLOADED").order_by('-date')
+
+    print(res)
+    print("qqqqqqqqqqqqq")
+    new_obj = advertisement_assign.objects.all()
+    print(new_obj)
+    print("hlo")
+    ar = []
+    for i in new_obj:
+        print(i)
+        q1 = i.ADVERTISEMENTREQUEST.id
+        ar.append(q1)
+    print(ar)
+    ar3 = []
+
+    for j in ar:
+        print(j)
+        # ob22 = advertisement_request.objects.get(id=j)
+        # print(ob22)
+        try:
+            ob22=advertisement_request.objects.filter(date__range=(date1, date2), status="ASSIGNED",id=j).order_by('-date') | advertisement_request.objects.filter(date__range=(date1, date2), status="RECREATE",id=j).order_by('-date') | advertisement_request.objects.filter(date__range=(date1, date2), status="OK",id=j).order_by('-date') | advertisement_request.objects.filter(date__range=(date1, date2), status="UPLOADED",id=j).order_by('-date') | advertisement_request.objects.filter(date__range=(date1, date2),status="REUPLOADED",id=j).order_by('-date')
+            print(ob22)
+            print("try block")
+            for m in ob22:
+                res1 = advertisement_assign.objects.get(ADVERTISEMENTREQUEST=m)
+                print(res1)
+                s = {'filename': m.filename, 'username': m.USER.name, 'content': m.content, 'date': m.date,
+                     'status': m.status, 'designername': res1.STAFF.name, 'pk': res1.ADVERTISEMENTREQUEST_id, 'mid': j}
+                print(s)
+                ar3.append(s)
+        except:
+            print("error")
+    if res.exists():
+        pass
+    else:
+        text = "<script>alert('No data on such dates');window.location='/myapp/adm_view_created_media/';</script>"
+        return HttpResponse(text)
+    return render(request,"admin/ADMIN VIEW CREATED MEDIA.html",{'res1':ar3,'d1':date1,'d2':date2})
+
+
+def adm_view_media_more(request,pk):
+    try:
+        print(pk)
+        request.session['id'] = pk
+        data = media.objects.get(ADVERTISEMENTREQUEST_id=pk)
+        return render(request, "admin/ADMIN VIEW MEDIA MORE.html", {'data': data, 'data3': data.path})
+        print(data)
+    except:
+        print("error")
+    return render(request, "admin/ADMIN VIEW MEDIA MORE.html")
+
+
+def adm_view_media_more_post(request):
+    btn = request.POST['btn']
+    if btn == "OK":
+        id = request.session['id']
+        res = advertisement_request.objects.get(id=id)
+        res.status = "OK"
+        res.save()
+        # obj1=res.status
+        # if obj1!="OK" & obj1!="RECREATE":
+        #     pass
+        # else:
+        #     text = "<script>alert('Already send message');window.location='/myapp/adm_view_created_media/';</script>"
+        #     return HttpResponse(text)
+        return HttpResponse('''<script>alert('Created media ok');window.location='/myapp/adm_view_created_media/'</script>''')
+    if btn == "RECREATE":
+        id = request.session['id']
+        res = advertisement_request.objects.get(id=id)
+        res.status = "RECREATE"
+        res.save()
+        return HttpResponse('''<script>alert('Recreate media');window.location='/myapp/adm_view_created_media/'</script>''')
+
+    if btn == "DOWNLOAD":
+        id = str(request.session['id'])
+        print(id)
+        print("ll")
+        aa = request.POST['hi']
+        print(aa)
+        lst = []
+        lst = str(aa).split("/")
+        print(lst)
+        print("hlo")
+        import wget
+
+        print('Beginning file download with wget module')
+
+        url = 'http://localhost:8000' + aa
+        wget.download(url, 'C:/Users/user/Downloads/' + lst[2])
+
+        return HttpResponse('''<script>alert('Downloaded Successfully');window.location='/myapp/adm_view_created_media/'</script>''')
+
+    return render(request,"admin/ADMIN VIEW MEDIA MORE.html")
+
 
 def adm_view_registered_user(request):
     res = user.objects.all()
@@ -269,13 +513,18 @@ def adm_view_registered_user(request):
 def adm_view_registered_user_post(request):
     name=request.POST['textfield']
     res1 = user.objects.filter(name__contains=name)
+    if res1.exists():
+        pass
+    else:
+        text = "<script>alert('No data on such user name');window.location='/myapp/adm_view_registered_user/';</script>"
+        return HttpResponse(text)
     return render(request,"admin/ADMIN VIEW REGISTERED USER.html",{'res':res1})
 
-def adm_view_rejected_request_more(request):
-    return render(request,"admin/ADMIN VIEW REJECTED REQUEST MORE.html")
 
-def adm_view_rejected_request(request):
-    return render(request,"admin/ADMIN VIEW REJECTED REQUEST.html")
+
+# def adm_view_rejected_request(request):
+#     res3 = advertisement_request.objects.filter(status="REJECTED")
+#     return render(request,"admin/ADMIN VIEW REJECTED REQUEST.html",{'res3':res3})
 
 def adm_allocate_to_designer(request):
     return render(request,"admin/ALLOCATE TO DESIGNER.html")
@@ -432,6 +681,13 @@ def adm_edit_staff_post(request):
     name = request.POST['textfield']
     gender = request.POST['radio']
     dob = request.POST['date']
+    # ar = []
+    # pp = str(dob)
+    # ar = pp.split("-")
+    # print(ar)
+    # print("hlo")
+    # kk = ar[2] + "-" + ar[1] + "-" + ar[0]
+    # print(kk)
     hno_name = request.POST['textfield2']
     district = request.POST['select2']
     pincode = request.POST['textfield3']
@@ -494,22 +750,22 @@ def adm_login_post(request):
 
 
 def adm_monthly_settlement_entry(request):
-    pname=media_provider.objects.all()
+    pname=media_type.objects.all()
     # pname = media_provider.objects.values('provider_name').distinct()
     return render(request,"admin/MONTHY SETTLEMENT ENTRY.html",{'data1':pname})
 
 def adm_monthly_settlement_entry_post(request):
     print("jjj")
-    provider_name=request.POST['select']
-    year=request.POST['textfield']
-    month=request.POST['textfield3']
+    provider_id=request.POST['select2']
+    year=request.POST['select3']
+    month=request.POST['select4']
     amount=request.POST['textfield2']
     print("jj22")
     date=datetime.datetime.now().date()
     print("hhh")
-    qq=media_provider.objects.get(id=provider_name)
+    # qq=media_provider.objects.get(id=provider_name)
     # pname=provider_name.objects.get(pk=provider_name)
-    res=monthly_settlement(MEDIAPROVIDER=qq,year=year,month=month,amount=amount,date=date)
+    res=monthly_settlement(MEDIAPROVIDER_id=provider_id,year=year,month=month,amount=amount,date=date)
     res.save()
     print("ppp")
     pname=media_provider.objects.all()
@@ -519,9 +775,61 @@ def adm_monthly_settlement_entry_post(request):
 
 
 def adm_view_advertisement_request_approve(request):
-    return render(request,"admin/VIEW ADVERTISEMENT REQUEST APPROVE.html")
+    res = advertisement_request.objects.all().order_by('-date')
+    res2 = user.objects.all()
+    return render(request,"admin/VIEW ADVERTISEMENT REQUEST APPROVE.html",{'res':res,'res2':res2})
 
-def adm_view_advertisement_request_approved_more(request):
+def adm_view_advertisement_request_approve_post(request):
+    date1 = request.POST['fdate']
+    date2 = request.POST['tdate']
+    res = advertisement_request.objects.filter(date__range=(date1, date2))
+    print(res)
+    if res.exists():
+        pass
+    else:
+        text = "<script>alert('No data on such dates');window.location='/myapp/adm_view_advertisement_request_approve/';</script>"
+        return HttpResponse(text)
+    return render(request,"admin/VIEW ADVERTISEMENT REQUEST APPROVE.html",{'res':res,'d1':date1,'d2':date2})
+
+
+def adm_view_advertisement_request_approved_more(request,pk):
+    request.session['id'] = pk
+    data = advertisement_request.objects.get(id=pk)
+    data2 = advertisement_request.objects.get(id=pk)
+    return render(request,"admin/VIEW ADVERTISEMENT REQUEST APPROVED MORE.html",{'data':data,'data2':data2,'data3':data2.filename})
+
+def adm_view_advertisement_request_approved_more_post(request):
+    btn = request.POST['btn']
+    if btn == "ACCEPT":
+        id = request.session['id']
+        res = advertisement_request.objects.get(id=id)
+        res.status = "ACCEPTED"
+        res.save()
+        return HttpResponse('''<script>alert('Accepted Successfully');window.location='/myapp/adm_view_advertisement_request_approve/'</script>''')
+    if btn == "REJECT":
+        id = request.session['id']
+        res = advertisement_request.objects.get(id=id)
+        res.status = "REJECTED"
+        res.save()
+        return HttpResponse('''<script>alert('Rejected Successfully');window.location='/myapp/adm_view_advertisement_request_approve/'</script>''')
+    if btn == "DOWNLOAD":
+        id = str(request.session['id'])
+        print(id)
+        print("ll")
+        aa=request.POST['hi']
+        print(aa)
+        lst=[]
+        lst=str(aa).split("/")
+        print(lst)
+        print("hlo")
+        import wget
+
+        print('Beginning file download with wget module')
+
+        url = 'http://localhost:8000'+aa
+        wget.download(url, 'C:/Users/user/Downloads/'+lst[2])
+
+        return HttpResponse('''<script>alert('Downloaded Successfully');window.location='/myapp/adm_view_advertisement_request_approve/'</script>''')
     return render(request,"admin/VIEW ADVERTISEMENT REQUEST APPROVED MORE.html")
 
 def adm_view_charge_profile(request):
@@ -540,7 +848,7 @@ def adm_view_charge_profile_post(request):
     btn=request.POST['button']
     if btn == "SEARCH":
         pname=request.POST['textfield']
-        res=charge_profile.objects.filter(profilename=pname)
+        res=charge_profile.objects.filter(profilename__contains=pname)
         if res.exists():
             pass
         else:
@@ -567,11 +875,30 @@ def adm_view_employee_area(request):
     return render(request,"admin/VIEW EMPLOYEE AREA.html",{'res':res})
 
 def adm_view_employee_area_post(request):
+    print("begin")
     area = request.POST['textfield']
     print(area)
-    area1=service_area.objects.get(area_name=area)
-    res = employee_area.objects.filter(SERVICEAREA=area1)
-    return render(request, "admin/VIEW EMPLOYEE AREA.html", {'res': res})
+    print("oo")
+    try:
+        print("aaaa")
+        area1=service_area.objects.get(area_name=area)
+        print(area1)
+        print("hlo")
+        res = employee_area.objects.filter(SERVICEAREA=area1)
+        print(res)
+        print("pp")
+        if res.exists():
+            pass
+        else:
+            text = "<script>alert('No data on such area name');window.location='/myapp/adm_view_employee_area/';</script>"
+            return HttpResponse(text)
+        return render(request, "admin/VIEW EMPLOYEE AREA.html", {'res': res})
+    except:
+        print("error")
+        return render(request, "admin/VIEW EMPLOYEE AREA.html")
+
+
+
 
 
 def adm_view_employee_area_del(request,pk):
@@ -582,7 +909,8 @@ def adm_view_employee_area_del(request,pk):
 
 
 def adm_view_feedback_reviews(request):
-    res=feedback_reviews.objects.all()
+    # res=feedback_reviews.objects.all()
+    res=feedback_reviews.objects.all().order_by('-date')
     return render(request,"admin/VIEW FEEDBACK REVIEWS.html",{'res':res})
 
 def adm_view_feedback_reviews_post(request):
@@ -590,6 +918,11 @@ def adm_view_feedback_reviews_post(request):
     date2 = request.POST['tdate']
     res = feedback_reviews.objects.filter(date__range=(date1, date2))
     print(res)
+    if res.exists():
+        pass
+    else:
+        text = "<script>alert('No data on such dates');window.location='/myapp/adm_view_feedback/';</script>"
+        return HttpResponse(text)
     return render(request,"admin/VIEW FEEDBACK REVIEWS.html",{'res':res,'d1':date1,'d2':date2})
 
 def adm_view_media_provider(request):
@@ -606,8 +939,13 @@ def adm_view_media_provider_del(request,pk):
 def adm_view_media_provider_post(request):
     pname = request.POST['textfield']
     print(pname)
-    res = media_provider.objects.filter(provider_name=pname)
+    res = media_provider.objects.filter(provider_name__contains=pname)
     print(res)
+    if res.exists():
+        pass
+    else:
+        text = "<script>alert('No data on such media provider');window.location='/myapp/adm_view_media_provider/';</script>"
+        return HttpResponse(text)
     return render(request,"admin/VIEW MEDIA PROVIDER.html",{'res':res})
 
 def adm_view_media_type(request):
@@ -623,12 +961,17 @@ def adm_view_media_type_del(request,pk):
 def adm_view_media_type_post(request):
     mtype = request.POST['textfield']
     print(mtype)
-    res = media_type.objects.filter(media_type_name=mtype)
+    res = media_type.objects.filter(media_type_name__contains=mtype)
     print(res)
+    if res.exists():
+        pass
+    else:
+        text = "<script>alert('No data on such media type name');window.location='/myapp/adm_view_media_type/';</script>"
+        return HttpResponse(text)
     return render(request,"admin/VIEW MEDIA TYPE.html",{'res':res})
 
 def adm_view_monthy_settlement_entry(request):
-    res=monthly_settlement.objects.all()
+    res=monthly_settlement.objects.all().order_by('-date')
     return render(request,"admin/VIEW MONTHLY SETTLEMENT ENTRY.html",{'res':res})
 
 def adm_view_monthy_settlement_entry_post(request):
@@ -638,15 +981,32 @@ def adm_view_monthy_settlement_entry_post(request):
         date2 = request.POST['tdate']
         res = monthly_settlement.objects.filter(date__range=(date1, date2))
         print(res)
+        if res.exists():
+            pass
+        else:
+            text = "<script>alert('No data on such dates');window.location='/myapp/adm_view_monthly_settlement/';</script>"
+            return HttpResponse(text)
         return render(request, "admin/VIEW MONTHLY SETTLEMENT ENTRY.html",{'res':res,'d1':date1,'d2':date2})
-    if btn == "SEARCH":
-        pname = request.POST['textfield']
-        print(pname)
-        prname=media_provider.objects.get(provider_name=pname)
-        res = monthly_settlement.objects.filter(MEDIAPROVIDER_id=prname)
-        print(res)
-        return render(request, "admin/VIEW MONTHLY SETTLEMENT ENTRY.html",{'res':res})
-    return render(request,"admin/VIEW MONTHLY SETTLEMENT ENTRY.html")
+    # if btn == "SEARCH":
+    #     pname = request.POST['textfield']
+    #     print(pname)
+    #     try:
+    #         print("enter")
+    #         prname=media_provider.objects.get(provider_name=pname)
+    #         print(prname)
+    #         print("hlo")
+    #         res = monthly_settlement.objects.filter(MEDIAPROVIDER_id=prname)
+    #         print(res)
+    #         print("ppp")
+    #         if res.exists():
+    #             pass
+    #         else:
+    #             text = "<script>alert('No data on such provider name');window.location='/myapp/adm_view_monthly_settlement/';</script>"
+    #             return HttpResponse(text)
+    #         return render(request, "admin/VIEW MONTHLY SETTLEMENT ENTRY.html",{'res':res})
+    #     except:
+    #         print("error")
+    #         return render(request,"admin/VIEW MONTHLY SETTLEMENT ENTRY.html")
 
 def adm_view_registered_user_more(request):
     return render(request,"admin/VIEW REGISTERED USER.html")
@@ -657,7 +1017,12 @@ def adm_request_from_public_for_media_provider(request):
 
 def adm_request_from_public_for_media_provider_post(request):
     name = request.POST['textfield']
-    res1 = request_public.objects.filter(provider_name=name)
+    res1 = request_public.objects.filter(provider_name__contains=name)
+    if res1.exists():
+        pass
+    else:
+        text = "<script>alert('No data on such provider name');window.location='/myapp/adm_request_from_public_for_media_provider/';</script>"
+        return HttpResponse(text)
     return render(request,"admin/VIEW REQUEST FROM PUBLIC FOR MEDIA PROVIDER.html",{'res':res1})
 
 def adm_request_from_public(request,pk):
@@ -674,6 +1039,11 @@ def adm_view_service_area(request):
 def adm_view_service_area_post(request):
     area=request.POST['textfield']
     res1=service_area.objects.filter(area_name__contains=area)
+    if res1.exists():
+        pass
+    else:
+        text = "<script>alert('No data on such area name');window.location='/myapp/adm_view_service_area/';</script>"
+        return HttpResponse(text)
     return render(request, "admin/VIEW SERVICE AREA.html", {'res': res1})
 
 
@@ -703,17 +1073,45 @@ def adm_view_staff_post(request):
         stafftype = request.POST['select']
         res = staff.objects.all()
         res1 = staff.objects.filter(LOGIN_id__utype=stafftype)
+        if res1.exists():
+            pass
+        else:
+            text = "<script>alert('No data on such staff type');window.location='/myapp/adm_view_staff/';</script>"
+            return HttpResponse(text)
         return render(request, "admin/VIEW STAFF.html", {'res': res, 'res1': res1})
     if btn=="GO":
         empname = request.POST['textfield']
         res = staff.objects.all()
-        res1 = staff.objects.filter(name=empname)
+        res1 = staff.objects.filter(name__contains=empname)
+        if res1.exists():
+            pass
+        else:
+            text = "<script>alert('No data on such employee name');window.location='/myapp/adm_view_staff/';</script>"
+            return HttpResponse(text)
         return render(request, "admin/VIEW STAFF.html", {'res': res, 'res1': res1})
 
 
 def adm_view_rejected_request(request):
-    return render(request,"admin/ADMIN VIEW REJECTED REQUEST.html")
+    res = advertisement_request.objects.filter(status="REJECTED")
+    return render(request,"admin/ADMIN VIEW REJECTED REQUEST.html",{'res':res})
 
+def adm_view_rejected_request_post(request):
+    date1 = request.POST['fdate']
+    date2 = request.POST['tdate']
+    res = advertisement_request.objects.filter(date__range=(date1, date2)).order_by('-date') & advertisement_request.objects.filter(status="REJECTED").order_by('-date')
+    print(res)
+    if res.exists():
+        pass
+    else:
+        text = "<script>alert('No data on such dates');window.location='/myapp/adm_view_rejected_request/';</script>"
+        return HttpResponse(text)
+    return render(request,"admin/ADMIN VIEW REJECTED REQUEST.html",{'res':res,'d1':date1,'d2':date2})
+
+def adm_view_rejected_request_more(request,pk):
+    request.session['id'] = pk
+    data = advertisement_request.objects.get(id=pk)
+    data2 = advertisement_request.objects.get(id=pk)
+    return render(request,"admin/ADMIN VIEW REJECTED REQUEST MORE.html",{'data':data,'data2':data2})
 
 def adm_homepage(request):
     return render(request, "admin/adm_homepage.html")
@@ -724,16 +1122,48 @@ def designer_index(request):
 def dsgnr_homepage(request):
     return render(request, "designer/dsg_homepage.html")
 
-def dsgnr_edit_create_media(request):
-    return render(request, "designer/DESIGNER EDIT CREATE MEDIA.html")
+def dsgnr_edit_create_media(request,pk,id2):
+    print("kkkk")
+    request.session['id'] = pk
+    request.session['id2'] = id2
+    res = media.objects.get(id=pk)
+    print(res)
+    print("lllll")
+    return render(request, "designer/DESIGNER EDIT CREATE MEDIA.html",{'res':res})
 
 def dsgnr_edit_create_media_post(request):
-    media_title=request.POST['textfield']
-    filename=request.POST['textfield2']
-    description=request.POST['textfield3']
-    date=request.POST['select']
-    path=request.POST['textfield4']
-    return render(request, "designer/DESIGNER EDIT CREATE MEDIA.html")
+    id = request.session['id']
+    media_title = request.POST['textfield']
+    filename22 = request.POST['textfield2']
+    description = request.POST['textarea']
+    res = media.objects.get(id=id)
+    mm=""
+    if 'fileField' in request.FILES:
+        print("akl")
+        img = request.FILES['fileField']
+        if img.name == '':
+            pass
+        else:
+            print("hlo")
+            fs = FileSystemStorage()
+            filename = fs.save(img.name, img)
+            image = fs.url(filename)
+            res.path = image
+            print(res.path)
+            print("kkk")
+    if request.method == 'POST':
+        print("yyyyy")
+        res.media_title = media_title
+        res.filename = filename22
+        res.description = description
+        res.save()
+        qq=request.session['id2']
+        new_ob=advertisement_request.objects.get(id=qq)
+        new_ob.status="REUPLOADED"
+        new_ob.save()
+
+    return HttpResponse('''<script>alert('Successfully Edited');window.location='/myapp/dsgnr_view_media/'</script>''')
+    # return render(request, "designer/DESIGNER EDIT CREATE MEDIA.html")
 
 def dsgnr_edit_profile(request,pk):
     request.session['LOGIN_id'] = pk
@@ -765,22 +1195,190 @@ def dsgnr_edit_profile_post(request):
         res.name = name
         res.gender = gender
         res.dob = dob
-        res.hno_name = hno_name
+        res.houseno_name = hno_name
         res.district = district
         res.pincode = pincode
         # res.email=email_id
         res.phno = pno
         res.save()
         emp_obj = staff.objects.get(LOGIN=login.objects.get(id=id))
-    return render(request, "designer/DESIGNER VIEW PROFILE.html",{'data':emp_obj})
-    return HttpResponse('''<script>alert('Successfully Edited');window.location='/myapp/dsgnr_view_profile/</script>''')
+    # return render(request, "designer/DESIGNER VIEW PROFILE.html",{'data':emp_obj})
+    return HttpResponse('''<script>alert('Successfully Edited');window.location='/myapp/dsgnr_view_profile/'</script>''')
 
 
-def dsgnr_upload_created_media(request):
+def dsgnr_upload_media(request):
     return render(request, "designer/DESIGNER UPLOAD CREATED MEDIA.html")
 
+
+def dsgnr_upload_media_post(request,id):
+    request.session["id"]=id
+    if request.method == 'POST':
+        print("ppp")
+        mtitle = request.POST['textfield']
+        fname = request.POST['textfield2']
+        dsec = request.POST['textarea']
+        print("lll")
+        upload_file = request.FILES['pho']
+        fs = FileSystemStorage()
+        name = fs.save(upload_file.name, upload_file)
+        url = "/media/" + upload_file.name
+        print("ggg")
+        date = datetime.datetime.now()
+        # id = request.session['id']
+        # res1 = advertisement_assign.objects.get(ADVERTISEMENTREQUEST_id=id)
+        staffz = request.session['LOGIN_id']
+        staffid = staff.objects.get(LOGIN=staffz)
+        print(staffid)
+        # adasign_obj = advertisement_assign.objects.get(STAFF=staffid.pk)
+        print("id=",id)
+        assign_obj = advertisement_assign.objects.get(ADVERTISEMENTREQUEST_id=id)
+        print(assign_obj)
+        adrequest = assign_obj.ADVERTISEMENTREQUEST.id
+        adre_obj = advertisement_request.objects.get(id=adrequest)
+        print(adre_obj)
+        print(mtitle)
+        print(fname)
+        print(dsec)
+        print(url)
+        print(date)
+        res = media(media_title=mtitle, filename=fname, description=dsec, path=url, ADVERTISEMENTREQUEST=adre_obj,
+                    date=date)
+        res.save()
+        #
+        btn=request.POST['btn']
+        if btn == "CREATE":
+            id = request.session['id']
+            print(id)
+            print("hlo")
+            res = advertisement_request.objects.get(id=id)
+            # if media.objects.filter(ADVERTISEMENTREQUEST_id=id).exists():
+            #     print("value here")
+            # else:
+            #     print("no value")
+            res.status = "UPLOADED"
+            res.save()
+
+    # return HttpResponse('''<script>alert('Uploaded media');window.location='/myapp/dsgnr_view_request_assigned/'</script>''')
+
+    return render(request, "designer/DESIGNER UPLOAD CREATED MEDIA.html")
+    # return HttpResponse('''<script>alert('Successfully Uploaded');window.location='/myapp/dsgnr_view_request_assigned/'</script>''')
+
+
+def upload_media22(request):
+    if request.method == 'POST':
+        print("ppp")
+        mtitle = request.POST['textfield']
+        fname = request.POST['textfield2']
+        dsec = request.POST['textarea']
+        print("lll")
+        upload_file = request.FILES['pho']
+        fs = FileSystemStorage()
+        name = fs.save(upload_file.name, upload_file)
+        url = "/media/" + upload_file.name
+        print("ggg")
+        date = datetime.datetime.now()
+        id = request.session['id']
+        res1 = advertisement_assign.objects.get(pk=id)
+        print(res1)
+        adv_reqid=res1.ADVERTISEMENTREQUEST_id
+        print("adv=",adv_reqid)
+        adv_obj=advertisement_request.objects.get(pk=adv_reqid)
+        print(adv_obj)
+        res1 = media.objects.filter(ADVERTISEMENTREQUEST=adv_obj)
+        print(res1)
+        if res1.exists():
+            print("eeee")
+            return HttpResponse("exists....")
+            # pass
+
+        else:
+            res = media(media_title=mtitle, filename=fname, description=dsec, path=url, ADVERTISEMENTREQUEST=adv_obj,
+                        date=date)
+            res.save()
+            print("media ovr")
+            # cccccc
+            id = request.session['id']
+            print(id)
+            print("hlo")
+            res = advertisement_request.objects.get(pk=adv_reqid)
+            res.status = "UPLOADED"
+            res.save()
+            # return HttpResponse("ok")
+        return HttpResponse('''<script>alert('Successfully Uploaded');window.location='/myapp/dsgnr_view_request_assigned/'</script>''')
+
+
 def dsgnr_view_media_uploaded(request):
-    return render(request, "designer/DESIGNER VIEW MEDIA UPLOADED.html")
+    staffz = request.session['LOGIN_id']
+    staffid = staff.objects.get(LOGIN=staffz)
+    print(staffid)
+    new_obj=advertisement_assign.objects.filter(STAFF=staffid)
+    print(new_obj)
+    print("qwe")
+    ar=[]
+    for i in new_obj:
+        print(i)
+        q1=i.ADVERTISEMENTREQUEST.id
+        ar.append(q1)
+    print(ar)
+    print("aaaaaaaaaaaaaa")
+    print("ar ovr")
+    ar3=[]
+
+    for j in ar:
+        print(j)
+        ob22=advertisement_request.objects.get(id=j)
+        print(ob22)
+        try:
+            print("try block")
+            res = media.objects.get(ADVERTISEMENTREQUEST=ob22)
+            print(res)
+            s={'media_title':res.media_title,'filename':res.filename,'description':res.description,'date':res.date,'path':res.path,'usr':res.ADVERTISEMENTREQUEST.USER.name,'pk':res.id,'mid':j}
+            ar3.append(s)
+        except:
+            print("error")
+    return render(request, "designer/DESIGNER VIEW MEDIA UPLOADED.html",{'res':ar3})
+
+def dsgnr_view_media_uploaded_post(request):
+    staffz = request.session['LOGIN_id']
+    mtitle=request.POST['textfield']
+    staffid = staff.objects.get(LOGIN=staffz)
+    print(staffid)
+    new_obj = advertisement_assign.objects.filter(STAFF=staffid)
+    print(new_obj)
+    print("qwe")
+    ar = []
+    for i in new_obj:
+        print(i)
+        q1 = i.ADVERTISEMENTREQUEST.id
+        ar.append(q1)
+    print(ar)
+    print("aaaaaaaaaaaaaa")
+    print("ar ovr")
+    ar3 = []
+
+    for j in ar:
+        print(j)
+        ob22 = advertisement_request.objects.get(id=j)
+        print(ob22)
+        try:
+            print("try block")
+            res = media.objects.get(ADVERTISEMENTREQUEST=ob22,media_title__contains=mtitle)
+            print(res)
+            s = {'media_title': res.media_title, 'filename': res.filename, 'description': res.description,
+                 'date': res.date, 'path': res.path, 'usr': res.ADVERTISEMENTREQUEST.USER.name, 'pk': res.id, 'mid': j}
+            ar3.append(s)
+        except:
+            print("error")
+    return render(request, "designer/DESIGNER VIEW MEDIA UPLOADED.html", {'res': ar3})
+
+
+
+# def dsgnr_view_media_uploaded_del(request,pk):
+#     res = media.objects.get(id=pk)
+#     res.delete()
+#     return HttpResponse('''<script>alert('Successfully Deleted');window.location='/myapp/dsgnr_view_media/'</script>''')
+    # return render(request, "designer/DESIGNER VIEW MEDIA UPLOADED.html",{'res':res})
+
 
 def dsgnr_view_profile(request):
     id = request.session['LOGIN_id']
@@ -790,7 +1388,54 @@ def dsgnr_view_profile(request):
     return render(request, "designer/DESIGNER VIEW PROFILE.html",{'data':emp_obj})
 
 def dsgnr_view_request_assigned(request):
-    return render(request, "designer/DESIGNER VIEW REQUEST ASSIGNED.html")
+    # res=advertisement_assign.objects.all().order_by('-date')
+    # res1 = advertisement_request.objects.filter(status="ASSIGNED")
+    # # res2 = user.objects.all()
+    staffz = request.session['LOGIN_id']
+    staffid = staff.objects.get(LOGIN=staffz)
+    print(staffid)
+    res = advertisement_assign.objects.filter(STAFF=staffid.pk).order_by('-date')
+    print(res)
+    return render(request, "designer/DESIGNER VIEW REQUEST ASSIGNED.html",{'res':res})
+
+def dsgnr_view_request_assigned_post(request,id):
+    print("lll")
+    assign_obj=advertisement_assign.objects.get(id=id)
+    print(assign_obj)
+    pt=assign_obj.ADVERTISEMENTREQUEST.filename
+    print(pt)
+    import wget
+
+    print('Beginning file download with wget module')
+
+    url = 'http://localhost:8000' + pt
+    wget.download(url, 'C:/Users/user/Downloads/a.pdf')
+
+    return HttpResponse('''<script>alert('Downloaded Successfully');window.location='/myapp/dsgnr_view_request_assigned/'</script>''')
+
+def dsgnr_view_request_post(request):
+    print("hlo")
+    staffz = request.session['LOGIN_id']
+    staffid = staff.objects.get(LOGIN=staffz)
+    print(staffid)
+    date1 = request.POST['fdate']
+    date2 = request.POST['tdate']
+    print(date1)
+    print(date2)
+    res = advertisement_assign.objects.filter(date__range=(date1, date2),STAFF=staffid.pk)
+    # , status="ASSIGNED").order_by('-date') | advertisement_assign.objects.filter(date__range=(date1, date2), status="RECREATE").order_by('-date') | advertisement_request.objects.filter(date__range=(date1, date2), status="OK").order_by('-date') | advertisement_assign.objects.filter(date__range=(date1, date2), status="UPLOADED").order_by('-date') | advertisement_assign.objects.filter(date__range=(date1, date2), status="REUPLOADED").order_by('-date')
+    # print(res)
+    if res.exists():
+        pass
+    else:
+        text = "<script>alert('No data on such dates');window.location='/myapp/dsgnr_view_request_assigned/';</script>"
+        return HttpResponse(text)
+    print(res)
+    return render(request, "designer/DESIGNER VIEW REQUEST ASSIGNED.html", {'res': res, 'd1': date1, 'd2': date2})
+
+    # return render(request, "designer/DESIGNER VIEW REQUEST ASSIGNED.html", {'res': res, 'd1': date1, 'd2': date2})
+
+    # return render(request, "designer/DESIGNER VIEW REQUEST ASSIGNED.html")
 
 def public_index(request):
     return render(request,"public/index.html")
@@ -834,6 +1479,12 @@ def public_view_media_provider(request):
 def public_view_media_types(request):
     res = media_type.objects.all()
     return render(request, "public/PUBLIC VIEW MEDIA TYPES.html",{'res':res})
+    # return render(request, "public/af.html",{'res':res})
+
+# def public_af(request):
+#     res = media_type.objects.all()
+#     # return render(request, "public/PUBLIC VIEW MEDIA TYPES.html",{'res':res})
+#     return render(request, "public/af.html",{'res':res})
 
 def semp_index(request):
     return render(request,"service employee/semp_index.html")
@@ -867,6 +1518,11 @@ def semp_view_maintance_post(request):
         aname = service_area.objects.get(pk=area)
         print(aname)
         res = maintance.objects.filter(SERVICEAREA_id=aname)
+        if res.exists():
+            pass
+        else:
+            text = "<script>alert('No data on such dates');window.location='/myapp/semp_view_maintance/';</script>"
+            return HttpResponse(text)
         return render(request,"service employee/SERIVCE EMPLOYEE VIEW MAINTANCE ENTRY.html",{'res':res,'res1':area_name})
 
     if btn =="GO":
@@ -878,7 +1534,12 @@ def semp_view_maintance_post(request):
         code= installation.objects.filter(STAFF=stf)
         res = maintance.objects.filter(date__range=(date1, date2))
         print(res)
-        return render(request, "service employee/SERIVCE EMPLOYEE VIEW MAINTANCE ENTRY.html", {'res': res, 'res1': area_name,'res1':placename,'res1':code})
+        if res.exists():
+            pass
+        else:
+            text = "<script>alert('No data on such dates');window.location='/myapp/semp_view_maintance/';</script>"
+            return HttpResponse(text)
+        return render(request, "service employee/SERIVCE EMPLOYEE VIEW MAINTANCE ENTRY.html", {'res': res, 'res1': area_name,'res1':placename,'res1':code,'d1':date1,'d2':date2})
     return render(request, "service employee/SERIVCE EMPLOYEE VIEW MAINTANCE ENTRY.html")
 
 
@@ -912,14 +1573,14 @@ def semp_edit_profile_post(request):
         res.name = name
         res.gender = gender
         res.dob = dob
-        res.hno_name = hno_name
+        res.houseno_name = hno_name
         res.district = district
         res.pincode = pincode
         # res.email=email_id
         res.phno = pno
         res.save()
         emp_obj= staff.objects.get(LOGIN=login.objects.get(id=id))
-    return render(request, "service employee/SERVICE EMPLOYEE VIEW PROFILE.html",{'data':emp_obj})
+    # return render(request, "service employee/SERVICE EMPLOYEE VIEW PROFILE.html",{'data':emp_obj})
     return HttpResponse('''<script>alert('Successfully Edited');window.location='/myapp/semp_view_profile/'</script>''')
 
 def semp_expense_mngt(request):
@@ -1019,7 +1680,7 @@ def semp_maintance_post(request):
 
 
 def semp_view_expense(request):
-    res=expense.objects.all()
+    res=expense.objects.all().order_by('-date')
     # stf = staff.objects.get(LOGIN=request.session['LOGIN_id'])
     # area_name = employee_area.objects.filter(STAFF=stf)
     # emparea = employee_area.objects.filter(EMPLOYEEAREA=area_name)
@@ -1033,7 +1694,12 @@ def semp_view_expense_post(request):
     # area_name = employee_area.objects.filter(STAFF=stf)
     res = expense.objects.filter(date__range=(date1, date2))
     print(res)
-    return render(request, "service employee/SERVICE EMPLOYEE VIEW EXPENSE.html",{'res':res})
+    if res.exists():
+        pass
+    else:
+        text = "<script>alert('No data on such dates');window.location='/myapp/semp_view_expense/';</script>"
+        return HttpResponse(text)
+    return render(request, "service employee/SERVICE EMPLOYEE VIEW EXPENSE.html",{'res':res,'d1':date1,'d2':date2})
 
 def semp_view_installation(request):
     res=installation.objects.all()
@@ -1061,6 +1727,11 @@ def semp_view_installation_post(request):
          print(aname)
          res=installation.objects.filter(SERVICEAREA_id=aname)
          print(res)
+         if res.exists():
+             pass
+         else:
+             text = "<script>alert('No data on such area name');window.location='/myapp/semp_view_installation/';</script>"
+             return HttpResponse(text)
          return render(request, "service employee/SERVICE EMPLOYEE VIEW INSTALLATION.html",{'res': res, 'res1': area_name})
 
      if btn=="GO":
@@ -1070,7 +1741,12 @@ def semp_view_installation_post(request):
          area_name = employee_area.objects.filter(STAFF=stf)
          res = installation.objects.filter(date__range=(date1, date2))
          print(res)
-         return render(request, "service employee/SERVICE EMPLOYEE VIEW INSTALLATION.html",{'res': res, 'res1': area_name})
+         if res.exists():
+             pass
+         else:
+             text = "<script>alert('No data on such dates');window.location='/myapp/semp_view_installation/';</script>"
+             return HttpResponse(text)
+         return render(request, "service employee/SERVICE EMPLOYEE VIEW INSTALLATION.html",{'res': res, 'res1': area_name,'d1':date1,'d2':date2})
      return render(request, "service employee/SERVICE EMPLOYEE VIEW INSTALLATION.html")
 
 
@@ -1101,6 +1777,11 @@ def semp_view_service_area_post(request):
     #res1 = employee_area.objects.filter(STAFF=staffid.pk)
     res = employee_area.objects.filter(SERVICEAREA__area_name__contains=area,STAFF=staffid.pk)
     print(res)
+    if res.exists():
+        pass
+    else:
+        text = "<script>alert('No data on such area name');window.location='/myapp/semp_view_service_area/';</script>"
+        return HttpResponse(text)
     return render(request,"service employee/SERVICE EMPLOYEE VIEW SERVICE AREA.html",{'res': res})
 
 
@@ -1112,6 +1793,7 @@ def and_user_login(request):
     if request.method=="POST":
         uname = request.POST['uname']
         pword = request.POST['passw']
+
 
         if login.objects.filter(username=uname,password=pword).exists():
             yy=login.objects.get(username=uname,password=pword)
@@ -1257,10 +1939,10 @@ def and_user_view_complaint(request):
     print(userid)
     logobj=login.objects.get(id=userid)
     useobj=user.objects.get(LOGIN=logobj)
-    res=complaint.objects.filter(USER=useobj)
+    res=complaint.objects.filter(USER=useobj).order_by('-date')
     print(res)
     for ii in res:
-        ss = {'complaint': ii.complaint, 'date':ii.date,'reply':ii.reply,'status':ii.status,'id':ii.id}
+        ss = {'complaint': ii.complaint, 'date':ii.date.strftime("%m/%d/%Y"),'reply':ii.reply,'status':ii.status,'id':ii.id}
         res2.append(ss)
 
     data = {"status": "ok", "res2": res2}
@@ -1297,10 +1979,10 @@ def and_user_view_feedback(request):
     print(userid)
     logobj=login.objects.get(id=userid)
     useobj=user.objects.get(LOGIN=logobj)
-    res=feedback_reviews.objects.filter(USER=useobj)
+    res=feedback_reviews.objects.filter(USER=useobj).order_by('-date')
     print(res)
     for ii in res:
-        ss = {'feedback': ii.feedback, 'date':ii.date,'id':ii.id}
+        ss = {'feedback': ii.feedback, 'date':ii.date.strftime("%m/%d/%Y"),'id':ii.id}
         res2.append(ss)
 
     data = {"status": "ok", "res2": res2}
@@ -1312,7 +1994,7 @@ def and_user_view_profile(request):
     lid=request.POST["lid"]
     print(lid)
     ma = user.objects.get(LOGIN_id=lid)
-    data = {"status": "ok", "name": ma.name,"gender":ma.gender,"dob":ma.dob,"houseno_name":ma.houseno_name,"district":ma.district,"pincode":ma.pincode,"phno":ma.phno,"image":ma.image}
+    data = {"status": "ok", "name": ma.name,"houseno_name":ma.houseno_name,"gender":ma.gender,"dob":ma.dob,"district":ma.district,"pincode":ma.pincode,"phno":ma.phno,"image":ma.image}
     print(data)
     return JsonResponse(data)
 
@@ -1337,24 +2019,106 @@ def and_user_update_profile(request):
         print("jj")
         lid=request.POST['lid']
         print(lid)
-        res=user.objects.get(LOGIN_id=lid)
-        print(res)
-        print("kk")
-        res.name=name
-        res.gender=gender
-        res.dob=dob
-        res.houseno_name=houseno_name
-        res.district=district
-        res.pincode=pincode
-        res.phno=phno
-        import base64
-        imgdata = base64.b64decode(image)
-        path = "/media/" + str(lid) + ".jpg"
-        print("jjjj22")
-        filename = 'C:/Users/user/PycharmProjects/myproject1/media/' + str(lid) + ".jpg"
-        with open(filename, 'wb') as f:
-            f.write(imgdata)
-        res.image=path
-        res.save()
+        res = user.objects.get(LOGIN_id=lid)
+        if image=="0":
+            print("no image")
+            res.name = name
+            res.gender = gender
+            res.dob = dob
+            res.houseno_name = houseno_name
+            res.district = district
+            res.pincode = pincode
+            res.phno = phno
+            res.save()
+        else:
+            print("image")
+            print("kk")
+            res.name=name
+            res.gender=gender
+            res.dob=dob
+            res.houseno_name=houseno_name
+            res.district=district
+            res.pincode=pincode
+            res.phno=phno
+            import base64
+            import time, datetime
+
+            timestr = time.strftime("%Y%m%d-%H%M%S")
+            print(timestr)
+
+
+            imgdata = base64.b64decode(image)
+
+            path = "/media/" + str(timestr) + ".jpg"
+            print("jjjj22")
+            filename = 'C:/Users/user/PycharmProjects/myproject1/media/' + str(timestr) + ".jpg"
+            with open(filename, 'wb') as f:
+                f.write(imgdata)
+            res.image=path
+            res.save()
     data = {"status": "ok"}
+    return JsonResponse(data)
+
+def and_user_send_enquiry_adrequest(request):
+    print("lll")
+    content = request.POST['content']
+    print(content)
+    file=request.POST['filename']
+    print("kk")
+
+    import base64
+    imgdata = base64.b64decode(file)
+
+    nam = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M")
+    filename1 = nam + ".pdf"
+
+    filename = 'C:\\Users\\user\\PycharmProjects\\myproject1\\media\\' + filename1
+    url = '/media/' + filename1
+    with open(filename, 'wb') as f:
+        f.write(imgdata)
+
+    lid = request.POST['lid']
+    logobj=login.objects.get(id=lid)
+    uobj=user.objects.get(LOGIN=logobj)
+    print(lid)
+    print("hi")
+    print("jj")
+    adobj = advertisement_request()
+    adobj.content= content
+    adobj.date = datetime.datetime.now()
+    adobj.filename=url
+    adobj.status = "pending"
+    adobj.USER=uobj
+    adobj.save()
+    return JsonResponse({'status': 'ok'})
+
+
+def and_user_view_enquiry_adrequest(request):
+    print("hi")
+    res2=[]
+    userid=request.POST['lid']
+    print(userid)
+    logobj=login.objects.get(id=userid)
+    print(logobj)
+    useobj=user.objects.get(LOGIN=logobj)
+    print(useobj)
+    res=advertisement_request.objects.filter(USER=useobj).order_by('-date')
+    print(res)
+    for ii in res:
+        ss = {'content': ii.content, 'date':ii.date.strftime("%m/%d/%Y"),'filename':ii.filename,'status':ii.status,'id':ii.id}
+        res2.append(ss)
+        print(res2)
+    data = {"status": "ok", "res2": res2}
+    print(data)
+    print("finish")
+    return JsonResponse(data)
+
+
+def and_user_view_enquiry_adrequest_del(request):
+    id22=request.POST['eid']
+    res = advertisement_request.objects.get(id=id22)
+    res.delete()
+    data = {"status": "ok"}
+    print(data)
+    print("finish")
     return JsonResponse(data)

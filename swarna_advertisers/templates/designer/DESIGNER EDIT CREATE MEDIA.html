@@ -1,33 +1,32 @@
 {% extends "designer/designer_index.html" %}
 {% block body %}
-
-<body>
-<form id="form1" name="form1" method="post" action="dsgnr_edit_media_post/">
-  <table  border="1">
+<h2 align="center">CHANGE MEDIA UPLOADED</h2>
+<form id="form1" name="form1" method="post" enctype="multipart/form-data" action="/myapp/dsgnr_edit_media_post/">
+  <table  class="table table-hover" style="width:600px;" align="center">
     <tr>
-      <td>MEDIA TITLE</td>
-      <td><input type="text" name="textfield" id="textfield" /></td>
+      <th>MEDIA TITLE</th>
+      <td><input type="text" name="textfield" id="textfield" value="{{ res.media_title }}" class="form-control"/></td>
     </tr>
     <tr>
-      <td>FILENAME</td>
-      <td><input type="text" name="textfield2" id="textfield2" /></td>
+      <th>FILENAME</th>
+      <td><input type="text" name="textfield2" id="textfield2"  value="{{ res.filename }}" class="form-control"/></td>
     </tr>
     <tr>
-      <td>DESCIPTION</td>
-      <td><input type="text" name="textfield3" id="textfield3" /></td>
+      <th>DESCIPTION</th>
+      <td><textarea name="textarea" id="textarea" cols="45" rows="5" class="form-control" required>{{ res.description }}</textarea></td>
     </tr>
+{#    <tr>#}
+{#      <td>DATE</td>#}
+{#      <td><select name="select" id="select">#}
+{#      </select></td>#}
+{#    </tr>#}
     <tr>
-      <td>DATE</td>
-      <td><select name="select" id="select">
-      </select></td>
+      <th>PATH</th>
+      <td><input type="file" name="fileField" id="fileField" class="form-control"/></td>
     </tr>
-    <tr>
-      <td>PATH</td>
-      <td><input type="text" name="textfield4" id="textfield4" /></td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td><input type="submit" name="button" id="button" value="EDIT" /></td>
+    <tr align="center">
+{#      <td>&nbsp;</td>#}
+      <td colspan="2"><input type="submit" name="button" id="button" value="CHANGE" class="btn btn-success"/></td>
     </tr>
   </table>
 </form>

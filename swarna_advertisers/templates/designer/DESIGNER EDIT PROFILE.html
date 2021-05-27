@@ -19,7 +19,7 @@
   </tr>
     <tr>
       <th>DOB</th>
-      <td><input type="date" name="date" value="{{ data.dob }}" class="form-control" required pattern="/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$"></td>
+      <td><input type="date" name="date" value="{{ data.dob|date:"Y-m-d" }}" class="form-control" required pattern="/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$"></td>
     </tr>
     <tr>
       <th>HOUSE NUMBER / NAME</th>
@@ -60,9 +60,9 @@
       <th>IMAGE</th>
       <td><input type="file" name="fileField" id="fileField" class="form-control"/></td>
     </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td><input type="submit" name="button" id="button" value="UPDATE" class="btn btn-primary" style="background-color: #5cb85c" /></td>
+    <tr align="center">
+{#      <td>&nbsp;</td>#}
+      <td colspan="2"><input type="submit" name="button" id="button" value="UPDATE" class="btn btn-success" /></td>
     </tr>
   </table>
   <p>&nbsp;</p>

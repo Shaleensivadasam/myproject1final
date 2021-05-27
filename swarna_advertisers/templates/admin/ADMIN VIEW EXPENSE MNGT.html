@@ -27,7 +27,7 @@
       <td>{{ i.title }}</td>
       <td>&nbsp;{{ i.description }}</td>
       <td>&nbsp;{{ i.amount }}</td>
-      <td>&nbsp;{{ i.date }}</td>
+      <td>&nbsp;{{ i.date | date:'d-m-Y'}}</td>
     </tr>
       {% endfor %}
   </table>

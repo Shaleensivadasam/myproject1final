@@ -9,8 +9,8 @@
         <th width="82"><label>TO</label>&nbsp;</th>
         <td><input type="date" name="tdate" id="todate" value="{{ d2 }}" class="form-control"/></td>
         <td width="63"><input type="submit" name="button" id="button" value="GO" class="btn btn-primary"/></td>
-        <td width="152"><input type="text" name="textfield" id="textfield" class="form-control" placeholder="Provider name"/></td>
-        <td> <input type="submit" name="button" id="button2" value="SEARCH" class="btn btn-primary"/></td>
+{#        <td width="152"><input type="text" name="textfield" id="textfield" class="form-control" placeholder="Provider name"/></td>#}
+{#        <td> <input type="submit" name="button" id="button2" value="SEARCH" class="btn btn-primary"/></td>#}
     </tr>
   </table>
   <table class="table table-hover" style="width: 1000px" align="center">
@@ -32,7 +32,7 @@
       <td>&nbsp;{{ i.MEDIAPROVIDER.provider_name }}</td>
       <td>{{ i.year }}</td>
       <td>&nbsp;{{ i.month }}</td>
-      <td>{{ i.date }}</td>
+      <td>{{ i.date | date:'d-m-Y'}}</td>
       <td>&nbsp;{{ i.amount }}</td>
     </tr>
       {% endfor %}

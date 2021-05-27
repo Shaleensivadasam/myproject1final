@@ -5,9 +5,9 @@
   <table class="table table-hover">
     <tr>
       <th><label>DATE FROM</label>&nbsp;</th>
-      <td><input type="date" name="fdate" class="form-control" required/></td>
+      <td><input type="date" name="fdate" id="fromdate" value="{{ d1 }}" class="form-control" required/></td>
       <th><label>TO</label>&nbsp;</th>
-      <td><input type="date" name="tdate" class="form-control" required/></td>
+      <td><input type="date" name="tdate" id="todate" value="{{ d2 }}" class="form-control" required/></td>
       <td><input type="submit" name="button" id="button" value="SEARCH" class="btn btn-primary"/></td>
     </tr>
   </table>
@@ -27,11 +27,28 @@
       <td>{{ i.title }}</td>
       <td>&nbsp;{{ i.description }}</td>
       <td>&nbsp;{{ i.amount }}</td>
-      <td>&nbsp;{{ i.date }}</td>
+      <td>&nbsp;{{ i.date | date:'d-m-Y'}}</td>
     </tr>
       {% endfor %}
   </table>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
 </form>
+
+     <script>
+
+        var today = new Date();
+var current_date = today.getDate();
+var current_month = today.getMonth()+1; //Month starts from 0
+var current_year = today.getFullYear();
+ if(current_date < 10){
+        current_date='0'+current_date
+    }
+    if(current_month < 10){
+        current_month='0'+current_month
+    }
+var im=current_year+"-"+current_month+"-"+current_date;
+document.getElementById("todate").setAttribute("max", im);
+document.getElementById("fromdate").setAttribute("max", im);
+</script>
 {% endblock %}

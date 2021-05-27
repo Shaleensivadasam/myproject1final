@@ -1,58 +1,76 @@
 {% extends "admin/admin_index.html" %}
 {% block body %}
-<form id="form1" name="form1" method="post" action="">
-  <table border="1">
-    <tr>
-      <td width="130">REQUEST ID:</td>
-      <td width="159">&nbsp;</td>
+<h2 align="center">ASSIGING ADVERTISEMENT REQUEST DETAILS</h2>
+<form id="form1" name="form1" method="post" action="/myapp/adm_view_new_request_more_post/">
+  <table  class="table table-hover" style="width: 600px" align="center">
+   <input type="hidden" name="hi" value="{{ data3 }}">
+     <tr align="center" style="color: #f6f7f8" bgcolor="black">
+      <th colspan="2">CUSTOMER INFO</th>
+    </tr>
+       <tr>
+{#      <td>IM</td>#}
+      <td colspan="2" align="center">&nbsp;<img src="{{ data.USER.image }}" width="200" height="200" /></td>
     </tr>
     <tr>
-      <td>DATE:</td>
-      <td>&nbsp;</td>
+      <th>NAME</th>
+      <td>&nbsp;{{ data.USER.name }}</td>
+    </tr>
+       <tr>
+      <th>GENDER</th>
+      <td>&nbsp;{{ data.USER.gender }}</td>
+    </tr>
+       <tr>
+      <th>DOB</th>
+      <td>&nbsp;{{ data.USER.dob }}</td>
     </tr>
     <tr>
-      <td colspan="2">CUSTOMER INFO</td>
+      <th>ADDRESS</th>
+      <td>{{ data.USER.houseno_name }}<br>{{ data.USER.district }}<br/><br>{{ data.USER.pincode }}</td>
     </tr>
     <tr>
-      <td>NAME:</td>
-      <td>&nbsp;</td>
+      <th>PHONE NUMBER</th>
+      <td>&nbsp;{{ data.USER.phno }}</td>
     </tr>
     <tr>
-      <td>ADDRESS:</td>
-      <td>&nbsp;</td>
+      <th>EMAILID</th>
+      <td>&nbsp;{{ data.USER.email }}</td>
+    </tr>
+    <tr align="center" style="color: #f6f7f8" bgcolor="black">
+      <th colspan="2">CONTENT REQUEST INFO</th>
     </tr>
     <tr>
-      <td>PHONE NUMBER:</td>
-      <td>&nbsp;</td>
+      <th>CONTENT</th>
+      <td>{{ data.content }}</td>
     </tr>
     <tr>
-      <td>EMAILID:</td>
-      <td>&nbsp;</td>
+      <th>DATE</th>
+      <td>&nbsp;{{ data.date | date:'d-m-Y'}}</td>
+    </tr>
+      <tr>
+      <th>STATUS</th>
+      <td>{{ data.status }}&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="2">ADVERTISEMENT INFO</td>
+      <th>CONTENT FILE</th>
+      <td><input type="submit" name="btn" id="button" value="DOWNLOAD" class="btn btn-dark" /></td>
     </tr>
-    <tr>
-      <td>PROVIDER NAME:</td>
-      <td>&nbsp;</td>
+     <tr>
+      <th>DESIGNER NAME</th>
+      <td><select name="select3" id="select3" class="form-control" required>
+          {% for i in data4 %}
+              <option value="{{ i.pk }}">{{ i.name}}</option>
+          {% endfor %}
+      </select></td>
     </tr>
-    <tr>
-      <td>MEDIA TYPE:</td>
-      <td>&nbsp;</td>
+  {% if data.status == 'ACCEPTED'%}
+    <tr align="center">
+{#       <td></td>#}
+      <td colspan="2"><input type="submit" name="btn" id="button2" value="ASSIGN" class="btn btn-success"/></td>
+{#      <td>&nbsp;</td>#}
     </tr>
-    <tr>
-      <td>CONTENT REQUEST INFO</td>
-      <td><input type="submit" name="button" id="button" value="DOWNLOAD" /></td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td><input type="submit" name="button2" id="button2" value="ACCEPT" />
-      <input type="submit" name="button3" id="button3" value="REJECT" /></td>
-    </tr>
+  {% else %}
+<a href=""></a>
+    {% endif %}
   </table>
 </form>
 {% endblock %}

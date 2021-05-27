@@ -2,21 +2,21 @@
 {% block body %}
     <h2 align="center">EDIT MEDIA PROVIDERS</h2>
 <form action="/myapp/adm_edit_media_provider_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
-  <table class="table table-hover" style="width: 400px;" align="center">
+  <table class="table table-hover" style="width: 500px;" align="center">
     <tr>
-      <td>PROVIDER NAME</td>
+      <th>PROVIDER NAME</th>
       <td><input type="text" name="textfield" id="textfield" value="{{ res.provider_name }}"  class="form-control"  required maxlength="32" pattern="[a-zA-Z\s]+"/></td>
     </tr>
     <tr>
-      <td>PLACE</td>
+      <th>PLACE</th>
       <td><input type="text" name="textfield2" id="textfield2"  value="{{ res.place }}" class="form-control"  required/></td>
     </tr>
     <tr>
-      <td>CITY</td>
+      <th>CITY</th>
       <td><input type="text" name="textfield3" id="textfield3"  value="{{ res.city }}" class="form-control"  required /></td>
     </tr>
     <tr>
-      <td>DISTRICT</td>
+      <th>DISTRICT</th>
       <td><select name="select" id="select"  class="form-control"  required>
            <option value="Kasarkode">Kasarkode</option>
           <option value="Kannur">Kannur</option>
@@ -35,23 +35,23 @@
       </select></td>
     </tr>
     <tr>
-      <td>PINCODE</td>
+      <th>PINCODE</th>
       <td><input type="text" name="textfield4" id="textfield4" value="{{ res.pincode }}" class="form-control"  required pattern="[0-9]{6}" maxlength="6"/></td>
     </tr>
     <tr>
-      <td>EMAILID</td>
+      <th>EMAILID</th>
       <td><input type="text" name="textfield5" id="textfield5" value="{{ res.email }}" class="form-control"  required pattern="[a-zA-Z0-9!#$%&'*+\/=?^_'{|}~.~]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*"/></td>
     </tr>
     <tr>
-      <td>PHONE NUMBER</td>
+      <th>PHONE NUMBER</th>
       <td><input type="text" name="textfield6" id="textfield6" value="{{ res.phno }}" class="form-control"  required pattern="[789][0-9]{9}"/></td>
     </tr>
     <tr>
-      <td>IMAGE</td>
+      <th>IMAGE</th>
       <td><input type="file" name="fileField" id="fileField" class="form-control" /></td>
     </tr>
     <tr>
-      <td>MEDIA TYPE </td>
+      <th>MEDIA TYPE </th>
       <td><select name="select2" id="select2"  class="form-control"  required >
           {% for i in data1 %}
           {% if res.MEDIATYPE.media_type_name == i.media_type_name %}
@@ -62,9 +62,9 @@
           {% endfor %}
       </select></td>
     </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td><input type="submit" name="button" id="button" value="UPDATE" class="btn btn-primary" style="background-color: #5cb85c" /></td>
+    <tr align="center">
+{#      <td>&nbsp;</td>#}
+      <td colspan="2"><input type="submit" name="button" id="button" value="UPDATE" class="btn btn-success" /></td>
     </tr>
   </table>
 </form>

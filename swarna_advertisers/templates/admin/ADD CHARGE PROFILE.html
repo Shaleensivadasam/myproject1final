@@ -1,36 +1,95 @@
 {% extends "admin/admin_index.html" %}
 {% block body %}
+    {% load static %}
     <h2 align="center">CHARGE PROFILE</h2>
 <form id="form1" name="form1" method="post" action="/myapp/adm_add_charge_profile_post/">
-  <table  class="table table-hover" style="width: 400px; height: 0px;" align="center">
+  <table  class="table table-hover" style="width: 500px; height: 0px;" align="center">
     <tr>
-      <td>PROFILE NAME</td>
+      <th>PROFILE NAME</th>
       <td><input type="text" name="textfield" id="textfield" class="form-control" required/></td>
     </tr>
     <tr>
-      <td>MEDIA TYPE NAME</td>
+      <th>MEDIA TYPE NAME</th>
       <td><select name="select" id="select" class="form-control" required>
+      <option>--select--</option>
           {% for i in data1 %}
               <option value="{{ i.pk }}">{{ i.media_type_name }}</option>
           {% endfor %}
       </select></td>
     </tr>
     <tr>
-      <td>PROVIDER NAME</td>
+      <th>PROVIDER NAME</th>
       <td><select name="select2" id="select2" class="form-control" required>
-          {% for i in data2 %}
-              <option value="{{ i.pk }}">{{ i.provider_name }}</option>
-          {% endfor %}
+{#          {% for i in data2 %}#}
+{#              <option value="{{ i.pk }}">{{ i.provider_name }}</option>#}
+{#          {% endfor %}#}
       </select></td>
     </tr>
     <tr>
-      <td>CHARGE</td>
-      <td><input type="number" name="textfield2" id="textfield2" class="form-control" required pattern="[0-9]+" title="number only"/></td>
+      <th>CHARGE</th>
+      <td><input type="number" min=1 name="textfield2" id="textfield2" class="form-control" required pattern="[0-9]+"/></td>
     </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td><input type="submit" name="button" id="button" value="ADD" class="btn btn-primary"/></td>
+    <tr align="center">
+{#      <td>&nbsp;</td>#}
+      <td colspan="2"><input type="submit" name="button" id="button" value="ADD" class="btn btn-primary"/></td>
     </tr>
   </table>
 </form>
+
+     <script src="/static/jquery.js"></script>
+
+<script type="text/javascript">
+
+       var i
+ $(document).ready(function () {
+
+
+     $(document).on('change', '#select', function () {
+
+         var nid = $(this).val();
+
+
+
+
+         $("#select2").text("")
+
+  $.ajax({
+            url: "/myapp/get_provider_name/"+nid,
+            type: "GET",
+            data: {
+
+
+            },
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function(dat) {
+                data=dat["res2"]
+                $("#select2").append("<option>--select--</option>")
+
+ for (var i = 0; i < data.length; i++) {
+                 var id = data[i]['id']
+                 var name = data[i]['provider_name']
+
+                 // alert(name)
+                 // $("#tbl").append("<tr><td>"+name+"</td><td>"+id+"</td></tr>");
+
+
+     $("#select2").append("<option value=" + id + ">" + name + "</option>")
+
+                 //$("#kk").append("<tr><td><input type='checkbox' name='frnd' id='+id+ ' data='+id+' value='+name+'/>"+name+"</td></tr>");
+
+             }
+            },
+            error: function(ts) {
+//{#                alert(ts);#}
+            }
+        });
+
+
+
+     });
+ });
+
+       </script>
+
 {% endblock %}

@@ -1,5 +1,17 @@
 {% extends "public/index.html" %}
 {% block body %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+{#   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">#}
+{#  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>#}
+{#  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>#}
+{#  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>#}
+</head>
+
+<body>
 <form id="form1" name="form1" method="post" action="">
 {#  <table  border="1">#}
 {#  <tr>#}
@@ -24,30 +36,51 @@
 {#      {% endfor %}#}
 {#  </table>#}
 {#  <p>&nbsp;</p>#}
-{#<h1 align="center">MEDIA TYPES</h1>#}
-<h1 data-aos="fade-up" data-aos-delay="300" id="lgg" align="center">MEDIA PROVIDERS</h1>
-<div class="container" align="center" style="background-color: #000b16">
+{#<h2 align="center">Tutors</h2>#}
+{#    <center>#}
+{#<div class="container" style="display: table-row;justify-content: center;align-items: center"  >#}
 {#    <div class="row">#}
 {#    <div class="column" align="center">#}
+<center>
+{#<h1 align="center">Tutors</h1>#}
+    <div class="section layout_padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="full">
+                        <div class="heading_main text_align_center">
+                     <h1><span> </span>MEDIA PROVIDERS</h1>
+                        </div>
+                 </div>
+                </div>
     {% for i in res %}
         <br>
-    <div class="container" align="center" style="background-color: #000b16">
+<div class="col-lg-3" style="margin-top: 150px">
+    <div class="container">
 {#  <p>Image at the top (card-img-top):</p>#}
-  <div class="card" style="width:300px">
-    <img class="card-img-top" src="{{ i.image }}" alt="Card image" style="width:100%">
+  <div class="card bg-light text-dark" style="width:250px; height: 550px">
+   <center> <img src="{{ i.image }}" alt="Card image" class="img-circle" width="200px" height="200px" style="margin-top: 10px"> </center>
     <div class="card-body">
 
       <h5 class="card-title">{{ i.MEDIATYPE.media_type_name }}</h5>
-      <h5 class="card-title">{{ i.provider_name }}</h5>
+      <h5 class="card-text">{{ i.provider_name }}</h5>
       <h5 class="card-text">{{ i.place }}<br>{{ i.city }}<br/><br>{{ i.district }}<br/><br>{{ i.pincode }}<br/></h5>
       <h5 class="card-text">{{ i.email }}</h5>
       <h5 class="card-text">{{ i.phno }}</h5>
+        <br/>
 {#      <a href="#" class="btn btn-primary">See Profile</a>#}
+        </div>
     </div>
   </div>
+</div>
+    <br/>
+                        {% endfor %}
+        </div>
+        </div>
+        </div>
+        </center>
+        </form>
 
-        </div>
-        </div>
 {#         <div class="col-sm-4">#}
 {#          <table>#}
 {#              <tr><td colspan="2"><h3>{{i.media_type_name}}</h3></td></tr>#}
@@ -62,11 +95,14 @@
 {#              </tr>#}
 {#          </table>#}
 {#      </div>#}
-        <br/>
-        {% endfor %}
-{#  </div>#}
-{#</div>#}
-{#</div>#}
+
+</center>
+  </div>
+</div>
+</div>
+ </center>
 </form>
 <p>&nbsp;</p>
+</body>
+</html>
 {% endblock %}

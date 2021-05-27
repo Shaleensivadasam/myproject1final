@@ -25,7 +25,7 @@
       <td>&nbsp;{{ i.USER.name }}</td>
       <td>&nbsp;{{ i.USER.phno }}</td>
       <td>{{ i.feedback }}</td>
-      <td>{{ i.date }}</td>
+      <td>{{ i.date | date:'d-m-Y'}}</td>
     </tr>
       {% endfor %}
   </table>

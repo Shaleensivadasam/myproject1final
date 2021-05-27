@@ -1,32 +1,125 @@
 {% extends "admin/admin_index.html" %}
 {% block body %}
+    {% load static %}
 <h2 align="center">ADD MONTHLY SETTLEMENT ENTRY</h2>
 <form id="form1" name="form1" method="post" action="/myapp/adm_monthly_settlement_post/">
-  <table  class="table table-hover" style="width: 400px;" align="center">
-    <tr>
-      <th>PROVIDER NAME</th>
+  <table  class="table table-hover" style="width: 500px;" align="center">
+   <tr>
+      <th>MEDIA TYPE NAME</th>
       <td><select name="select" id="select" class="form-control" required>
+      <option>--select--</option>
           {% for i in data1 %}
-              <option value="{{ i.pk }}">{{ i.provider_name}}</option>
+              <option value="{{ i.pk }}">{{ i.media_type_name }}</option>
           {% endfor %}
       </select></td>
     </tr>
     <tr>
+      <th>PROVIDER NAME</th>
+      <td><select name="select2" id="select2" class="form-control" required>
+{#          {% for i in data2 %}#}
+{#              <option value="{{ i.pk }}">{{ i.provider_name }}</option>#}
+{#          {% endfor %}#}
+      </select></td>
+    </tr>
+    <tr>
       <th>YEAR</th>
-      <td><input type="text" name="textfield" id="textfield" class="form-control" required/></td>
+{#      <td><input type="text" name="textfield" id="textfield" class="form-control" required/>#}
+        <td><select name="select3" id="year" class="form-control" required></select></td>
     </tr>
     <tr>
       <th>MONTH</th>
-      <td><input type="text" name="textfield3" id="textfield3" class="form-control" required/></td>
+{#      <td><input type="text" name="textfield3" id="textfield3" class="form-control" required/>#}
+      <td><select name="select4" id="select4" class="form-control" required>
+           <option value="January ">January </option>
+          <option value="February ">February </option>
+          <option value="March">March</option>
+          <option value="April">April</option>
+          <option value="May">May</option>
+          <option value="June">June</option>
+          <option value="July">July</option>
+          <option value="August">August</option>
+          <option value="September">September</option>
+          <option value="October">October</option>
+          <option value="November">November</option>
+          <option value="December">December</option>
+      </select></td>
     </tr>
     <tr>
       <th>AMOUNT</th>
-      <td><input type="text" name="textfield2" id="textfield2" class="form-control" required/></td>
+      <td><input type="number" min=1 name="textfield2" id="textfield2" class="form-control" required/></td>
     </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td><input type="submit" name="button" id="button" value="ADD"  class="btn btn-primary"/></td>
+    <tr align="center">
+{#      <td>&nbsp;</td>#}
+      <td colspan="2"><input type="submit" name="button" id="button" value="ADD"  class="btn btn-primary"/></td>
     </tr>
   </table>
 </form>
+
+     <script src="/static/jquery.js"></script>
+
+<script type="text/javascript">
+
+       var i
+ $(document).ready(function () {
+
+
+     $(document).on('change', '#select', function () {
+
+         var nid = $(this).val();
+
+
+
+
+         $("#select2").text("")
+
+  $.ajax({
+            url: "/myapp/get_provider_name/"+nid,
+            type: "GET",
+            data: {
+
+
+            },
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function(dat) {
+                data=dat["res2"]
+                $("#select2").append("<option>--select--</option>")
+
+ for (var i = 0; i < data.length; i++) {
+                 var id = data[i]['id']
+                 var name = data[i]['provider_name']
+
+                 // alert(name)
+                 // $("#tbl").append("<tr><td>"+name+"</td><td>"+id+"</td></tr>");
+
+
+     $("#select2").append("<option value=" + id + ">" + name + "</option>")
+
+                 //$("#kk").append("<tr><td><input type='checkbox' name='frnd' id='+id+ ' data='+id+' value='+name+'/>"+name+"</td></tr>");
+
+             }
+            },
+            error: function(ts) {
+//{#                alert(ts);#}
+            }
+        });
+
+
+
+     });
+ });
+
+       </script>
+
+    <script>
+    var year = 1900;
+var till = 2021;
+var options = "";
+for(var y=year; y<=till; y++){
+  options += "<option>"+ y +"</option>";
+}
+document.getElementById("year").innerHTML = options;
+    </script>
+
+
 {% endblock %}

@@ -1,40 +1,42 @@
 {% extends "designer/designer_index.html" %}
 {% block body %}
-<body>
-<form id="form1" name="form1" method="post" action="">
-  <table width="200" border="1">
+<h2 align="center">VIEW MEDIA UPLOADED</h2>
+<form id="form1" name="form1" method="post" action="/myapp/dsgnr_view_media_post/">
+  <table class="table table-hover">
     <tr>
-      <td>MEDIA TITLE</td>
-      <td><input type="text" name="textfield" id="textfield" /></td>
-      <td><input type="submit" name="button" id="button" value="SEARCH" /></td>
+      <th>MEDIA TITLE</th>
+      <td><input type="text" name="textfield" id="textfield" class="form-control" /></td>
+      <td><input type="submit" name="button" id="button" value="SEARCH" class="btn btn-primary"/></td>
     </tr>
   </table>
   <p>&nbsp;</p>
-  <table  border="1">
+  <table class="table table-hover" style="width: 1000px" align="center">
     <tr>
-      <td>SNO</td>
-      <td>MEDIA TITLE</td>
-      <td>FILENAME</td>
-      <td>DESCRIPTION</td>
-      <td>DATE </td>
-      <td>PATH</td>
-      <td>REQUEST NUMBER</td>
-      <td>CUSTOMER INFO</td>
+      <th>SNO</th>
+      <th>MEDIA TITLE</th>
+      <th>FILENAME</th>
+      <th>DESCRIPTION</th>
+      <th style="width: 40%">DATE </th>
+      <th>PATH</th>
+{#      <th>REQUEST NUMBER</th>#}
+      <th style="width: 35%">USER NAME</th>
       <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td></td>
     </tr>
+      {% for i in res %}
     <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td><a href="#">EDIT</a></td>
-      <td><a href="#">DELETE</a></td>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ i.media_title }}</td>
+      <td>{{ i.filename }}</td>
+      <td>{{ i.description }}</td>
+      <td>&nbsp;{{ i.date| date:'d-m-Y' }}</td>
+      <td>{{ i.path }}</td>
+{#      <td>&nbsp;</td>#}
+      <td>&nbsp;{{ i.usr }}</td>
+      <td><a href="/myapp/dsgnr_edit_media/{{ i.pk }}/{{ i.mid }}"  class="btn btn-warning" style="background-color: #d58512" >CHANGE</a></td>
+{#      <td><a href="/myapp/dsgnr_view_media_del/{{ i.pk }}" class="btn btn-danger">DELETE</a></td>#}
     </tr>
+      {% endfor %}
   </table>
   <p>&nbsp;</p>
 </form>

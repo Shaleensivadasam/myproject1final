@@ -2,9 +2,9 @@
 {% block body %}
 <h2 align="center">VIEW PROFILE</h2>
 <form id="form1" name="form1" method="post" action="/myapp/dsgnr_view_profile/">
-  <table  class="table table-hover" style="width: 600px; height: 0px;" align="center">
+  <table  class="table table-hover" style="width: 500px; height: 0px;" align="center">
     <tr>
-      <td colspan="2">&nbsp;<img src="{{ data.image }}" width="200" height="200" /></td>
+      <td colspan="2" align="center">&nbsp;<img src="{{ data.image }}" width="200" height="200" /></td>
     </tr>
     <tr>
       <th>NAME</th>
@@ -16,7 +16,7 @@
     </tr>
     <tr>
       <th>DOB</th>
-      <td>{{ data.dob }}</td>
+      <td>{{ data.dob|date:'d-m-Y'}}</td>
     </tr>
     <tr>
       <th>HOUSE NUMBER / NAME</th>
@@ -38,9 +38,9 @@
       <th>PHONE NUMBER</th>
       <td>{{ data.phno }}</td>
     </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td><input type="submit" name="button" id="button" value="EDIT" class="btn btn-danger"/></td>
+    <tr align="center">
+{#      <td>&nbsp;</td>#}
+      <td colspan="2"><input type="submit" name="button" id="button" value="EDIT" class="btn btn-danger"/></td>
     </tr>
   </table>
 </form>

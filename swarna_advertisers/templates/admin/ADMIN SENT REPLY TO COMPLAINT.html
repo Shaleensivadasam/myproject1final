@@ -3,15 +3,19 @@
     <h2 align="center">SEND REPLY</h2>
 <form id="form1" name="form1" method="post" action="/myapp/adm_sent_reply_to_complaint_post/">
   <table class="table table-hover" style="width: 600px" align="center">
+{#       <tr>#}
+{#      <th><label>COMPLAINT</label>&nbsp;</th>#}
+{#      <td><textarea name="textarea2" id="textarea2" cols="45" rows="3" class="form-control" disabled >{{ complaintobj.complaint }}</textarea></td>#}
+{#    </tr>#}
     <tr>
       <th><label>REPLY</label>&nbsp;</th>
-      <td><textarea name="textarea" id="textarea" cols="45" rows="5" class="form-control"></textarea></td>
+      <td><textarea name="textarea" id="textarea" cols="45" rows="5" class="form-control" required></textarea></td>
     </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td><input type="submit" name="button" id="button" value="SEND" class="btn btn-success"/></td>
+    <tr align="center">
+{#      <td>&nbsp;</td>#}
+      <td colspan="2"><input type="submit" name="button" id="button" value="SEND" class="btn btn-success"/></td>
     </tr>
-   
+
   </table>
 </form>
 {% endblock %}

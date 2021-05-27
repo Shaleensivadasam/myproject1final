@@ -1,42 +1,60 @@
 {% extends "admin/admin_index.html" %}
 {% block body %}
-<form id="form1" name="form1" method="post" action="">
-  <table width="291" border="1">
+    <h2 align="center">VIEW ADVERTISEMENT REQUEST</h2>
+<form id="form1" name="form1" method="post" action="/myapp/adm_view_advertisement_request_approve_post/">
+  <table class="table table-hover">
     <tr>
-      <td width="103"><label>FROM</label>&nbsp;
-        <select name="select" id="select">
-      </select></td>
-      <td width="109"><label>TO</label>
-        <select name="select2" id="select2">
-      </select>        &nbsp;</td>
-      <td width="57"><input type="submit" name="button" id="button" value="GO" /></td>
+      <th width="134"><label>DATE FROM</label></th>
+        <td><input type="date" name="fdate" id="fromdate" value="{{ d1 }}" class="form-control"/></td>
+        <th width="82"><label>TO</label>&nbsp;</th>
+        <td><input type="date" name="tdate" id="todate" value="{{ d2 }}" class="form-control"/></td>
+        <td width="63"><input type="submit" name="button" id="button" value="GO" class="btn btn-primary"/></td>
     </tr>
   </table>
-  <table  border="1">
+  <table  class="table table-hover" style="width: 1000px" align="center">
     <tr>
-      <td>SNO</td>
-      <td>FILE NAME</td>
-      <td>USER INFO</td>
-      <td>ADDRESS</td>
-      <td>PHONE NUMBER</td>
-      <td>CONTENT</td>
-      <td>DATE</td>
-      <td>STATUS</td>
+      <th>SNO</th>
+      <th>FILE NAME</th>
+      <th>USER NAME</th>
+{#      <th>ADDRESS</th>#}
+{#      <th>PHONE NUMBER</th>#}
+      <th style="width: 25%">CONTENT</th>
+      <th>DATE</th>
+      <th>STATUS</th>
       <td>&nbsp;</td>
     </tr>
+      {% for i in res %}
     <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td><a href="/myapp/adm_view_advertisement_request_approve_more/">MORE</a></td>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ i.filename }}</td>
+      <td>{{ i.USER.name }}</td>
+{#      <td>{{ i.USER.houseno_name }}<br>{{ i.USER.district }}<br/><br>{{ i.USER.pincode }}</td>#}
+{#      <td>{{ i.USER.email }}<br>{{ i.USER.phno }}<br/></td>#}
+      <td>{{ i.content }}</td>
+      <td>{{ i.date | date:'d-m-Y'}}</td>
+      <td style="color: #E83737; font-family: 'Open Sans', sans-serif; font-weight: 800">{{ i.status }}</td>
+      <td><a href="/myapp/adm_view_advertisement_request_approve_more/{{ i.pk }}" style="background-image: linear-gradient(to right, #0F2027 0%, #203A43 51%, #2c5364 100%)" class="btn btn-dark">MORE</a></td>
     </tr>
+      {% endfor %}
   </table>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
 </form>
+
+     <script>
+
+        var today = new Date();
+var current_date = today.getDate();
+var current_month = today.getMonth()+1; //Month starts from 0
+var current_year = today.getFullYear();
+ if(current_date < 10){
+        current_date='0'+current_date
+    }
+    if(current_month < 10){
+        current_month='0'+current_month
+    }
+var im=current_year+"-"+current_month+"-"+current_date;
+document.getElementById("todate").setAttribute("max", im);
+document.getElementById("fromdate").setAttribute("max", im);
+</script>
 {% endblock %}

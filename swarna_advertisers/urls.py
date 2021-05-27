@@ -4,6 +4,7 @@ from . import views
 app_name="myapp"
 urlpatterns = [
     path('homepage/',views.homepage),
+    path('get_provider_name/<nid>',views.get_provider_name),
     path('adm_add_charge/',views.adm_add_charge_profile),
     path('adm_add_charge_profile_post/',views.adm_add_charge_profile_post),
     path('adm_add_employee_area/',views.adm_add_employee_area),
@@ -26,12 +27,19 @@ urlpatterns = [
     path('adm_view_installation_post/',views.adm_view_installation_post),
     path('adm_view_maintance/',views.adm_view_maintance),
     path('adm_view_maintance_post/',views.adm_view_maintance_post),
-    path('adm_view_new_request_more/',views.adm_view_new_request_more),
+    path('adm_view_new_request_more/<str:pk>',views.adm_view_new_request_more),
+    path('adm_view_new_request_more_post/',views.adm_view_new_request_more_post),
     path('adm_view_new_request/',views.adm_view_new_request),
+    path('adm_view_new_request_post/',views.adm_view_new_request_post),
+    path('adm_view_created_media/',views.adm_view_created_media),
+    path('adm_view_created_media_post/',views.adm_view_created_media_post),
+    path('adm_view_media_more/<str:pk>',views.adm_view_media_more),
+    path('adm_view_media_more_post/',views.adm_view_media_more_post),
     path('adm_view_registered_user/',views.adm_view_registered_user),
     path('adm_view_registered_user_post/',views.adm_view_registered_user_post),
-    path('adm_view_rejected_request_more/',views.adm_view_rejected_request_more),
+    path('adm_view_rejected_request_more/<str:pk>',views.adm_view_rejected_request_more),
     path('adm_view_rejected_request/',views.adm_view_rejected_request),
+    path('adm_view_rejected_request_post/',views.adm_view_rejected_request_post),
     path('adm_allocated_designer/',views.adm_allocate_to_designer),
     path('adm_edit_charge_profile/<str:pk>',views.adm_edit_charge_profile),
     path('adm_edit_charge_profile_post/',views.adm_edit_charge_profile_post),
@@ -50,7 +58,9 @@ urlpatterns = [
     path('adm_monthly_settlement/',views.adm_monthly_settlement_entry),
     path('adm_monthly_settlement_post/', views.adm_monthly_settlement_entry_post),
     path('adm_view_advertisement_request_approve/',views.adm_view_advertisement_request_approve),
-    path('adm_view_advertisement_request_approve_more/',views.adm_view_advertisement_request_approved_more),
+    path('adm_view_advertisement_request_approve_post/',views.adm_view_advertisement_request_approve_post),
+    path('adm_view_advertisement_request_approve_more/<str:pk>',views.adm_view_advertisement_request_approved_more),
+    path('adm_view_advertisement_request_approve_more_post/',views.adm_view_advertisement_request_approved_more_post),
     path('adm_view_charge_profile/',views.adm_view_charge_profile),
     path('adm_view_charge_profile_post/',views.adm_view_charge_profile_post),
     path('adm_view_charge_profile_del/<str:pk>',views.adm_view_charge_profile_del),
@@ -86,14 +96,20 @@ urlpatterns = [
 
     path('designer_index/',views.designer_index),
     path('dsgnr_homepage/',views.dsgnr_homepage),
-    path('dsgnr_edit_media/',views.dsgnr_edit_create_media),
+    path('dsgnr_edit_media/<str:pk>/<str:id2>',views.dsgnr_edit_create_media),
     path('dsgnr_edit_media_post/',views.dsgnr_edit_create_media_post),
     path('dsgnr_edit_profile/',views.dsgnr_edit_profile),
     path('dsgnr_edit_profile_post/',views.dsgnr_edit_profile_post),
-    path('dsgnr_upload_media/',views.dsgnr_upload_created_media),
+    path('dsgnr_upload_media/',views.dsgnr_upload_media),
+    path('dsgnr_upload_media_post/<str:id>',views.dsgnr_upload_media_post),
+    path("desi_up_med_post2/",views.upload_media22),
     path('dsgnr_view_media/',views.dsgnr_view_media_uploaded),
+    path('dsgnr_view_media_post/',views.dsgnr_view_media_uploaded_post),
+    # path('dsgnr_view_media_del/<str:pk>',views.dsgnr_view_media_uploaded_del),
     path('dsgnr_view_profile/',views.dsgnr_view_profile),
     path('dsgnr_view_request_assigned/',views.dsgnr_view_request_assigned),
+    path('dsgnr_view_request_post/',views.dsgnr_view_request_post),
+    path('dsgnr_view_request_assigned_post/<str:id>',views.dsgnr_view_request_assigned_post),
 
     path('public_homepage/',views.public_homepage),
     path('public_public_to_admin/',views.public_to_admin),
@@ -102,6 +118,7 @@ urlpatterns = [
     path('public_view_media_provider/',views.public_view_media_provider),
     path('public_view_media_types/',views.public_view_media_types),
     path('public_index/',views.public_index),
+    # path('public_af/',views.public_af),
 
     path('semp_index/',views.semp_index),
     path('semp_homepage/',views.semp_homepage),
@@ -140,6 +157,11 @@ urlpatterns = [
     path('and_user_view_feedback/',views.and_user_view_feedback),
     path('and_user_view_profile/',views.and_user_view_profile),
     path('and_user_update_profile/',views.and_user_update_profile),
+    path('and_user_send_enquiry_adrequest/',views.and_user_send_enquiry_adrequest),
+    path('and_user_view_enquiry_adrequest/',views.and_user_view_enquiry_adrequest),
+    path('and_user_view_enquiry_adrequest_del/',views.and_user_view_enquiry_adrequest_del),
+
+
 
 
 

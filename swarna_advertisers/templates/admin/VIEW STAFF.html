@@ -30,10 +30,10 @@
     <tr>
       <td>{{ forloop.counter }}</td>
       <td><img src="{{ i.image }}" alt="img" height="100" width="100"/>&nbsp;</td>
-      <td>&nbsp;{{ i.name }}<br>{{ i.gender }}<br/><br>{{ i.dob }}<br/></td>
+      <td>&nbsp;{{ i.name }}<br>{{ i.gender }}<br/><br>{{ i.dob|date:'d-m-Y'}}<br/></td>
         <td>&nbsp;{{ i.houseno_name }}<br>{{ i.district }}<br/><br>{{ i.pincode }}<br/><br>{{ i.email }}<br/><br>{{ i.phno }}<br/></td>
       <td>&nbsp;{{ i.LOGIN.utype}}</td>
-      <td><a href="/myapp/adm_edit_staff/{{ i.pk }}" class="btn btn-danger" style="background-color: #d58512">EDIT</a></td>
+      <td><a href="/myapp/adm_edit_staff/{{ i.pk }}" class="btn btn-warning" style="background-color: #d58512">EDIT</a></td>
       <td><a href="/myapp/adm_view_staff_del/{{ i.pk }}" class="btn btn-danger">DELETE</a></td>
     </tr>
       {% endfor %}

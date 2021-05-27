@@ -22,7 +22,7 @@
     <tr>
       <td>{{ forloop.counter }}</td>
       <td><img src="{{ i.image }}" alt="img" height="100" width="100"/></td>
-        <td>&nbsp;{{ i.name }}<br>{{ i.gender }}<br/><br>{{ i.dob }}<br/></td>
+        <td>&nbsp;{{ i.name }}<br>{{ i.gender }}<br/><br>{{ i.dob |date:'d-m-Y' }}<br/></td>
         <td>{{ i.houseno_name }}<br>{{ i.district }}<br/><br>{{ i.pincode }}<br/></td>
       <td>{{ i.email }}<br>{{ i.phno }}<br/></td>
 {#      <td><a href="/myapp/adm_view_registered_user_more">VIEW</a></td>#}

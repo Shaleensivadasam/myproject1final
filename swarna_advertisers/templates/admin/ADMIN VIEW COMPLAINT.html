@@ -14,20 +14,26 @@
   <table class="table table-hover" style="width: 1000px" align="center">
     <tr>
       <th>SNO</th>
-      <th>DATE</th>
+      <th style="width: 20%">DATE</th>
       <th>COMPLAINT</th>
-      <th>USERINFO</th>
+      <th style="width: 20%">USERINFO</th>
+        <th>REPLY</th>
       <th>STATUS</th>
       <td>&nbsp;</td>
     </tr>
       {% for i in res %}
     <tr>
       <td>&nbsp;{{ forloop.counter }}</td>
-      <td>{{ i.date }}</td>
+      <td>{{ i.date | date:'d-m-Y' }}</td>
       <td>{{ i.complaint }}</td>
       <td>&nbsp;{{ i.USER.name }}<br>{{ i.USER.phno }}<br/></td>
-      <td style="color: #E83737; font-family: 'Arial Black'" >&nbsp;{{ i.status }}</td>
+        <td>{{ i.reply }}</td>
+      <td style="color: #E83737; font-family: 'Open Sans', sans-serif; font-weight: 800">&nbsp;{{ i.status }}</td>
+        {% if i.status == "pending"%}
       <td><a href="/myapp/adm_sent_reply_to_complaint/{{ i.pk }}" class="btn btn-info" style="background-color: #0dcaf0">REPLY</a></td>
+    {% else %}
+<a href=""></a>
+    {% endif %}
     </tr>
       {% endfor %}
   </table>

@@ -13,7 +13,7 @@
     </tr>
     <tr>
       <th>DATE</th>
-      <td><input type="date" name="date" id="date" class="form-control" required/></td>
+      <td><input type="date" name="date" id="todate" class="form-control" required/></td>
     </tr>
     <tr>
       <th>CODE</th>
@@ -27,10 +27,26 @@
       <th>PLACE NAME</th>
       <td><input type="text" name="textfield2" id="textfield2" class="form-control" required /></td>
     </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td><input type="submit" name="button" id="button" value="ADD"  class="btn btn-primary" align="center"/></td>
+    <tr align="center">
+{#      <td>&nbsp;</td>#}
+      <td colspan="2"><input type="submit" name="button" id="button" value="ADD"  class="btn btn-primary" align="center"/></td>
     </tr>
   </table>
 </form>
+     <script>
+
+        var today = new Date();
+var current_date = today.getDate();
+var current_month = today.getMonth()+1; //Month starts from 0
+var current_year = today.getFullYear();
+ if(current_date < 10){
+        current_date='0'+current_date
+    }
+    if(current_month < 10){
+        current_month='0'+current_month
+    }
+var im=current_year+"-"+current_month+"-"+current_date;
+document.getElementById("todate").setAttribute("max", im);
+{#document.getElementById("fromdate").setAttribute("max", im);#}
+</script>
 {% endblock %}

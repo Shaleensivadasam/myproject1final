@@ -2,13 +2,13 @@
 {% block body %}
     <h2 align="center">EDIT CHARGE PROFILE</h2>
 <form id="form1" name="form1" method="post" action="/myapp/adm_edit_charge_profile_post/">
-<table  class="table table-hover" style="width: 400px; height: 0px;" align="center">
+<table  class="table table-hover" style="width: 500px; height: 0px;" align="center">
     <tr>
-      <td>PROFILE NAME</td>
+      <th>PROFILE NAME</th>
       <td><input type="text" name="textfield" id="textfield"  value="{{ res.profilename }}" class="form-control" required/></td>
     </tr>
     <tr>
-      <td>MEDIA TYPE NAME</td>
+      <th>MEDIA TYPE NAME</th>
       <td><select name="select" id="select" class="form-control" required>
       {% for i in data1 %}
           {% if res.MEDIATYPE.media_type_name == i.media_type_name %}
@@ -20,7 +20,7 @@
       </select></td>
     </tr>
     <tr>
-      <td>PROVIDER NAME</td>
+      <th>PROVIDER NAME</th>
       <td><select name="select2" id="select2" class="form-control" required>
           {% for i in data2 %}
                <option value="{{ i.pk }}">{{ i.provider_name }}</option>
@@ -28,12 +28,12 @@
       </select></td>
     </tr>
     <tr>
-      <td>CHARGE</td>
+      <th>CHARGE</th>
       <td><input type="text" name="textfield2" id="textfield2" value="{{ res.charge }}" class="form-control" required/></td>
     </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td><input type="submit" name="button" id="button" value="UPDATE" class="btn btn-primary" style="background-color: #5cb85c"/></td>
+    <tr align="center">
+{#      <td>&nbsp;</td>#}
+      <td colspan="2"><input type="submit" name="button" id="button" value="UPDATE" class="btn btn-success"/></td>
     </tr>
   </table>
 </form>

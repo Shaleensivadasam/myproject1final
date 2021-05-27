@@ -71,6 +71,13 @@ class advertisement_request(models.Model):
     filename = models.CharField(max_length=300)
     USER=models.ForeignKey(user, on_delete=models.CASCADE)
 
+class advertisement_assign(models.Model):
+    date = models.DateField(max_length=50)
+    STAFF = models.ForeignKey(staff, on_delete=models.CASCADE)
+    ADVERTISEMENTREQUEST = models.ForeignKey(advertisement_request, on_delete=models.CASCADE)
+
+
+
 class monthly_settlement(models.Model):
     year=models.CharField(max_length=50)
     month=models.CharField(max_length=50)
