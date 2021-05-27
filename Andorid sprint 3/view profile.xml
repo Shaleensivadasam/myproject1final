@@ -1,0 +1,408 @@
+package com.example.myapplication;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Base64;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
+public class View_profile extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+    TextView t1;
+    EditText ed_name, ed_dob, ed_hno, ed_pincode, ed_phno;
+    RadioButton rb_male, rb_female;
+    Spinner sp_district;
+    Button b_update;
+    ImageView im_image;
+    String[] district = {"Kasargode", "Kannur", "Kozhikode", "Malapuram", "Palakad", "Thiruvanathapuram", "Kollam", "Pathanamthitta", "Alapuya", "Kottayam", "Edukki", "Eranakulam", "Thrissur", "Vayanad"};
+    String sel_dist = "";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view_profile);
+        t1 = (TextView) findViewById(R.id.textView);
+        ed_name = (EditText) findViewById(R.id.editText2);
+        ed_dob = (EditText) findViewById(R.id.editText6);
+        ed_hno = (EditText) findViewById(R.id.editText7);
+        ed_pincode = (EditText) findViewById(R.id.editText8);
+        ed_phno = (EditText) findViewById(R.id.editText5);
+        rb_male = (RadioButton) findViewById(R.id.radioButton);
+        rb_female = (RadioButton) findViewById(R.id.radioButton3);
+        sp_district = (Spinner) findViewById(R.id.spinner2);
+        sp_district.setOnItemSelectedListener(this);
+        im_image = (ImageView) findViewById(R.id.imageView2);
+        im_image.setOnClickListener(this);
+        b_update = (Button) findViewById(R.id.button4);
+        b_update.setOnClickListener(this);
+
+        final Calendar myCalendar = Calendar.getInstance();
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                String myFormat = "yyyy-MM-dd"; //In which you need put here
+
+
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                ed_dob.setText(sdf.format(myCalendar.getTime()));
+            }
+
+        };
+
+        ed_dob.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(View_profile.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+
+
+
+        SharedPreferences sh2 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        String hu = sh2.getString("ip", "");
+        String url = "http://" + hu + ":8000/myapp/and_user_view_profile/";
+        //  Toast.makeText(getApplicationContext(),"tt="+url,Toast.LENGTH_LONG).show();
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //  Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+
+                        // response
+                        try {
+                            JSONObject jsonObj = new JSONObject(response);
+                            if (jsonObj.getString("status").equalsIgnoreCase("ok")) {
+                                String name = jsonObj.getString("name");
+                                String gender = jsonObj.getString("gender");
+                                String dob = jsonObj.getString("dob");
+                                String houseno_name = jsonObj.getString("houseno_name");
+                                String district22 = jsonObj.getString("district");
+                                String pincode = jsonObj.getString("pincode");
+                                String phno = jsonObj.getString("phno");
+                                String image = jsonObj.getString("image");
+
+                                ed_name.setText(name);
+                                ed_dob.setText(dob);
+                                ed_hno.setText(houseno_name);
+                                ed_pincode.setText(pincode);
+                                ed_phno.setText(phno);
+                                if (gender.equalsIgnoreCase("male")) {
+                                    rb_male.setChecked(true);
+                                } else if (gender.equalsIgnoreCase("female")) {
+                                    rb_female.setChecked(true);
+                                }
+                                ArrayAdapter<String> ad = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, district);
+                                sp_district.setAdapter(ad);
+                                int aa= Arrays.asList(district).indexOf(district22);
+                                sp_district.setSelection(aa);
+
+                                SharedPreferences sh3 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                String url = "http://" + sh3.getString("ip", "") + ":8000" + image;
+                                Picasso.with(getApplicationContext()).load(url).into(im_image);
+
+
+                            }
+
+
+                            // }
+                            else {
+                                Toast.makeText(getApplicationContext(), "Not found", Toast.LENGTH_LONG).show();
+                            }
+
+                        } catch (Exception e) {
+                            Toast.makeText(getApplicationContext(), "Error" + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Toast.makeText(getApplicationContext(), "eeeee" + error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                Map<String, String> params = new HashMap<String, String>();
+
+//                String id=sh.getString("uid","");
+                params.put("lid", sh.getString("lid", ""));
+
+//                params.put("mac",maclis);
+
+                return params;
+            }
+        };
+
+        int MY_SOCKET_TIMEOUT_MS = 100000;
+
+        postRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(postRequest);
+    }
+
+    String path, atype, fname, attach, attatch1;
+    byte[] byteArray = null;
+
+    void showfilechooser(int string) {
+        // TODO Auto-generated method stub
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        //getting all types of files
+
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        try {
+            startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"), string);
+        } catch (android.content.ActivityNotFoundException ex) {
+            // Potentially direct the user to the Market with a Dialog
+            Toast.makeText(getApplicationContext(), "Please install a File Manager.", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+                ////
+                Uri uri = data.getData();
+
+                try {
+                    path = FileUtils.getPath(this, uri);
+
+                    File fil = new File(path);
+                    float fln = (float) (fil.length() / 1024);
+                    atype = path.substring(path.lastIndexOf(".") + 1);
+
+
+                    fname = path.substring(path.lastIndexOf("/") + 1);
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+
+                    File imgFile = new File(path);
+
+                    if (imgFile.exists()) {
+
+                        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                        im_image.setImageBitmap(myBitmap);
+
+                    }
+
+
+                    File file = new File(path);
+                    byte[] b = new byte[8192];
+                    Log.d("bytes read", "bytes read");
+
+                    InputStream inputStream = new FileInputStream(file);
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+                    int bytesRead = 0;
+
+                    while ((bytesRead = inputStream.read(b)) != -1) {
+                        bos.write(b, 0, bytesRead);
+                    }
+                    byteArray = bos.toByteArray();
+
+                    String str = Base64.encodeToString(byteArray, Base64.NO_WRAP);
+                    attach = str;
+
+
+                } catch (Exception e) {
+                    Toast.makeText(this, "String :" + e.getMessage().toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+
+    String gen = "";
+
+    @Override
+    public void onClick(View v) {
+        if (v == im_image) {
+            showfilechooser(1);
+        } else {
+            final String s_name, s_dob, s_hno, s_pincode, s_email, s_phno,s_male, s_female, s_district, s_image;
+            s_name = ed_name.getText().toString();
+            s_dob = ed_dob.getText().toString();
+            s_hno = ed_hno.getText().toString();
+            s_pincode = ed_pincode.getText().toString();
+            s_phno = ed_phno.getText().toString();
+            s_district=sp_district.getSelectedItem().toString();
+            if (rb_male.isChecked() == true) {
+                gen = "male";
+            } else {
+                gen = "female";
+            }
+            if (s_name.equalsIgnoreCase("")) {
+                ed_name.setError("Enter name");
+            } else if (s_dob.equalsIgnoreCase("")) {
+                ed_dob.setError("Enter Dob");
+            } else if (s_hno.equalsIgnoreCase("")) {
+                ed_hno.setError("Enter house no/name");
+            } else if (s_pincode.equalsIgnoreCase("")) {
+                ed_pincode.setError("Enter pincode");
+            } else if (s_pincode.length() != 6) {
+                ed_pincode.setError("Enter 6 numbers");
+            } else if (s_phno.equalsIgnoreCase("")) {
+                ed_phno.setError("Enter phone number");
+            } else if (s_phno.length() != 10) {
+                ed_phno.setError("Enter 10 numbers");
+            } else if(attach.equalsIgnoreCase(""))
+            {
+                Toast.makeText(View_profile.this,"Select image",Toast.LENGTH_LONG).show();
+
+            }
+            else {
+
+                SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+                String hu = sh.getString("ip", "");
+                String url = "http://" + hu + ":8000/myapp/and_user_update_profile/";
+                //  Toast.makeText(getApplicationContext(),"tt="+url,Toast.LENGTH_LONG).show();
+
+                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                //  Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+
+                                // response
+                                try {
+                                    JSONObject jsonObj = new JSONObject(response);
+                                    if (jsonObj.getString("status").equalsIgnoreCase("ok")) {
+
+
+                                        Toast.makeText(View_profile.this, "Successfully updated", Toast.LENGTH_SHORT).show();
+                                        Intent ij = new Intent(getApplicationContext(), Home.class);
+                                        startActivity(ij);
+
+
+                                    }
+                                    // }
+                                    else {
+                                        Toast.makeText(getApplicationContext(), "Not found", Toast.LENGTH_LONG).show();
+                                    }
+
+                                } catch (Exception e) {
+                                    Toast.makeText(getApplicationContext(), "Error" + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // error
+                                Toast.makeText(getApplicationContext(), "eeeee" + error.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                ) {
+                    @Override
+                    protected Map<String, String> getParams() {
+                        SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                        Map<String, String> params = new HashMap<String, String>();
+
+//                String id=sh.getString("uid","");
+                        params.put("name", s_name);
+                        params.put("gender", gen);
+                        params.put("dob", s_dob);
+                        params.put("phno", s_phno);
+                        params.put("houseno_name", s_hno);
+                        params.put("district", s_district);
+                        params.put("pincode", s_pincode);
+                        params.put("image", attach);
+
+
+                params.put("lid",sh.getString("lid",""));
+
+                        return params;
+                    }
+                };
+
+                int MY_SOCKET_TIMEOUT_MS = 100000;
+
+                postRequest.setRetryPolicy(new DefaultRetryPolicy(
+                        MY_SOCKET_TIMEOUT_MS,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                requestQueue.add(postRequest);
+            }
+        }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        sel_dist=district[position];
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+}
+
