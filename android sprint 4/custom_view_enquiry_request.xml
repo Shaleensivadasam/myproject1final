@@ -1,0 +1,236 @@
+package com.example.myapplication;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class custom_view_enquiry_adrequest extends BaseAdapter {
+    private android.content.Context Context;
+    String[] content;
+    String[] date;
+    String[] filename;
+    String[] status;
+    String[] id;
+
+
+
+
+
+    public custom_view_enquiry_adrequest(android.content.Context applicationContext, String[] content, String[] date, String[] filename, String[] status,String[] id) {
+
+        this.Context=applicationContext;
+        this.content=content;
+        this.date=date;
+        this.filename=filename;
+        this.status=status;
+        this.id=id;
+
+
+    }
+
+    @Override
+    public int getCount() {
+
+        return content.length;
+    }
+
+    @Override
+    public Object getItem(int arg0) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public long getItemId(int arg0) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public View getView(int position, View convertview, ViewGroup parent) {
+
+
+        LayoutInflater inflator=(LayoutInflater)Context.getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE);
+
+        View gridView;
+        if(convertview==null)
+        {
+            gridView=new View(Context);
+            gridView=inflator.inflate(R.layout.cust_view_enquiry_adrequest, null);
+
+
+
+        }
+        else
+        {
+            gridView=(View)convertview;
+
+        }
+
+
+
+
+
+        TextView tv1=(TextView)gridView.findViewById(R.id.textView6);
+
+        TextView tv2=(TextView)gridView.findViewById(R.id.textView8);
+        TextView tv3=(TextView)gridView.findViewById(R.id.textView19);
+        TextView tv4=(TextView)gridView.findViewById(R.id.textView21);
+
+
+        Button b3=(Button) gridView.findViewById(R.id.button8);
+
+        b3.setTag(id[position]);
+        b3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               final String kk=v.getTag().toString();
+                String[]ar=kk.split("#");
+                SharedPreferences sh= PreferenceManager.getDefaultSharedPreferences(Context);
+
+//                Intent i=new Intent(Context,Staff_recent_work_update.class);
+//                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                Context.startActivity(i);
+                String hu = sh.getString("ip", "");
+                String url = "http://" + hu + ":8000/myapp/and_user_view_enquiry_adrequest_del/";
+                //  Toast.makeText(getApplicationContext(),"tt="+url,Toast.LENGTH_LONG).show();
+
+                RequestQueue requestQueue = Volley.newRequestQueue(Context);
+                StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                //  Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+
+                                // response
+                                try {
+                                    JSONObject jsonObj = new JSONObject(response);
+                                    if (jsonObj.getString("status").equalsIgnoreCase("ok")) {
+                                        Intent i=new Intent(Context,Home.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Context.startActivity(i);
+
+
+//                                }
+
+
+                                    }
+
+
+                                    // }
+                                    else {
+                                        Toast.makeText(Context, "Not found", Toast.LENGTH_LONG).show();
+                                    }
+
+                                } catch (Exception e) {
+                                    Toast.makeText(Context, "Error" + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // error
+                                Toast.makeText(Context, "eeeee" + error.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                ) {
+                    @Override
+                    protected Map<String, String> getParams() {
+                        SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(Context);
+                        Map<String, String> params = new HashMap<String, String>();
+
+//                String id=sh.getString("uid","");
+                        params.put("eid",kk);
+
+//                params.put("mac",maclis);
+
+                        return params;
+                    }
+                };
+
+                int MY_SOCKET_TIMEOUT_MS = 100000;
+
+                postRequest.setRetryPolicy(new DefaultRetryPolicy(
+                        MY_SOCKET_TIMEOUT_MS,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                requestQueue.add(postRequest);
+
+
+
+
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+        //
+
+
+        /////////////////////
+
+
+
+
+
+        tv1.setTextColor(Color.BLACK);
+        tv2.setTextColor(Color.BLACK);
+        tv3.setTextColor(Color.BLACK);
+        tv4.setTextColor(Color.BLACK);
+
+        //tv6.setTextColor(Color.BLACK);
+        //tv1.setText(c[position]);
+        //tv2.setText(d[position]);
+
+        tv1.setText(content[position]);
+        tv2.setText(date[position]);
+        tv3.setText(filename[position]);
+        tv4.setText(status[position]);
+
+
+//        SharedPreferences sh= PreferenceManager.getDefaultSharedPreferences(Context);
+//        String ss=sh.getString("ip", "");
+//        String url = "http://" + ss + ":8000"+e[position];
+//        //Toast.makeText(Context, "tstid ass="+url, Toast.LENGTH_LONG).show();
+//
+//        Picasso.with(Context).load(url).into(im);
+////        Picasso.with(Context).load(url).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).transform(new CircleTransform()).into(im);
+
+
+        return gridView;
+    }
+
+
+}
+
+
